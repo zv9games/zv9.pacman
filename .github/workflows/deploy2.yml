@@ -13,15 +13,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Add headers
+      - name: Add custom 404.html
         run: |
           mkdir -p ./build/web
-          echo '/*' > ./build/web/_headers
-          echo '  Cross-Origin-Opener-Policy: same-origin' >> ./build/web/_headers
-          echo '  Cross-Origin-Embedder-Policy: require-corp' >> ./build/web/_headers
+          echo '<!DOCTYPE html>' > ./build/web/404.html
+          echo '<html>' >> ./build/web/404.html
+          echo '<head>' >> ./build/web/404.html
+          echo '<meta http-equiv="refresh" content="0; URL=./index.html">' >> ./build/web/404.html
+          echo '<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">' >> ./build/web/404.html
+          echo '<meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp">' >> ./build/web/404.html
+          echo '</head>' >> ./build/web/404.html
+          echo '<body></body>' >> ./build/web/404.html
+          echo '</html>' >> ./build/web/404.html
 
-      - name: Verify headers
-        run: cat ./build/web/_headers
+      - name: Verify custom 404.html
+        run: cat ./build/web/404.html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.3
