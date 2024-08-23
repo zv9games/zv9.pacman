@@ -1,3 +1,8 @@
+Sent by Copilot:
+It sounds like the headers are still not being applied correctly. Let’s try a different approach to ensure the headers are set properly for GitHub Pages.
+
+Here’s an updated GitHub Actions workflow that uses a _headers file and ensures it’s included in the deployment:
+
 name: Deploy to GitHub Pages
 
 on:
@@ -32,3 +37,9 @@ jobs:
           user_name: "github-ci[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
           commit_message: "Publish to gh-pages"
+
+This workflow will create the _headers file in the build/web directory with the necessary headers and then deploy the project to GitHub Pages.
+
+Make sure the _headers file is correctly added to the build/web directory before deploying. This should help ensure the headers are applied correctly.
+
+Give this a try and let me know if it resolves the issue! 😊
