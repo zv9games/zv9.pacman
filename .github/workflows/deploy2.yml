@@ -20,18 +20,8 @@ jobs:
           echo '  Cross-Origin-Opener-Policy: same-origin' >> ./build/web/_headers
           echo '  Cross-Origin-Embedder-Policy: require-corp' >> ./build/web/_headers
 
-      - name: Add _config.yml
-        run: |
-          echo 'headers:' > ./build/web/_config.yml
-          echo '  "/*":' >> ./build/web/_config.yml
-          echo '    Cross-Origin-Opener-Policy: same-origin' >> ./build/web/_config.yml
-          echo '    Cross-Origin-Embedder-Policy: require-corp' >> ./build/web/_config.yml
-
       - name: Verify headers
         run: cat ./build/web/_headers
-
-      - name: Verify _config.yml
-        run: cat ./build/web/_config.yml
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.3
