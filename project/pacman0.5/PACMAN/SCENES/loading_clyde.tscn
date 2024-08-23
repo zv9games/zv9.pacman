@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://b82puqpeu5dxo"]
+
+[ext_resource type="Texture2D" uid="uid://cdrajs8hv2mq0" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/down1.png" id="1_sor4m"]
+[ext_resource type="Texture2D" uid="uid://c3ov4rcdt6syx" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/down2.png" id="2_pmw7f"]
+[ext_resource type="Texture2D" uid="uid://dkhry4w7k0pi6" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/clyde_empty1.png" id="3_j4u7n"]
+[ext_resource type="Texture2D" uid="uid://da0dhfxh2nolw" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/clyde_empty2.png" id="4_weqv8"]
+[ext_resource type="Texture2D" uid="uid://bl4mghocc45ki" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/left1.png" id="5_25or3"]
+[ext_resource type="Texture2D" uid="uid://mx0imkw23gwp" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/left2.png" id="6_bwv4i"]
+[ext_resource type="Texture2D" uid="uid://cdg6puky64se1" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/right1.png" id="7_4kpsf"]
+[ext_resource type="Texture2D" uid="uid://cn6p3ikho1r6f" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/right2.png" id="8_rivxi"]
+[ext_resource type="Texture2D" uid="uid://bj64ri0b2tbyi" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/up1.png" id="9_35xeb"]
+[ext_resource type="Texture2D" uid="uid://y1r6txdsbb27" path="res://PACMAN/ASSETS/CHARACTERS/Clyde/up2.png" id="10_3lwoq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xow8w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_sor4m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_pmw7f")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_j4u7n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_weqv8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_25or3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bwv4i")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_4kpsf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rivxi")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_35xeb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_3lwoq")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[node name="LOADING_CLYDE" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xow8w")
+animation = &"up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

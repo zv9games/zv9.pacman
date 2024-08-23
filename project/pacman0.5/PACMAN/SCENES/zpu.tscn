@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bc5yag8vfdon6"]
+
+[node name="ZPU" type="Node"]
+
+[node name="LevelEndTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Timer2" type="Timer" parent="."]
+
+[node name="Timer3" type="Timer" parent="."]
+
+[node name="Timer4" type="Timer" parent="."]
+
+[node name="Timer5" type="Timer" parent="."]
+
+[node name="Timer6" type="Timer" parent="."]
+
+[node name="Timer7" type="Timer" parent="."]
+
+[node name="Timer8" type="Timer" parent="."]

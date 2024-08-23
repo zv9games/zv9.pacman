@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b82mdfavniq34"]
+
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/GAMESTATE5.gd" id="1_u6inh"]
+
+[node name="GAMESTATE" type="Node"]
+script = ExtResource("1_u6inh")

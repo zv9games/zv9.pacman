@@ -1,0 +1,12 @@
+{
+  "name": "pacman-game",
+  "version": "1.0.0",
+  "description": "Pacman game built with Godot 4",
+  "main": "index.js",
+  "scripts": {
+    "build": "godot --export 'HTML5' build/web/index.html"
+  },
+  "author": "Greg Owens",
+  "license": "MIT",
+  "dependencies": {}
+}
