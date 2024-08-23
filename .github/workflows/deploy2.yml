@@ -13,6 +13,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Add headers
+        run: |
+          echo '/*' > ./build/web/_headers
+          echo '  Cross-Origin-Opener-Policy: same-origin' >> ./build/web/_headers
+          echo '  Cross-Origin-Embedder-Policy: require-corp' >> ./build/web/_headers
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.3
         with:
