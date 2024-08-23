@@ -13,15 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Add headers
+      - name: Add .htaccess file
         run: |
           mkdir -p ./build/web
-          echo '/*' > ./build/web/_headers
-          echo '  Cross-Origin-Opener-Policy: same-origin' >> ./build/web/_headers
-          echo '  Cross-Origin-Embedder-Policy: require-corp' >> ./build/web/_headers
+          echo 'Header set Cross-Origin-Opener-Policy "same-origin"' > ./build/web/.htaccess
+          echo 'Header set Cross-Origin-Embedder-Policy "require-corp"' >> ./build/web/.htaccess
 
-      - name: Verify headers
-        run: cat ./build/web/_headers
+      - name: Verify .htaccess file
+        run: cat ./build/web/.htaccess
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.3
