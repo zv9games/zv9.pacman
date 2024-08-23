@@ -1,8 +1,3 @@
-Sent by Copilot:
-It sounds like the headers are still not being applied correctly. Let’s try a different approach to ensure the headers are set properly for GitHub Pages.
-
-Here’s an updated GitHub Actions workflow that uses a _headers file and ensures it’s included in the deployment:
-
 name: Deploy to GitHub Pages
 
 on:
