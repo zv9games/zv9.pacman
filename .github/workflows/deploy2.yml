@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: "Publish to GitHub Pages"
 
 on:
   push:
@@ -8,28 +8,19 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Add headers
-        run: |
-          mkdir -p ./build/web
-          echo '/*' > ./build/web/_headers
-          echo '  Cross-Origin-Opener-Policy: same-origin' >> ./build/web/_headers
-          echo '  Cross-Origin-Embedder-Policy: require-corp' >> ./build/web/_headers
-
-      - name: Verify headers
-        run: cat ./build/web/_headers
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3.9.3
         with:
-          github_token: ${{ secrets.PAT }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
           force_orphan: true
           user_name: "github-ci[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
           commit_message: "Publish to gh-pages"
-
