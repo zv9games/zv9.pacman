@@ -33,8 +33,3 @@ jobs:
           user_email: "github-actions[bot]@users.noreply.github.com"
           commit_message: "Publish to gh-pages"
 
-This workflow will create the _headers file in the build/web directory with the necessary headers and then deploy the project to GitHub Pages.
-
-Make sure the _headers file is correctly added to the build/web directory before deploying. This should help ensure the headers are applied correctly.
-
-Give this a try and let me know if it resolves the issue! 😊
