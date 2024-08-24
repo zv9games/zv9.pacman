@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="ZV9.PACMAN-0.6"
+run/main_scene="res://PACMAN/SCENES/binary.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=530
+window/size/viewport_height=520
 
 [rendering]
 

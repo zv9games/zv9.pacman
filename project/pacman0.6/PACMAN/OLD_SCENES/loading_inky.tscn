@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://dyd6vj6x8x1fe"]
+
+[ext_resource type="Texture2D" uid="uid://13bsd22151p0" path="res://PACMAN/ASSETS/CHARACTERS/Inky/down1.png" id="1_rud8j"]
+[ext_resource type="Texture2D" uid="uid://bqoer7j1mgrox" path="res://PACMAN/ASSETS/CHARACTERS/Inky/down2.png" id="2_kvt2c"]
+[ext_resource type="Texture2D" uid="uid://cq43bqnh84ipb" path="res://PACMAN/ASSETS/CHARACTERS/Inky/inky_empty1.png" id="3_k75xk"]
+[ext_resource type="Texture2D" uid="uid://gn7ba2ihddcp" path="res://PACMAN/ASSETS/CHARACTERS/Inky/inky_empty2.png" id="4_y00so"]
+[ext_resource type="Texture2D" uid="uid://bwmapx6egsfsd" path="res://PACMAN/ASSETS/CHARACTERS/Inky/left1.png" id="5_nik75"]
+[ext_resource type="Texture2D" uid="uid://dnqqgvnerl360" path="res://PACMAN/ASSETS/CHARACTERS/Inky/left2.png" id="6_u5dhw"]
+[ext_resource type="Texture2D" uid="uid://4ikbhgsla7uf" path="res://PACMAN/ASSETS/CHARACTERS/Inky/right1.png" id="7_2bvmj"]
+[ext_resource type="Texture2D" uid="uid://3be5xsbc8gd7" path="res://PACMAN/ASSETS/CHARACTERS/Inky/right2.png" id="8_esate"]
+[ext_resource type="Texture2D" uid="uid://r48oni44r8lq" path="res://PACMAN/ASSETS/CHARACTERS/Inky/up1.png" id="9_xtbrp"]
+[ext_resource type="Texture2D" uid="uid://d2r775v25hlpm" path="res://PACMAN/ASSETS/CHARACTERS/Inky/up2.png" id="10_cc56l"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xow8w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rud8j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kvt2c")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_k75xk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y00so")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_nik75")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_u5dhw")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_2bvmj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_esate")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_xtbrp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_cc56l")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[node name="LOADING_INKY" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xow8w")
+animation = &"up"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

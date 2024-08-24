@@ -1,0 +1,14 @@
+extends NavigationRegion2D
+
+signal online
+
+func _ready():
+	var startup_timer = Timer.new()
+	startup_timer.wait_time = 0.5
+	startup_timer.one_shot = true
+	startup_timer.connect("timeout", Callable(self, "_emit_online_signal"))
+	add_child(startup_timer)
+	startup_timer.start()
+
+func _emit_online_signal():
+	emit_signal("online", self.name)

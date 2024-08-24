@@ -1,0 +1,12 @@
+Button
+Camera2D
+TileMapLayer
+NavigationRegion2D
+Node
+CollisionShape2D
+Area2D
+NavigationAgent2D
+AnimatedSprite2D
+CharacterBody2D
+Node2D
+Control

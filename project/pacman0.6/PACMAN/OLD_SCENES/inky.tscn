@@ -1,0 +1,154 @@
+[gd_scene load_steps=23 format=3 uid="uid://cybrpb3audgps"]
+
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/INKY5.gd" id="1_4n6ly"]
+[ext_resource type="Texture2D" uid="uid://13bsd22151p0" path="res://PACMAN/ASSETS/CHARACTERS/Inky/down1.png" id="1_jtr5l"]
+[ext_resource type="Texture2D" uid="uid://bqoer7j1mgrox" path="res://PACMAN/ASSETS/CHARACTERS/Inky/down2.png" id="2_0ghyv"]
+[ext_resource type="Texture2D" uid="uid://cq43bqnh84ipb" path="res://PACMAN/ASSETS/CHARACTERS/Inky/inky_empty1.png" id="3_5uphd"]
+[ext_resource type="Texture2D" uid="uid://gn7ba2ihddcp" path="res://PACMAN/ASSETS/CHARACTERS/Inky/inky_empty2.png" id="4_ntlwt"]
+[ext_resource type="Texture2D" uid="uid://cuflmn4av14ch" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_left1.png" id="4_x3l5d"]
+[ext_resource type="Texture2D" uid="uid://u043mwbnah17" path="res://PACMAN/ASSETS/CHARACTERS/frightened/F1.png" id="4_yvi00"]
+[ext_resource type="Texture2D" uid="uid://bd7txy4eyemy6" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_left2.png" id="5_ictyh"]
+[ext_resource type="Texture2D" uid="uid://bwmapx6egsfsd" path="res://PACMAN/ASSETS/CHARACTERS/Inky/left1.png" id="5_nv5ou"]
+[ext_resource type="Texture2D" uid="uid://dt5xjd4qcdep8" path="res://PACMAN/ASSETS/CHARACTERS/frightened/F2.png" id="5_xjrfs"]
+[ext_resource type="Texture2D" uid="uid://da0atcm8oyghk" path="res://PACMAN/ASSETS/CHARACTERS/frightened/F3.png" id="6_6utnd"]
+[ext_resource type="Texture2D" uid="uid://dnqqgvnerl360" path="res://PACMAN/ASSETS/CHARACTERS/Inky/left2.png" id="6_ahlmu"]
+[ext_resource type="Texture2D" uid="uid://4qfueuqka1j" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_right1.png" id="6_b1wyi"]
+[ext_resource type="Texture2D" uid="uid://kvp3un0gvvos" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_right2.png" id="7_0osm0"]
+[ext_resource type="Texture2D" uid="uid://4ikbhgsla7uf" path="res://PACMAN/ASSETS/CHARACTERS/Inky/right1.png" id="7_ptqyq"]
+[ext_resource type="Texture2D" uid="uid://c44pn6pfqo78" path="res://PACMAN/ASSETS/CHARACTERS/frightened/F4.png" id="7_upoop"]
+[ext_resource type="Texture2D" uid="uid://3be5xsbc8gd7" path="res://PACMAN/ASSETS/CHARACTERS/Inky/right2.png" id="8_rammr"]
+[ext_resource type="Texture2D" uid="uid://r48oni44r8lq" path="res://PACMAN/ASSETS/CHARACTERS/Inky/up1.png" id="9_hnyap"]
+[ext_resource type="Texture2D" uid="uid://d2r775v25hlpm" path="res://PACMAN/ASSETS/CHARACTERS/Inky/up2.png" id="10_q3y3u"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ydq48"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_jtr5l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_0ghyv")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_x3l5d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ictyh")
+}],
+"loop": true,
+"name": &"eaten_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_b1wyi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_0osm0")
+}],
+"loop": true,
+"name": &"eaten_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_yvi00")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_xjrfs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_6utnd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_upoop")
+}],
+"loop": true,
+"name": &"frightened",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_5uphd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ntlwt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_nv5ou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_ahlmu")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ptqyq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rammr")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_hnyap")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_q3y3u")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2ihle"]
+radius = 7.95
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kb5q1"]
+
+[node name="INKY" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 4
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_4n6ly")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ydq48")
+animation = &"eaten_right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2ihle")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Chase_Timer" type="Timer" parent="."]
+
+[node name="Scatter_Timer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_kb5q1")
+
+[connection signal="timeout" from="Chase_Timer" to="." method="_on_chase_timer_timeout"]
+[connection signal="timeout" from="Scatter_Timer" to="." method="_on_scatter_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
