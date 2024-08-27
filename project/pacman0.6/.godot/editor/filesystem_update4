@@ -2,5 +2,3 @@ res://PACMAN/SCENES/binary.tscn
 res://PACMAN/ASSETS/pacman_tilemap.tres
 res://PACMAN/SCRIPTS/pacman.gd
 res://PACMAN/SCRIPTS/swipe_detector.gd
-res://PACMAN/SCENES/original.tscn
-res://PACMAN/SCENES/camera_2d.tscn
