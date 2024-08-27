@@ -15,6 +15,7 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING }
 @onready var soundbank = $/root/BINARY/SOUNDBANK
 @onready var death1 = $/root/BINARY/SOUNDBANK/DEATH1
 @onready var pacman = $/root/BINARY/ORIGINAL/CHARACTERS/PACMAN
+@onready var camera = $/root/BINARY/ORIGINAL/MAP/GAMEBOARD/Camera2D
 
 var start_tile_pos = Vector2(16, 20)
 var speed = 120  # Adjust the speed as needed
@@ -33,6 +34,11 @@ func _ready():
 	$Area2D.connect("body_entered", Callable(self, "_on_area_2d_body_entered"))  # Ensure the signal is connected
 	death1.connect("finished", Callable(self, "_on_death1_finished"))
 	
+	# Check if the camera node exists before connecting the signal
+	if camera:
+		camera.connect("swipe_detected", Callable(self, "handle_swipe_input"))
+	else:
+		print("Camera node not found!")
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -69,6 +75,9 @@ func handle_input(delta):
 	else:
 		# Continue moving in the current direction if blocked
 		velocity = velocity.normalized() * speed
+
+func handle_swipe_input(direction: Vector2):
+	desired_direction = direction
 
 func can_move_in_direction(direction: Vector2) -> bool:
 	var future_position = position + direction * speed * get_physics_process_delta_time()
@@ -114,7 +123,6 @@ func _on_area_2d_body_entered(body):
 			scoremachine.lose_life()
 			soundbank.play("DEATH1")
 			animated_sprite.play("gameover")
-			
 
 func _on_death1_finished():
 	if scoremachine.get_lives() > 0:

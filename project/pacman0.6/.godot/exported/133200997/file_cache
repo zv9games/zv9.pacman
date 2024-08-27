@@ -1,5 +1,5 @@
 res://PACMAN/ASSETS/binary_base_polygon.tres::1267696ca2b3707539f5d551b809eb72::1724133625::res://.godot/exported/133200997/export-099284dcfb8910ebcc4e7219d393132e-binary_base_polygon.res
-res://PACMAN/ASSETS/pacman_tilemap.tres::566bc330b83dc55458b99837a24cb5d3::1724777614::res://.godot/exported/133200997/export-083776682099a957685a7eb344ff97e6-pacman_tilemap.res
+res://PACMAN/ASSETS/pacman_tilemap.tres::566bc330b83dc55458b99837a24cb5d3::1724778697::res://.godot/exported/133200997/export-083776682099a957685a7eb344ff97e6-pacman_tilemap.res
 res://PACMAN/OLD_SCENES/binary.tscn::9551030305034fcefc6ad5c39e31d470::1724524926::res://.godot/exported/133200997/export-e0a6e431bfc37abc18e4b8d7a3041c17-binary.scn
 res://PACMAN/OLD_SCENES/blinky.tscn::a52a716bbf0da914dd9f330909ab8069::1724372930::res://.godot/exported/133200997/export-d7282b2ea30cecffb9e778976c3099d4-blinky.scn
 res://PACMAN/OLD_SCENES/clyde.tscn::c51b3502e7520e9bb09744da3fa507b6::1724133625::res://.godot/exported/133200997/export-0ad85c1184bd519786a4d72741250b34-clyde.scn
@@ -39,7 +39,7 @@ res://PACMAN/OLD_SCENES/start_menu.tscn::4703cdbf375e7c43752ee929f9cf191a::17241
 res://PACMAN/OLD_SCENES/tile_map.tscn::643eb90905456657225819f1738df2b3::1724133626::res://.godot/exported/133200997/export-ad0c0e5c6a0591067b73e069bd596848-tile_map.scn
 res://PACMAN/OLD_SCENES/tile_map_2.tscn::47afeb1656b228350849f13eba1f07df::1724133626::res://.godot/exported/133200997/export-cb4b2d82d3bd6d0c7bdddf111491ec34-tile_map_2.scn
 res://PACMAN/OLD_SCENES/zpu.tscn::ceef7b1e2f8126451e6965b25dfca102::1724133626::res://.godot/exported/133200997/export-539752e295976911c9537edd352d1573-zpu.scn
-res://PACMAN/SCENES/binary.tscn::db343469215ca52f95bb105ab28aa36c::1724777613::res://.godot/exported/133200997/export-708c93b81d23c7c4288972625a6eca02-binary.scn
+res://PACMAN/SCENES/binary.tscn::db343469215ca52f95bb105ab28aa36c::1724779357::res://.godot/exported/133200997/export-708c93b81d23c7c4288972625a6eca02-binary.scn
 res://PACMAN/SCENES/blinky.tscn::db533ac8b5c095fa19cba802edd6c98f::1724775602::res://.godot/exported/133200997/export-d8f665b96ef786846792054e80140145-blinky.scn
 res://PACMAN/SCENES/clyde.tscn::a347fbbacccd51cc4ad4a5f0655f7473::1724777308::res://.godot/exported/133200997/export-8f4a40acd340378307bf4962d3b509b6-clyde.scn
 res://PACMAN/SCENES/expansive.tscn::e1079c0be31d538a328ec6a67f3b5e63::1724425449::res://.godot/exported/133200997/export-a2acb701bd17c4d65ac4df6cbac3a019-expansive.scn
@@ -55,10 +55,11 @@ res://PACMAN/SCENES/loading_inky.tscn::229604df84cd8fcb9d8f67250565351d::1724775
 res://PACMAN/SCENES/loading_pacman.tscn::22137e9b9025eae54d2553c75d6fb1c2::1724775602::res://.godot/exported/133200997/export-ef4182221e828d322db052409550966f-loading_pacman.scn
 res://PACMAN/SCENES/loading_pinky.tscn::d1f436182d2a01de19005597253ba33a::1724775722::res://.godot/exported/133200997/export-ee466ae570fce860f42fc868a718505f-loading_pinky.scn
 res://PACMAN/SCENES/nav_reg.tscn::428fef92808f8095bfa164d96c98cc2e::1724452107::res://.godot/exported/133200997/export-cc25884930db4a40b1556793e7dedad6-nav_reg.scn
-res://PACMAN/SCENES/original.tscn::6db36a8cb636ac02f4b2882afb0a2222::1724777307::res://.godot/exported/133200997/export-e55e19c8bcf48686df60771f92cbe704-original.scn
+res://PACMAN/SCENES/original.tscn::fd14bd23c5888f768369f2b74130c173::1724779349::res://.godot/exported/133200997/export-e55e19c8bcf48686df60771f92cbe704-original.scn
 res://PACMAN/SCENES/pacman.tscn::0bce89d53cf8eb5638ae58eab4f088d8::1724777307::res://.godot/exported/133200997/export-c662791b6320e47efaf76f70598b23f8-pacman.scn
 res://PACMAN/SCENES/pinky.tscn::ac119eacf9790287a7ef9bf636478463::1724775603::res://.godot/exported/133200997/export-11c783734e4de9d5edd19fdbdcf70441-pinky.scn
 res://PACMAN/SCENES/scoremachine.tscn::3ec3b774ef3563387ff6a0f6c0d02961::1724425474::res://.godot/exported/133200997/export-c80695649ed45a13e250000ffad1a710-scoremachine.scn
 res://PACMAN/SCENES/soundbank.tscn::73bb392ce0750fe01d7f889591c4c8fc::1724777308::res://.godot/exported/133200997/export-2c214bf09d4f60cec6637cb8b50a7cb6-soundbank.scn
 res://PACMAN/SCENES/startmenu.tscn::07ffb4d859db7a5901db9567108c583a::1724515909::res://.godot/exported/133200997/export-4de8344bf661acd6a9d2f340575632eb-startmenu.scn
 res://PACMAN/SCENES/zpu.tscn::137b6f39e23ce9568d34d7005a25e674::1724425464::res://.godot/exported/133200997/export-9989d7e0cf1c658823cd5104d96d153b-zpu.scn
+res://PACMAN/SCENES/camera_2d.tscn::0b250491766ed79e37a2386a88705cfb::1724779338::res://.godot/exported/133200997/export-cde6ea7af61cc3a7b259c8c1b29f47ea-camera_2d.scn
