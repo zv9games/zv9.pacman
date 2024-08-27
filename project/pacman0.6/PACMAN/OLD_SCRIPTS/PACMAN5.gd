@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 signal online
 signal pacman_ghost_collision  # Add this signal
+signal freeze_pacman
 
 @onready var gameboard = $"/root/BINARY/ORIGINAL/MAP/GAMEBOARD"
 @onready var pacman = $"/root/BINARY/ORIGINAL/CHARACTERS/PACMAN"
@@ -31,6 +32,8 @@ func _ready() -> void:
 	startup_timer.start()
 	swipe_detector.connect("swipe_detected", Callable(self, "_on_swipe_detected"))  # Connect the signal
 	print("Current direction: ", last_input_direction)
+	ZPU.connect("freeze_pacman", Callable(self, "set_freeze"))  # Connect ZPU signal to set_freeze function
+
 func _emit_online_signal():
 	emit_signal("online", self.name)
 
@@ -70,7 +73,6 @@ func _physics_process(delta: float) -> void:
 	if direction != Vector2.ZERO:
 		last_input_direction = direction
 
-	
 	velocity = last_input_direction * SPEED
 	move_and_slide()
 	if is_on_wall():

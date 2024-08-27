@@ -1,5 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://bmdp0p70mt86d"]
+[gd_scene load_steps=25 format=3 uid="uid://bmdp0p70mt86d"]
 
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/pacman.gd" id="1_d7tsr"]
 [ext_resource type="Texture2D" uid="uid://cg2x07kybav4i" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman0.png" id="1_qd7wv"]
 [ext_resource type="Texture2D" uid="uid://ckaugtmtryyob" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman3.png" id="2_nkv3g"]
 [ext_resource type="Texture2D" uid="uid://dl3h8xbygrf6n" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman4.png" id="3_k3umu"]
@@ -110,13 +111,16 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lnoca"]
-radius = 7.8
+radius = 7.7
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4mkce"]
-radius = 8.0
 
 [node name="PACMAN" type="CharacterBody2D"]
 collision_mask = 4
+motion_mode = 1
+floor_max_angle = 1.13446
+safe_margin = 0.009
+script = ExtResource("1_d7tsr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7i8rx")
@@ -129,6 +133,7 @@ shape = SubResource("CircleShape2D_lnoca")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_4mkce")

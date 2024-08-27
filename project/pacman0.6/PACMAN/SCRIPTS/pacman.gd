@@ -1,8 +1,24 @@
 extends CharacterBody2D
 
 signal online
+signal pacman_ghost_collision
+enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING }
+
+@onready var startmenu = $/root/BINARY/STARTMENU
+@onready var gameboard = $/root/BINARY/ORIGINAL/MAP/GAMEBOARD
+@onready var animated_sprite = $AnimatedSprite2D
+@onready var scoremachine = $/root/BINARY/SCOREMACHINE
+@onready var gamestate = $/root/BINARY/GAMESTATE
+@onready var blinky = $/root/BINARY/ORIGINAL/CHARACTERS/BLINKY
+@onready var zpu = $/root/BINARY/ZPU
+
+var start_tile_pos = Vector2(16, 20)
+var speed = 120  # Adjust the speed as needed
+var desired_direction = Vector2.ZERO
+var is_frozen = false  # Flag to track if Pacman is frozen
 
 func _ready():
+	is_frozen = false
 	var startup_timer = Timer.new()
 	startup_timer.wait_time = 0.5
 	startup_timer.one_shot = true
@@ -10,23 +26,66 @@ func _ready():
 	add_child(startup_timer)
 	startup_timer.start()
 	startmenu.connect("start_button_pressed", Callable(self, "_on_start_button_pressed"))
+	$Area2D.connect("body_entered", Callable(self, "_on_area_2d_body_entered"))  # Ensure the signal is connected
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
-	
-#BREAK
-
-@onready var startmenu = $/root/BINARY/STARTMENU
-@onready var gameboard = $/root/BINARY/ORIGINAL/MAP/GAMEBOARD
-var start_tile_pos = Vector2(16, 20) 
 
 func _on_start_button_pressed():
 	position = tile_position_to_global_position(start_tile_pos)
 
+func _physics_process(delta):
+	if is_frozen:
+		return  # Skip movement if frozen
+	handle_input(delta)
+	move_and_slide()
+	update_animation()
+	gameboard.check_tile()
 
+func handle_input(delta):
+	desired_direction = Vector2.ZERO
 
+	if Input.is_action_pressed("ui_right"):
+		desired_direction.x += 1
+	if Input.is_action_pressed("ui_left"):
+		desired_direction.x -= 1
+	if Input.is_action_pressed("ui_down"):
+		desired_direction.y += 1
+	if Input.is_action_pressed("ui_up"):
+		desired_direction.y -= 1
 
+	if desired_direction != Vector2.ZERO:
+		desired_direction = desired_direction.normalized()
 
+	# Check if Pacman can move in the desired direction
+	if can_move_in_direction(desired_direction):
+		velocity = desired_direction * speed
+	else:
+		# Continue moving in the current direction if blocked
+		velocity = velocity.normalized() * speed
+
+func can_move_in_direction(direction: Vector2) -> bool:
+	var future_position = position + direction * speed * get_physics_process_delta_time()
+	var future_tile_pos = global_position_to_tile_position(future_position)
+	return !gameboard.is_tile_blocked(future_tile_pos)
+
+func update_animation():
+	if velocity.x > 0:
+		animated_sprite.play("move_right")
+	elif velocity.x < 0:
+		animated_sprite.play("move_left")
+	elif velocity.y > 0:
+		animated_sprite.play("move_down")
+	elif velocity.y < 0:
+		animated_sprite.play("move_up")
+	else:
+		animated_sprite.stop()
+
+func set_freeze(freeze: bool) -> void:
+	print("set_freeze called with: ", freeze)
+	is_frozen = freeze
+	if is_frozen:
+		animated_sprite.stop()  # Stop animation when frozen
 
 func global_position_to_tile_position(global_pos: Vector2) -> Vector2:
 	var tile_map_pos = gameboard.local_to_map(global_pos)
@@ -36,3 +95,13 @@ func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
 	var local_pos = gameboard.map_to_local(tile_pos)
 	var global_pos = gameboard.to_global(local_pos)
 	return global_pos
+
+func _on_area_2d_body_entered(body):
+	if body.name in ["BLINKY", "PINKY", "INKY", "CLYDE"]:  # Check if the body is one of the ghosts
+		emit_signal("pacman_ghost_collision", body.call("get_state"), body)  # Emit the collision signal with the ghost's state and instance
+		
+		if gamestate.get_state() in [States.SCATTER, States.CHASE]:  # Check if the game state is scatter or chase
+			set_freeze(true)  # Freeze Pacman
+			zpu._on_start_button_pressed()
+			scoremachine.lose_life()
+			

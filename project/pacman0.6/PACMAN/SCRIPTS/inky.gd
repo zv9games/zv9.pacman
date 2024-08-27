@@ -12,3 +12,9 @@ func _ready():
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
+
+#BREAK
+var current_state
+
+func get_state():
+	return current_state

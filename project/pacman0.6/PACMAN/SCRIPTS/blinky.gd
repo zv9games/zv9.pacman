@@ -9,7 +9,263 @@ func _ready():
 	startup_timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(startup_timer)
 	startup_timer.start()
-	
+	connect_signals()
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
+	
+#BREAK
+
+const speed = 70
+const frightened_speed = 30
+const return_speed = 100  
+const DIRECTION_THRESHOLD = 0.1  
+
+enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, PRE_GAME }
+enum FrightStates { NORMAL, CAUGHT }
+
+var tile_size = Vector2(16, 16)  # Assuming each tile is 32x32 pixels
+var start_position = Vector2(19, 18)
+var blinky_position = start_position * tile_size
+var is_frozen = false
+var ghost_state = FrightStates.NORMAL
+var dot_eaten_count = 0 
+var current_state = null         
+var scatter_index = 0
+var blinky_data: Dictionary = { "home_corner_loop": [Vector2(23, 8), Vector2(23, 3), Vector2(29, 3), Vector2(29, 8)] }
+var score: int = 0
+var last_state  
+var is_eaten = false  
+var blinky_initial_target: Vector2
+var blinky_initial_positions: Array = [Vector2(19, 15), Vector2(19, 18)]
+var blinky_initial_index: int = 0
+var is_initialized = false
+var blinky_needs_initial_update = false
+
+@onready var zpu = $"/root/BINARY/ZPU"
+@onready var gamestate = $"/root/BINARY/GAMESTATE"
+@onready var nav_agent = $NavigationAgent2D as NavigationAgent2D
+@onready var pacman = $"/root/BINARY/ORIGINAL/CHARACTERS/PACMAN"
+@onready var gameboard = $"/root/BINARY/ORIGINAL/MAP/GAMEBOARD"
+@onready var animated_sprite = $AnimatedSprite2D  
+@onready var scoremachine = $/root/BINARY/SCOREMACHINE
+@onready var collision_area = $Area2D  
+@onready var anisprite = $"/root/BINARY/ORIGINAL/CHARACTERS/BLINKY/AnimatedSprite2D"
+
+func connect_signals():
+	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
+
+func _on_state_changed(new_state):
+	current_state = new_state
+	_handle_state_change(new_state)
+
+func _handle_state_change(new_state):
+	match new_state:
+		States.CHASE:
+			_start_chase_behavior()
+		States.SCATTER:
+			_start_scatter_behavior()
+		States.FRIGHTENED:
+			if ghost_state == FrightStates.NORMAL:
+				_start_normal_frightened_behavior()
+			elif ghost_state == FrightStates.CAUGHT:
+				_start_caught_frightened_behavior()
+		States.INITIAL:
+			_start_initial_behavior()
+		States.PRE_GAME:
+			_start_pre_game_behavior()
+
+func _physics_process(delta):
+	match current_state:
+		States.CHASE:
+			_update_chase_behavior(delta)
+		States.SCATTER:
+			_update_scatter_behavior(delta)
+		States.FRIGHTENED:
+			if ghost_state == FrightStates.NORMAL:
+				_update_normal_frightened_behavior(delta)
+			elif ghost_state == FrightStates.CAUGHT:
+				_update_caught_frightened_behavior(delta)
+		States.INITIAL:
+			_update_initial_behavior(delta)
+		States.PRE_GAME:
+			_update_pre_game_behavior(delta)
+	
+	if blinky_needs_initial_update:
+		print("blinky_needs_initial_update is true, calling _update_initial_behavior")
+		_update_initial_behavior(delta)
+		blinky_needs_initial_update = false  # Reset the flag
+		print("blinky_needs_initial_update set to false")		
+	
+
+func _start_chase_behavior():
+	make_chase_path()
+
+func _start_scatter_behavior():
+	make_scatter_path()
+
+func _start_normal_frightened_behavior():
+	move_away_from_pacman()
+	
+func _start_caught_frightened_behavior():
+	nav_agent.target_position = tile_position_to_global_position(Vector2(16, 15))  # Convert tile position to global position
+	move_to_shed()
+
+func _start_initial_behavior():
+	self.visible = true
+	self.position = blinky_position
+	blinky_initial_target = tile_position_to_global_position(blinky_initial_positions[blinky_initial_index])
+	move_blinky_initial()
+
+func _start_pre_game_behavior():
+	pass
+
+func _update_chase_behavior(delta):
+	move_towards_target()
+
+func _update_scatter_behavior(delta):
+	move_towards_target()
+
+func _update_normal_frightened_behavior(delta):
+	move_away_from_pacman()
+	
+func _update_caught_frightened_behavior(delta):
+	nav_agent.target_position = tile_position_to_global_position(Vector2(16, 15))  # Convert tile position to global position
+	move_to_shed()
+
+func _update_initial_behavior(delta):
+		move_blinky_initial()
+
+func _update_pre_game_behavior(delta):
+	pass
+	
+func move_blinky_initial() -> void:
+	var dir = (blinky_initial_target - global_position).normalized()
+	velocity = dir * speed
+	move_and_slide()
+	if global_position.distance_to(blinky_initial_target) < 1:
+		blinky_initial_index = (blinky_initial_index + 1) % blinky_initial_positions.size()
+		blinky_initial_target = tile_position_to_global_position(blinky_initial_positions[blinky_initial_index])
+	animated_sprite.play("idle")
+
+func make_chase_path() -> void:
+	var target_pos = pacman.global_position
+	var tile_size = gameboard.tile_set.tile_size
+	var tile_center = Vector2(tile_size.x / 2, tile_size.y / 2)
+	target_pos.x = floor(target_pos.x / tile_size.x) * tile_size.x + tile_center.x
+	target_pos.y = floor(target_pos.y / tile_size.y) * tile_size.y + tile_center.y
+	nav_agent.target_position = target_pos
+
+func make_scatter_path() -> void:
+	scatter_index = (scatter_index + 1) % blinky_data["home_corner_loop"].size()
+	var target_pos = blinky_data["home_corner_loop"][scatter_index]
+	var global_target_pos = tile_position_to_global_position(target_pos)
+	nav_agent.target_position = global_target_pos
+	
+func move_towards_target() -> void:
+	var next_position = nav_agent.get_next_path_position()
+	if next_position != Vector2.ZERO:
+		var dir = (next_position - global_position).normalized()
+		velocity = dir * speed
+		move_and_slide()
+		update_animation(dir)
+		if global_position.distance_to(next_position) < 1:
+			update_target_position()
+	else:
+		velocity = Vector2.ZERO
+		move_and_slide()
+
+func update_target_position():
+	if current_state == States.SCATTER:
+		scatter_index = (scatter_index + 1) % blinky_data["home_corner_loop"].size()
+		var target_pos = blinky_data["home_corner_loop"][scatter_index]
+		var global_target_pos = tile_position_to_global_position(target_pos)
+		nav_agent.target_position = global_target_pos
+	elif current_state == States.CHASE:
+		make_chase_path()
+
+func move_away_from_pacman() -> void:
+	var dir = (global_position - pacman.global_position).normalized()
+	velocity = dir * frightened_speed
+	move_and_slide()
+	animated_sprite.play("frightened")  # Ensure frightened animation is playing
+
+func move_to_shed() -> void:
+	var next_position = nav_agent.get_next_path_position()
+	if next_position != Vector2.ZERO:
+		var dir = (next_position - global_position).normalized()
+		velocity = dir * return_speed
+		move_and_slide()
+		if dir.x > 0:
+			animated_sprite.play("eaten_right")
+		else:
+			animated_sprite.play("eaten_left")
+		if global_position.distance_to(nav_agent.target_position) < 1:
+			reset_to_normal_state()
+			
+
+func reset_to_normal_state():
+	ghost_state = FrightStates.NORMAL
+	_start_initial_behavior()
+	blinky_needs_initial_update = true  # Set the flag
+	set_collision_layer_value(2, true)  # Re-enable collisions for normal state
+	set_collision_mask_value(1, true)  # Enable mask 1
+	set_collision_mask_value(4, true)  # Enable mask 4
+	
+func set_state(new_state):
+	ghost_state = new_state
+	if new_state == FrightStates.CAUGHT:
+		set_collision_layer_value(1, false)
+		set_collision_mask_value(1, false)  # Disable collisions to unstick from Pacman
+		move_to_shed()
+		await get_tree().create_timer(1).timeout  # Add a small delay
+		set_collision_layer_value(2, true)  # Re-enable collisions after delay
+		set_collision_mask_value(1, true)  # Re-enable mask 1 after delay
+	else:
+		set_collision_layer_value(2, true)  # Default layer for normal state
+		set_collision_mask_value(1, true)  # Enable mask 1
+		set_collision_mask_value(4, true)  # Enable mask 4
+		
+func get_state() -> int:
+	return ghost_state
+
+func is_position_within_bounds(position: Vector2) -> bool:
+	var tile_pos = gameboard.local_to_map(position)
+	return !gameboard.is_tile_blocked(tile_pos)
+
+func set_freeze(freeze: bool) -> void:
+	is_frozen = freeze
+	if is_frozen:
+		anisprite.stop()  # Stop animation when frozen
+
+func global_position_to_tile_position(global_pos: Vector2) -> Vector2:
+	var tilemap_pos = gameboard.local_to_map(global_pos)
+	return tilemap_pos
+
+func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
+	var local_pos = gameboard.map_to_local(tile_pos)
+	var global_pos = gameboard.to_global(local_pos)
+	return global_pos
+
+func update_animation(direction: Vector2) -> void:
+	if abs(direction.x) > abs(direction.y):
+		if direction.x > DIRECTION_THRESHOLD:
+			animated_sprite.play("move_right")
+		elif direction.x < -DIRECTION_THRESHOLD:
+			animated_sprite.play("move_left")
+	else:
+		if direction.y > DIRECTION_THRESHOLD:
+			animated_sprite.play("move_down")
+		elif direction.y < -DIRECTION_THRESHOLD:
+			animated_sprite.play("move_up")
+
+func _on_area_2d_body_entered(body):
+	if body.name == "PACMAN" and current_state == States.FRIGHTENED:
+		ghost_state = FrightStates.CAUGHT  # Set local state to CAUGHT
+		
+		scoremachine.add_points(2000)
+		last_state = current_state  # Store the current state
+		nav_agent.target_position = tile_position_to_global_position(Vector2(16, 16))  # Set target to ghost shed
+		
+		move_to_shed()  # Start moving to the shed
+		is_eaten = true  # Set is_eaten to true

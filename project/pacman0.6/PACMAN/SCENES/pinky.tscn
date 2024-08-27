@@ -1,6 +1,7 @@
-[gd_scene load_steps=26 format=3 uid="uid://beqpkprpe4klm"]
+[gd_scene load_steps=27 format=3 uid="uid://beqpkprpe4klm"]
 
 [ext_resource type="Texture2D" uid="uid://t0ly7cdhjtht" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_down1.png" id="1_7j03y"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/pinky.gd" id="1_qkogj"]
 [ext_resource type="Texture2D" uid="uid://cck4fk27qvuel" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_down2.png" id="2_br6oo"]
 [ext_resource type="Texture2D" uid="uid://cuflmn4av14ch" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_left1.png" id="3_1sjmw"]
 [ext_resource type="Texture2D" uid="uid://bd7txy4eyemy6" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_left2.png" id="4_wletx"]
@@ -151,6 +152,9 @@ radius = 8.0
 [node name="PINKY" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_qkogj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_k88nk")
@@ -162,6 +166,9 @@ shape = SubResource("CircleShape2D_hxnq7")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_sbn1f")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

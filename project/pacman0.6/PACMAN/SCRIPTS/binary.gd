@@ -18,26 +18,34 @@ signal all_nodes_initialized
 @onready var loading = $"/root/BINARY/LOADING"
 
 var nodes_to_initialize = [
-	"/root/BINARY/LOADING", "/root/BINARY/GAMESTATE", "/root/BINARY/SOUNDBANK", "/root/BINARY/SCOREMACHINE",
-	"/root/BINARY/STARTMENU", "/root/BINARY/ORIGINAL/MAP/GAMEBOARD",
-	"/root/BINARY/ORIGINAL/MAP/NAV_REG", "/root/BINARY/ORIGINAL/CHARACTERS/BLINKY",
-	"/root/BINARY/ORIGINAL/CHARACTERS/PINKY", "/root/BINARY/ORIGINAL/CHARACTERS/INKY",
-	"/root/BINARY/ORIGINAL/CHARACTERS/CLYDE", "/root/BINARY/ORIGINAL/CHARACTERS/PACMAN",
-	"/root/BINARY/ZPU", "/root/BINARY"
+	"/root/BINARY/LOADING", 
+	"/root/BINARY/GAMESTATE", 
+	"/root/BINARY/SOUNDBANK", 
+	"/root/BINARY/SCOREMACHINE",
+	"/root/BINARY/STARTMENU", 
+	"/root/BINARY/ORIGINAL/MAP/GAMEBOARD",
+	"/root/BINARY/ORIGINAL/MAP/NAV_REG", 
+	"/root/BINARY/ORIGINAL/CHARACTERS/BLINKY",
+	"/root/BINARY/ORIGINAL/CHARACTERS/PINKY", 
+	"/root/BINARY/ORIGINAL/CHARACTERS/INKY",
+	"/root/BINARY/ORIGINAL/CHARACTERS/CLYDE", 
+	"/root/BINARY/ORIGINAL/CHARACTERS/PACMAN",
+	"/root/BINARY/ZPU", 
+	"/root/BINARY"
 ]
 
 var initialized_nodes = {}
 var nodes_connected = false
 
 func _ready():
-	print("binary ready")
+	#print("binary ready")
 	call_deferred("_connect_signals")
 
 func _connect_signals():
 	for node_path in nodes_to_initialize:
 		var node = get_node(node_path)
 		if node:
-			print("Connecting signal for: ", node_path)
+			#print("Connecting signal for: ", node_path)
 			node.connect("online", Callable(self, "_on_node_online"))
 		else:
 			print("Node not found: ", node_path)
@@ -45,9 +53,9 @@ func _connect_signals():
 	emit_signal("online", self.name)
 
 func _on_node_online(node_name):
-	print("Node online: ", node_name)
+	#print("Node online: ", node_name)
 	initialized_nodes[node_name] = true
-	print("Initialized nodes: ", initialized_nodes.size(), "/", nodes_to_initialize.size())
+	#print("Initialized nodes: ", initialized_nodes.size(), "/", nodes_to_initialize.size())
 	if initialized_nodes.size() == nodes_to_initialize.size():
 		print("All nodes initialized")
 		emit_signal("all_nodes_initialized")

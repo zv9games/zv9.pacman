@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c6kdf54s6cx47"]
+[gd_scene load_steps=15 format=3 uid="uid://c6kdf54s6cx47"]
 
 [ext_resource type="PackedScene" uid="uid://k4omdcwbv54r" path="res://PACMAN/SCENES/original.tscn" id="1_oqrbh"]
 [ext_resource type="Script" path="res://PACMAN/SCRIPTS/binary.gd" id="1_p7gfi"]
@@ -8,11 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://bf7d1yfmffbq0" path="res://PACMAN/SCENES/gamestate.tscn" id="5_8unsx"]
 [ext_resource type="PackedScene" uid="uid://cb2le2bvp8yt" path="res://PACMAN/SCENES/scoremachine.tscn" id="6_0cdtv"]
 [ext_resource type="Script" path="res://PACMAN/SCRIPTS/zpu.gd" id="6_rhhos"]
-[ext_resource type="PackedScene" uid="uid://b17erl8i6ueni" path="res://PACMAN/SCENES/soundbank.tscn" id="7_536yg"]
+[ext_resource type="PackedScene" uid="uid://c576kyxpixkxw" path="res://PACMAN/SCENES/soundbank.tscn" id="7_536yg"]
 [ext_resource type="PackedScene" uid="uid://c4i832tjkp4fl" path="res://PACMAN/SCENES/startmenu.tscn" id="8_7j70h"]
 [ext_resource type="Script" path="res://PACMAN/SCRIPTS/gamestate.gd" id="8_lk6ne"]
 [ext_resource type="Script" path="res://PACMAN/SCRIPTS/scoremachine.gd" id="10_gupao"]
-[ext_resource type="Script" path="res://PACMAN/SCRIPTS/soundbank.gd" id="12_okvh4"]
 [ext_resource type="Script" path="res://PACMAN/SCRIPTS/startmenu.gd" id="14_dt8a7"]
 [ext_resource type="PackedScene" uid="uid://dlvehnxabu0gi" path="res://PACMAN/SCENES/loading.tscn" id="15_04ale"]
 
@@ -34,9 +33,6 @@ script = ExtResource("8_lk6ne")
 [node name="SCOREMACHINE" parent="." instance=ExtResource("6_0cdtv")]
 script = ExtResource("10_gupao")
 
-[node name="SOUNDBANK" parent="." instance=ExtResource("7_536yg")]
-script = ExtResource("12_okvh4")
-
 [node name="LOADING" parent="." instance=ExtResource("15_04ale")]
 
 [node name="STARTMENU" parent="." instance=ExtResource("8_7j70h")]
@@ -46,3 +42,5 @@ script = ExtResource("14_dt8a7")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(264, 256)
 zoom = Vector2(1.02, 1.01)
+
+[node name="SOUNDBANK" parent="." instance=ExtResource("7_536yg")]

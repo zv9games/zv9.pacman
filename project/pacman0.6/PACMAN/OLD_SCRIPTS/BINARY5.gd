@@ -51,7 +51,7 @@ func _on_node_online(node_name):
 		emit_signal("all_nodes_initialized")
 #BREAK
 
-enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, PRE_GAME }
+enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING }
 
 var is_paused = false
 var game_started: bool = false
