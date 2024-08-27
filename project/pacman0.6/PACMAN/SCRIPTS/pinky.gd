@@ -50,6 +50,7 @@ var is_initialized = false
 @onready var scoremachine = $/root/BINARY/SCOREMACHINE
 @onready var collision_area = $Area2D  
 @onready var anisprite = $"/root/BINARY/ORIGINAL/CHARACTERS/BLINKY/AnimatedSprite2D"
+@onready var soundbank = $/root/BINARY/SOUNDBANK
 
 func connect_signals():
 	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
@@ -200,10 +201,10 @@ func move_to_shed() -> void:
 
 func reset_to_normal_state():
 	ghost_state = FrightStates.NORMAL
-	set_state(States.INITIAL)
 	set_collision_layer_value(2, true)  # Re-enable collisions for normal state
 	set_collision_mask_value(1, true)  # Enable mask 1
 	set_collision_mask_value(4, true)  # Enable mask 4
+	current_state = States.INITIAL
 	
 func set_state(new_state):
 	ghost_state = new_state
@@ -255,7 +256,8 @@ func update_animation(direction: Vector2) -> void:
 func _on_area_2d_body_entered(body):
 	if body.name == "PACMAN" and current_state == States.FRIGHTENED:
 		ghost_state = FrightStates.CAUGHT  # Set local state to CAUGHT
-		
+		soundbank.play("EAT_GHOST")
+
 		scoremachine.add_points(2000)
 		last_state = current_state  # Store the current state
 		nav_agent.target_position = tile_position_to_global_position(Vector2(16, 16))  # Set target to ghost shed

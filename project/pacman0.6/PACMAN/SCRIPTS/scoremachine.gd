@@ -135,3 +135,6 @@ func reset_level_display():
 	level = 1
 	emit_signal("level_changed", level)
 	display_level_number(level)
+	
+func get_lives() -> int:
+	return lives

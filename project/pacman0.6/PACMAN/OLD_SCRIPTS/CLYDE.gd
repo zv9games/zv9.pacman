@@ -259,4 +259,3 @@ func set_freeze(freeze: bool) -> void:
 
 func get_state():
 	return current_state
-

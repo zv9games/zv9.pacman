@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://k4omdcwbv54r"]
+[gd_scene load_steps=13 format=3 uid="uid://k4omdcwbv54r"]
 
 [ext_resource type="PackedScene" uid="uid://cak8uwfd3kqca" path="res://PACMAN/SCENES/gameboard.tscn" id="1_ylwc0"]
 [ext_resource type="PackedScene" uid="uid://ls2hpv3evtou" path="res://PACMAN/SCENES/levelend.tscn" id="2_335am"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://beqpkprpe4klm" path="res://PACMAN/SCENES/pinky.tscn" id="5_goxl4"]
 [ext_resource type="PackedScene" uid="uid://bxujocw5gepjx" path="res://PACMAN/SCENES/inky.tscn" id="6_kcrqr"]
 [ext_resource type="Script" path="res://PACMAN/SCRIPTS/nav_reg.gd" id="6_yyx3f"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/swipe_detector.gd" id="7_fvtsf"]
 [ext_resource type="PackedScene" uid="uid://b8a4p78mbo3fg" path="res://PACMAN/SCENES/clyde.tscn" id="7_qhupx"]
 
 [node name="ORIGINAL" type="Node2D"]
@@ -24,6 +25,11 @@ script = ExtResource("6_yyx3f")
 
 [node name="GAMEBOARD" parent="MAP" instance=ExtResource("1_ylwc0")]
 script = ExtResource("3_0oawh")
+
+[node name="Camera2D" type="Camera2D" parent="MAP/GAMEBOARD"]
+position = Vector2(264, 256)
+zoom = Vector2(1.02, 1.01)
+script = ExtResource("7_fvtsf")
 
 [node name="CHARACTERS" type="Node2D" parent="."]
 

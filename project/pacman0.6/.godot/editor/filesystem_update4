@@ -1,15 +1,2 @@
 res://PACMAN/SCENES/binary.tscn
 res://PACMAN/ASSETS/pacman_tilemap.tres
-res://PACMAN/SCENES/original.tscn
-res://PACMAN/SCENES/gameboard.tscn
-res://PACMAN/SCENES/soundbank.tscn
-res://PACMAN/SCENES/pacman.tscn
-res://PACMAN/SCENES/blinky.tscn
-res://PACMAN/SCRIPTS/blinky.gd
-res://PACMAN/SCRIPTS/zpu.gd
-res://PACMAN/OLD_SCRIPTS/PINKY.gd
-res://PACMAN/SCRIPTS/pinky.gd
-res://PACMAN/SCRIPTS/loading.gd
-res://PACMAN/SCENES/loading_pacman.tscn
-res://PACMAN/SCENES/loading_pinky.tscn
-res://PACMAN/SCENES/pinky.tscn

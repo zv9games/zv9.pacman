@@ -152,6 +152,8 @@ radius = 8.0
 [node name="INKY" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_i3smb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -168,3 +170,5 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_hi7cm")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

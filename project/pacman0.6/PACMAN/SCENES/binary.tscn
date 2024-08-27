@@ -39,8 +39,4 @@ script = ExtResource("10_gupao")
 offset_bottom = 512.0
 script = ExtResource("14_dt8a7")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(264, 256)
-zoom = Vector2(1.02, 1.01)
-
 [node name="SOUNDBANK" parent="." instance=ExtResource("7_536yg")]

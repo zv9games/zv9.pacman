@@ -40,7 +40,6 @@ var blinky_initial_target: Vector2
 var blinky_initial_positions: Array = [Vector2(19, 15), Vector2(19, 18)]
 var blinky_initial_index: int = 0
 var is_initialized = false
-var blinky_needs_initial_update = false
 
 @onready var zpu = $"/root/BINARY/ZPU"
 @onready var gamestate = $"/root/BINARY/GAMESTATE"
@@ -51,6 +50,7 @@ var blinky_needs_initial_update = false
 @onready var scoremachine = $/root/BINARY/SCOREMACHINE
 @onready var collision_area = $Area2D  
 @onready var anisprite = $"/root/BINARY/ORIGINAL/CHARACTERS/BLINKY/AnimatedSprite2D"
+@onready var soundbank = $/root/BINARY/SOUNDBANK
 
 func connect_signals():
 	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
@@ -91,13 +91,7 @@ func _physics_process(delta):
 		States.PRE_GAME:
 			_update_pre_game_behavior(delta)
 	
-	if blinky_needs_initial_update:
-		print("blinky_needs_initial_update is true, calling _update_initial_behavior")
-		_update_initial_behavior(delta)
-		blinky_needs_initial_update = false  # Reset the flag
-		print("blinky_needs_initial_update set to false")		
 	
-
 func _start_chase_behavior():
 	make_chase_path()
 
@@ -132,6 +126,7 @@ func _update_normal_frightened_behavior(delta):
 func _update_caught_frightened_behavior(delta):
 	nav_agent.target_position = tile_position_to_global_position(Vector2(16, 15))  # Convert tile position to global position
 	move_to_shed()
+	
 
 func _update_initial_behavior(delta):
 		move_blinky_initial()
@@ -206,11 +201,10 @@ func move_to_shed() -> void:
 
 func reset_to_normal_state():
 	ghost_state = FrightStates.NORMAL
-	_start_initial_behavior()
-	blinky_needs_initial_update = true  # Set the flag
 	set_collision_layer_value(2, true)  # Re-enable collisions for normal state
 	set_collision_mask_value(1, true)  # Enable mask 1
 	set_collision_mask_value(4, true)  # Enable mask 4
+	current_state = States.INITIAL
 	
 func set_state(new_state):
 	ghost_state = new_state
@@ -262,7 +256,8 @@ func update_animation(direction: Vector2) -> void:
 func _on_area_2d_body_entered(body):
 	if body.name == "PACMAN" and current_state == States.FRIGHTENED:
 		ghost_state = FrightStates.CAUGHT  # Set local state to CAUGHT
-		
+		soundbank.play("EAT_GHOST")
+
 		scoremachine.add_points(2000)
 		last_state = current_state  # Store the current state
 		nav_agent.target_position = tile_position_to_global_position(Vector2(16, 16))  # Set target to ghost shed

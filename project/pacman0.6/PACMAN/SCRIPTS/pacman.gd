@@ -10,7 +10,11 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING }
 @onready var scoremachine = $/root/BINARY/SCOREMACHINE
 @onready var gamestate = $/root/BINARY/GAMESTATE
 @onready var blinky = $/root/BINARY/ORIGINAL/CHARACTERS/BLINKY
+@onready var pinky = $/root/BINARY/ORIGINAL/CHARACTERS/PINKY
 @onready var zpu = $/root/BINARY/ZPU
+@onready var soundbank = $/root/BINARY/SOUNDBANK
+@onready var death1 = $/root/BINARY/SOUNDBANK/DEATH1
+@onready var pacman = $/root/BINARY/ORIGINAL/CHARACTERS/PACMAN
 
 var start_tile_pos = Vector2(16, 20)
 var speed = 120  # Adjust the speed as needed
@@ -27,6 +31,8 @@ func _ready():
 	startup_timer.start()
 	startmenu.connect("start_button_pressed", Callable(self, "_on_start_button_pressed"))
 	$Area2D.connect("body_entered", Callable(self, "_on_area_2d_body_entered"))  # Ensure the signal is connected
+	death1.connect("finished", Callable(self, "_on_death1_finished"))
+	
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -101,7 +107,21 @@ func _on_area_2d_body_entered(body):
 		emit_signal("pacman_ghost_collision", body.call("get_state"), body)  # Emit the collision signal with the ghost's state and instance
 		
 		if gamestate.get_state() in [States.SCATTER, States.CHASE]:  # Check if the game state is scatter or chase
+			gamestate.set_state(States.LOADING)
 			set_freeze(true)  # Freeze Pacman
-			zpu._on_start_button_pressed()
+			blinky.set_freeze(true)
+			pinky.set_freeze(true)
 			scoremachine.lose_life()
+			soundbank.play("DEATH1")
+			animated_sprite.play("gameover")
 			
+
+func _on_death1_finished():
+	if scoremachine.get_lives() > 0:
+		zpu._on_start_button_pressed()
+	else:
+		scoremachine.reset_score()
+		scoremachine.reset_lives()
+		scoremachine.reset_level_display()
+		zpu.start_loading_loop()
+		startmenu.visible = true
