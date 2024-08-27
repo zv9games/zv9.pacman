@@ -26,14 +26,14 @@ func handle_swipe():
 		if abs(swipe_vector.x) > abs(swipe_vector.y):
 			if swipe_vector.x > 0:
 				emit_signal("swipe_detected", Vector2.RIGHT)
-				print("swipe right")
+				
 			else:
 				emit_signal("swipe_detected", Vector2.LEFT)
-				print("swipe left")
+				
 		else:
 			if swipe_vector.y > 0:
 				emit_signal("swipe_detected", Vector2.DOWN)
-				print("swipe down")
+				
 			else:
 				emit_signal("swipe_detected", Vector2.UP)
-				print("swipe up")
+				

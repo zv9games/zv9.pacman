@@ -55,17 +55,7 @@ func _physics_process(delta):
 	gameboard.check_tile()
 
 func handle_input(delta):
-	desired_direction = Vector2.ZERO
-
-	if Input.is_action_pressed("ui_right"):
-		desired_direction.x += 1
-	if Input.is_action_pressed("ui_left"):
-		desired_direction.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		desired_direction.y += 1
-	if Input.is_action_pressed("ui_up"):
-		desired_direction.y -= 1
-
+	# desired_direction is set by swipe input or keyboard input
 	if desired_direction != Vector2.ZERO:
 		desired_direction = desired_direction.normalized()
 
@@ -76,8 +66,14 @@ func handle_input(delta):
 		# Continue moving in the current direction if blocked
 		velocity = velocity.normalized() * speed
 
+	# Log only when desired_direction changes
+	if velocity != Vector2.ZERO:
+		print("Desired direction: ", desired_direction)
+		print("Velocity: ", velocity)
+
 func handle_swipe_input(direction: Vector2):
 	desired_direction = direction
+	print("Swipe detected, direction: ", direction)
 
 func can_move_in_direction(direction: Vector2) -> bool:
 	var future_position = position + direction * speed * get_physics_process_delta_time()
@@ -97,7 +93,7 @@ func update_animation():
 		animated_sprite.stop()
 
 func set_freeze(freeze: bool) -> void:
-	print("set_freeze called with: ", freeze)
+	
 	is_frozen = freeze
 	if is_frozen:
 		animated_sprite.stop()  # Stop animation when frozen
