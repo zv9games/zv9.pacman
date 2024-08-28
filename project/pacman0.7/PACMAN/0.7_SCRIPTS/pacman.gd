@@ -22,7 +22,7 @@ enum FrightStates { NORMAL, CAUGHT }
 @onready var camera = $/root/BINARY/Camera2D
 
 var start_pos = Vector2(16, 20)
-var speed = 150
+var speed = 130
 var desired_direction = Vector2.ZERO
 var current_direction = Vector2.ZERO
 var is_frozen = false
@@ -76,7 +76,6 @@ func handle_input():
 		else:
 			current_direction = Vector2.ZERO
 
-	# Only print debug information if the input vector has changed
 	if input_vector != last_input_vector:
 		print("Input vector: ", input_vector, " Desired direction: ", desired_direction, " Current direction: ", current_direction)
 		last_input_vector = input_vector
@@ -84,7 +83,7 @@ func handle_input():
 func handle_swipe_input(direction: Vector2):
 	var current_time = Time.get_ticks_msec() / 1000.0
 	if current_time - last_click_time < debounce_time:
-		return  # Ignore this swipe if it's within the debounce time
+		return
 
 	last_click_time = current_time
 	desired_direction = direction.normalized()
@@ -93,15 +92,17 @@ func handle_swipe_input(direction: Vector2):
 	else:
 		current_direction = Vector2.ZERO
 
-	# Only print debug information if the swipe direction has changed
 	if direction != last_swipe_direction:
 		print("Swipe detected, direction: ", direction, " Desired direction: ", desired_direction, " Current direction: ", current_direction)
 		last_swipe_direction = direction
 
-func can_move_in_direction(direction: Vector2) -> bool:
-	var future_position = position + direction * speed * get_physics_process_delta_time()
-	var future_tile_pos = global_position_to_tile_position(future_position)
-	return !gameboard.is_tile_blocked(future_tile_pos)
+func can_move_in_direction(direction: Vector2, look_ahead: int = 3) -> bool:
+	for i in range(1, look_ahead + 1):
+		var future_position = position + direction * speed * get_physics_process_delta_time() * i
+		var future_tile_pos = global_position_to_tile_position(future_position)
+		if gameboard.is_tile_blocked(future_tile_pos):
+			return false
+	return true
 
 func update_animation():
 	if current_direction.x > 0:
