@@ -6,16 +6,16 @@ signal online
 @onready var loading = $"/root/BINARY/OPEN/LOADING"
 @onready var timer = $/root/BINARY/STARTMENU/timermenu
 @onready var zpu = $/root/BINARY/ZPU
-@onready var lopacman = $/root/BINARY/OPEN/LOADING_PACMAN
-@onready var loblinky = $/root/BINARY/OPEN/LOADING_BLINKY
-@onready var lopinky = $/root/BINARY/OPEN/LOADING_PINKY
-@onready var loinky = $/root/BINARY/OPEN/LOADING_INKY
-@onready var loclyde = $/root/BINARY/OPEN/LOADING_CLYDE
-@onready var levelend = $/root/BINARY/ORIGINAL/MAP/LEVELEND
-@onready var blinky = $/root/BINARY/ORIGINAL/CHARACTERS/BLINKY
-@onready var pinky = $/root/BINARY/ORIGINAL/CHARACTERS/PINKY
-@onready var inky = $/root/BINARY/ORIGINAL/CHARACTERS/INKY
-@onready var clyde = $/root/BINARY/ORIGINAL/CHARACTERS/CLYDE
+@onready var lopacman = $"/root/BINARY/OPEN/LOADING_PACMAN"
+@onready var loblinky = $"/root/BINARY/OPEN/LOADING_BLINKY"
+@onready var lopinky = $"/root/BINARY/OPEN/LOADING_PINKY"
+@onready var loinky = $"/root/BINARY/OPEN/LOADING_INKY"
+@onready var loclyde = $"/root/BINARY/OPEN/LOADING_CLYDE"
+@onready var levelend = $"/root/BINARY/ORIGINAL/MAP/LEVELEND"
+@onready var blinky = $"/root/BINARY/ORIGINAL/CHARACTERS/BLINKY"
+@onready var pinky = $"/root/BINARY/ORIGINAL/CHARACTERS/PINKY"
+@onready var inky = $"/root/BINARY/ORIGINAL/CHARACTERS/INKY"
+@onready var clyde = $"/root/BINARY/ORIGINAL/CHARACTERS/CLYDE"
 
 var tile_letters = {
 	'A': Vector2i(3, 12), 'B': Vector2i(4, 12), 'C': Vector2i(5, 12), 'D': Vector2i(6, 12),
@@ -56,7 +56,6 @@ func _ready():
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
-	
 	
 	# Start the typing effect
 	timer.wait_time = 0.01  # Adjust the typing speed as needed
@@ -129,20 +128,16 @@ func select_option():
 	match selected_text:
 		"ORIGINAL":
 			print("Original selected")
-			loading.visible = false
-			lopacman.visible = false
-			loblinky.visible = false
-			lopinky.visible = false
-			loinky.visible = false
-			loclyde.visible = false
-			levelend.visible = false
+			hide_start_menu()
 			zpu.start_game()
 			# Add code to start the original game mode
 		"EXPANSIVE":
 			print("Expansive selected")
+			hide_start_menu()
 			# Add code to start the expansive game mode
 		"INFINITY":
 			print("Infinity selected")
+			hide_start_menu()
 			# Add code to start the infinity game mode
 
 func handle_menu_option(tile_pos):
@@ -153,21 +148,27 @@ func handle_menu_option(tile_pos):
 			if tile_pos == start_pos + Vector2i(i, 0):
 				match text:
 					"ORIGINAL":
-						loading.visible = false
-						lopacman.visible = false
-						loblinky.visible = false
-						lopinky.visible = false
-						loinky.visible = false
-						loclyde.visible = false
-						levelend.visible = false
-						blinky.visible = false
-						pinky.visible = false
-						inky.visible = false
-						clyde.visible = false
+						hide_start_menu()
 						zpu.start_game()
 					"EXPANSIVE":
 						print("Expansive selected")
+						hide_start_menu()
 						# Add code to start the expansive game mode
 					"INFINITY":
 						print("Infinity selected")
+						hide_start_menu()
 						# Add code to start the infinity game mode
+
+func hide_start_menu():
+	loading.visible = false
+	lopacman.visible = false
+	loblinky.visible = false
+	lopinky.visible = false
+	loinky.visible = false
+	loclyde.visible = false
+	levelend.visible = false
+	blinky.visible = false
+	pinky.visible = false
+	inky.visible = false
+	clyde.visible = false
+	set_process_input(false)  # Disable input processing for the start menu

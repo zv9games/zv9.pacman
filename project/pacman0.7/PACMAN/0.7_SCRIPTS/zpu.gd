@@ -53,6 +53,7 @@ func reveal_gameboard():
 	
 func start_game():
 	loading.stop_loading_screen()
+	startmenu.visible = false
 	gameboard.count_dots()
 	soundbank.stop_all_sounds()
 	soundbank.stop_sound_timers()
