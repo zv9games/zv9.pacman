@@ -1,7 +1,6 @@
 extends Control
 
 signal online
-signal swipe_detected(direction: Vector2)
 
 @onready var gamestate = $"/root/BINARY/GAMESTATE"
 @onready var loading = $"/root/BINARY/OPEN/LOADING"
@@ -46,11 +45,6 @@ var black_tile_atlas = Vector2i(8, 10)
 var selector_tile_atlas = Vector2i(8, 14)
 var selector_index = 0  # Index of the current selection
 
-var swipe_start_position = Vector2.ZERO
-var swipe_end_position = Vector2.ZERO
-var swiping = false
-var swipe_threshold = 20  # Minimum distance for a swipe to be recognized
-
 func _ready():
 	var timer1 = Timer.new()
 	timer1.wait_time = 0.2  # Adjust the delay as needed
@@ -59,9 +53,6 @@ func _ready():
 	add_child(timer1)
 	timer1.start()
 	clear_tiles()
-	
-	# Connect swipe signal
-	connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -109,19 +100,7 @@ func _type_next_letter():
 		timer.stop()
 
 func _input(event):
-	if event is InputEventScreenTouch:
-		if event.pressed:
-			swiping = true
-			swipe_start_position = event.position
-		else:
-			swiping = false
-			swipe_end_position = event.position
-			handle_swipe()
-			select_option()  # Treat tap as Enter key press
-	elif event is InputEventScreenDrag:
-		if swiping:
-			swipe_end_position = event.position
-	elif event is InputEventMouseButton and event.pressed:
+	if event is InputEventMouseButton and event.pressed:
 		var mouse_pos = event.position
 		var tile_pos = loading.local_to_map(mouse_pos)
 		handle_menu_option(tile_pos)
@@ -134,29 +113,6 @@ func _input(event):
 			elif event.keycode == KEY_ENTER:
 				select_option()
 
-func handle_swipe():
-	var swipe_vector = swipe_end_position - swipe_start_position
-	if swipe_vector.length() >= swipe_threshold:
-		if abs(swipe_vector.x) > abs(swipe_vector.y):
-			if swipe_vector.x > 0:
-				emit_signal("swipe_detected", Vector2.RIGHT)
-			else:
-				emit_signal("swipe_detected", Vector2.LEFT)
-		else:
-			if swipe_vector.y > 0:
-				emit_signal("swipe_detected", Vector2.DOWN)
-			else:
-				emit_signal("swipe_detected", Vector2.UP)
-
-func _on_swipe_detected(direction: Vector2):
-	print("Swipe detected, direction: ", direction)
-	if direction == Vector2.UP:
-		move_selector(-1)
-	elif direction == Vector2.DOWN:
-		move_selector(1)
-	elif direction == Vector2.LEFT or direction == Vector2.RIGHT:
-		select_option()
-
 func move_selector(direction: int):
 	# Clear the current selector position
 	loading.set_cell(menu_texts[selector_index]["start_pos"] - Vector2i(1, 0), 0, black_tile_atlas)
@@ -167,6 +123,7 @@ func move_selector(direction: int):
 
 func update_selector_position():
 	loading.set_cell(menu_texts[selector_index]["start_pos"] - Vector2i(1, 0), 0, selector_tile_atlas)
+
 func select_option():
 	var selected_text = menu_texts[selector_index]["text"]
 	match selected_text:
