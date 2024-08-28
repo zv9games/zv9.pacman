@@ -98,11 +98,6 @@ func stop_sound_timers():
 			timer.stop()
 			
 func _on_start_finished():
-	blinky.visible = true
-	pinky.visible = true
-	inky.visible = true
-	clyde.visible = true
 	pacman.set_freeze(false)
-	gameboard.count_dots()
 	gameboard.play_siren()
-	gamestate.set_state(States.INITIAL)
+	

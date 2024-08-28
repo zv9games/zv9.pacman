@@ -34,7 +34,7 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
-	count_dots()
+	
 	sirentimer.connect("timeout", Callable(self, "_on_siren_timer_timeout"))
 	soundbank.connect("start_sound_finished", Callable(self, "_on_start_sound_finished"))
 	connect("big_dot_eaten", Callable(self, "_on_big_dot_eaten"))
@@ -123,8 +123,7 @@ func check_last_dot_eaten():
 			return
 	
 	emit_signal("last_dot_eaten")  # Emit signal when the last dot is eaten
-	scoremachine.add_level()
-	zpu.start_game()
+	
 	
 
 func get_atlas_coordinates(tile_pos: Vector2i) -> Vector2i:
@@ -158,7 +157,7 @@ func play_siren():
 		soundbank.play("SIREN1")
 
 func _on_start_sound_finished():
-	count_dots()
+	
 	play_siren()
 
 func _on_big_dot_eaten():

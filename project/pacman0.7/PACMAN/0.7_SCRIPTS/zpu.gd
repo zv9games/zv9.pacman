@@ -52,13 +52,15 @@ func reveal_gameboard():
 	clyde.visible = true
 	
 func start_game():
-	gamestate.set_state(States.INITIAL)
+	loading.stop_loading_screen()
+	gameboard.count_dots()
 	soundbank.stop_all_sounds()
 	soundbank.stop_sound_timers()
 	pacman.pac_start_pos()
 	pacman.set_freeze(true)
 	reveal_gameboard()
 	soundbank.play("START")
+	gamestate.set_state(States.INITIAL)
 	
 func _on_pacman_ghost_collision(ghost_state, ghost):
 	if gamestate.get_state() == States.FRIGHTENED and ghost_state == FrightStates.NORMAL:
@@ -68,10 +70,9 @@ func _on_pacman_ghost_collision(ghost_state, ghost):
 	elif gamestate.get_state() in [States.CHASE, States.SCATTER] and ghost_state == FrightStates.NORMAL:
 		scoremachine.lose_life()
 		gamestate.set_state(States.INITIAL)
-		if scoremachine.lives < 0:
-			gameboard.reset_dots()
-			gamestate.set_state(States.LOADING)
+		if scoremachine.lives <= 0:
 			handle_game_over()
+
 						
 func handle_game_over():
 	gameboard.visible = false
@@ -86,6 +87,9 @@ func handle_game_over():
 	pinky.visible = false
 	inky.visible = false
 	clyde.visible = false
+	gamestate.set_state(States.LOADING)
 
 func _on_last_dot_eaten():
 	gameboard.reset_dots()
+	scoremachine.add_level()
+	start_game()

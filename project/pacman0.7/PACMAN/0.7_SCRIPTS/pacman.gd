@@ -24,7 +24,7 @@ enum FrightStates { NORMAL, CAUGHT }
 
 
 var start_pos = Vector2(16, 20)
-var speed = 130  # Adjust the speed as needed
+var speed = 230  # Adjust the speed as needed
 var desired_direction = Vector2.ZERO
 var current_direction = Vector2.ZERO
 var is_frozen = false  # Flag to track if Pacman is frozen
@@ -119,7 +119,7 @@ func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
 
 func _on_area_2d_body_entered(body):
 	if body.name in ["BLINKY", "PINKY", "INKY", "CLYDE"]:  # Check if the body is one of the ghosts
-		emit_signal("pacman_ghost_collision", body.call("get_state"), body)  # Emit the collision signal with the ghost's state and instance
+		#emit_signal("pacman_ghost_collision", body.call("get_state"), body)  # Emit the collision signal with the ghost's state and instance
 		
 		if gamestate.get_state() in [States.SCATTER, States.CHASE]:  # Check if the game state is scatter or chase
 			gamestate.set_state(States.LOADING)

@@ -141,6 +141,8 @@ func add_level():
 	level += 1
 	emit_signal("level_changed", level)
 	display_level_number(level)
+	gameboard.reset_dots()
+
 
 func reset_level_display():
 	level = 1

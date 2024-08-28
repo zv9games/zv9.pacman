@@ -56,7 +56,7 @@ func _ready():
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
-	clear_tiles()
+	
 	
 	# Start the typing effect
 	timer.wait_time = 0.01  # Adjust the typing speed as needed
@@ -136,11 +136,6 @@ func select_option():
 			loinky.visible = false
 			loclyde.visible = false
 			levelend.visible = false
-			blinky.visible = false
-			pinky.visible = false
-			inky.visible = false
-			clyde.visible = false
-			loading.stop_loading_screen()
 			zpu.start_game()
 			# Add code to start the original game mode
 		"EXPANSIVE":
@@ -158,7 +153,18 @@ func handle_menu_option(tile_pos):
 			if tile_pos == start_pos + Vector2i(i, 0):
 				match text:
 					"ORIGINAL":
-						pass
+						loading.visible = false
+						lopacman.visible = false
+						loblinky.visible = false
+						lopinky.visible = false
+						loinky.visible = false
+						loclyde.visible = false
+						levelend.visible = false
+						blinky.visible = false
+						pinky.visible = false
+						inky.visible = false
+						clyde.visible = false
+						zpu.start_game()
 					"EXPANSIVE":
 						print("Expansive selected")
 						# Add code to start the expansive game mode

@@ -87,11 +87,7 @@ func start_loading_screen():
 	current_character_index = 0
 	call_deferred("start_character_movement")
 	print("Loading screen started.")
-	pacman.visible = false
-	blinky.visible = false
-	pinky.visible = false
-	inky.visible = false
-	clyde.visible = false
+	
 
 func restart_loading_screen():
 	print("Restarting loading screen...")
