@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://c6kdf54s6cx47"]
+[gd_scene load_steps=21 format=4 uid="uid://c6kdf54s6cx47"]
 
 [ext_resource type="PackedScene" uid="uid://k4omdcwbv54r" path="res://PACMAN/0.7_SCENES/original.tscn" id="1_oqrbh"]
 [ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/binary.gd" id="1_y67ly"]
@@ -13,14 +13,13 @@
 [ext_resource type="PackedScene" uid="uid://c4i832tjkp4fl" path="res://PACMAN/0.7_SCENES/startmenu.tscn" id="8_7j70h"]
 [ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/loading.gd" id="9_cpaes"]
 [ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/scoremachine.gd" id="10_nnycg"]
-[ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/soundbank.gd" id="11_1fqaj"]
 [ext_resource type="PackedScene" uid="uid://cbqn181v0eeqh" path="res://PACMAN/0.5_SCENES/loading_pacman.tscn" id="12_jsjvt"]
 [ext_resource type="PackedScene" uid="uid://w2qpljoc1rks" path="res://PACMAN/0.5_SCENES/loading_blinky.tscn" id="13_7jrrm"]
 [ext_resource type="PackedScene" uid="uid://dqdo7r8pb5unb" path="res://PACMAN/0.5_SCENES/loading_pinky.tscn" id="14_dfk3w"]
 [ext_resource type="PackedScene" uid="uid://dlvehnxabu0gi" path="res://PACMAN/0.7_SCENES/loading.tscn" id="15_04ale"]
 [ext_resource type="PackedScene" uid="uid://dyd6vj6x8x1fe" path="res://PACMAN/0.5_SCENES/loading_inky.tscn" id="15_unnng"]
 [ext_resource type="PackedScene" uid="uid://b82puqpeu5dxo" path="res://PACMAN/0.5_SCENES/loading_clyde.tscn" id="16_fv3d2"]
-[ext_resource type="Script" path="res://PACMAN/0.7_SCENES/camera_2d.gd" id="21_3gi8e"]
+[ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/camera_2d.gd" id="21_3gi8e"]
 
 [node name="BINARY" type="Node"]
 script = ExtResource("1_y67ly")
@@ -41,7 +40,6 @@ script = ExtResource("7_pt8fu")
 script = ExtResource("10_nnycg")
 
 [node name="SOUNDBANK" parent="." instance=ExtResource("7_536yg")]
-script = ExtResource("11_1fqaj")
 
 [node name="STARTMENU" parent="." instance=ExtResource("8_7j70h")]
 offset_left = 112.0
