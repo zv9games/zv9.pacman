@@ -19,6 +19,7 @@ func _input(event):
 			if is_swiping:
 				var end_position = event.position
 				var swipe_vector = end_position - start_position
+				print("Touch ended at: ", end_position, " Swipe vector: ", swipe_vector)
 				if swipe_vector.length() >= swipe_threshold and swipe_timer <= swipe_time:
 					emit_signal("swipe_detected", swipe_vector.normalized())
 					print("Swipe detected, direction: ", swipe_vector.normalized())
