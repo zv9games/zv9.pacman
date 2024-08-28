@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3xc528t1imhv"]
+
+[ext_resource type="Script" path="res://PACMAN/0.5_SCRIPTS/SCORE_MACHINE.gd" id="1_hpknv"]
+
+[node name="SCORE_MACHINE" type="Node"]
+script = ExtResource("1_hpknv")

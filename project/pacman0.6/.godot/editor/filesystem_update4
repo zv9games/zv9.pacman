@@ -1,4 +1,10 @@
 res://PACMAN/SCENES/binary.tscn
 res://PACMAN/ASSETS/pacman_tilemap.tres
+res://PACMAN/SCRIPTS/scoremachine.gd
+res://PACMAN/SCRIPTS/gamestate.gd
+res://PACMAN/SCRIPTS/soundbank.gd
 res://PACMAN/SCRIPTS/pacman.gd
-res://PACMAN/SCRIPTS/swipe_detector.gd
+res://PACMAN/SCENES/soundbank.tscn
+res://PACMAN/SCRIPTS/gameboard.gd
+res://PACMAN/SCRIPTS/zpu.gd
+res://PACMAN/SCENES/original.tscn
