@@ -1,0 +1,56 @@
+[gd_scene load_steps=15 format=3 uid="uid://cpti85q7aklbk"]
+
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/binary.gd" id="1_tnd0n"]
+[ext_resource type="PackedScene" uid="uid://k4omdcwbv54r" path="res://PACMAN/0.7_SCENES/original.tscn" id="2_k4nmh"]
+[ext_resource type="PackedScene" uid="uid://bhgjp5xjhbg5c" path="res://PACMAN/0.7_SCENES/expansive.tscn" id="3_8dl1e"]
+[ext_resource type="PackedScene" uid="uid://di4mhxwgcq11v" path="res://PACMAN/0.7_SCENES/infinity.tscn" id="4_hs2ue"]
+[ext_resource type="PackedScene" uid="uid://bm8kyxiumc3jh" path="res://PACMAN/0.7_SCENES/zpu.tscn" id="5_3l3em"]
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/zpu.gd" id="6_fmt2x"]
+[ext_resource type="PackedScene" uid="uid://bf7d1yfmffbq0" path="res://PACMAN/0.7_SCENES/gamestate.tscn" id="7_e6iqw"]
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/gamestate.gd" id="8_ldrj6"]
+[ext_resource type="PackedScene" uid="uid://cb2le2bvp8yt" path="res://PACMAN/0.7_SCENES/scoremachine.tscn" id="9_w3xek"]
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/scoremachine.gd" id="10_0y0kl"]
+[ext_resource type="PackedScene" uid="uid://c576kyxpixkxw" path="res://PACMAN/0.7_SCENES/soundbank.tscn" id="11_cdype"]
+[ext_resource type="PackedScene" uid="uid://c4i832tjkp4fl" path="res://PACMAN/0.7_SCENES/startmenu.tscn" id="12_6typs"]
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/soundbank.gd" id="12_g035h"]
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/startmenu.gd" id="14_qefbt"]
+
+[node name="BINARY" type="Node"]
+script = ExtResource("1_tnd0n")
+
+[node name="LEVELS" type="Node" parent="."]
+
+[node name="ORIGINAL" parent="LEVELS" instance=ExtResource("2_k4nmh")]
+visible = false
+
+[node name="EXPANSIVE" parent="LEVELS" instance=ExtResource("3_8dl1e")]
+visible = false
+
+[node name="INFINITY" parent="LEVELS" instance=ExtResource("4_hs2ue")]
+visible = false
+
+[node name="GAME" type="Node" parent="."]
+
+[node name="ZPU" parent="GAME" instance=ExtResource("5_3l3em")]
+script = ExtResource("6_fmt2x")
+
+[node name="GAMESTATE" parent="GAME" instance=ExtResource("7_e6iqw")]
+script = ExtResource("8_ldrj6")
+
+[node name="SCOREMACHINE" parent="GAME" instance=ExtResource("9_w3xek")]
+script = ExtResource("10_0y0kl")
+
+[node name="SOUNDBANK" parent="GAME" instance=ExtResource("11_cdype")]
+script = ExtResource("12_g035h")
+
+[node name="STARTMENU" parent="GAME" instance=ExtResource("12_6typs")]
+visible = false
+offset_left = 112.0
+offset_top = 104.0
+offset_right = 416.0
+offset_bottom = 280.0
+script = ExtResource("14_qefbt")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+anchor_mode = 0

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://4sbibjpa6i64"]
+
+[ext_resource type="Script" path="res://PACMAN/0.5_SCRIPTS/ENDGAME.gd" id="1_ujyc8"]
+
+[node name="ENDGAME" type="Node"]
+script = ExtResource("1_ujyc8")
+
+[node name="ToggleTimer" type="Timer" parent="."]
+wait_time = 0.5

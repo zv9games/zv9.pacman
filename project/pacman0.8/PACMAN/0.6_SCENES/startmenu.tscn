@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c4i832tjkp4fl"]
+
+[node name="STARTMENU" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 528.0
+offset_bottom = 520.0
+
+[node name="BUTTON" type="Button" parent="."]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 248.0
+offset_right = 288.0
+offset_bottom = 280.0
+text = "START"

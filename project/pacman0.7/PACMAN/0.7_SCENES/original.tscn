@@ -27,8 +27,8 @@ script = ExtResource("4_lyxo4")
 
 [node name="PACMAN" parent="CHARACTERS" instance=ExtResource("3_05fgb")]
 position = Vector2(113, -78)
-motion_mode = 0
 wall_min_slide_angle = 0.0
+safe_margin = 0.01
 
 [node name="BLINKY" parent="CHARACTERS" instance=ExtResource("4_a4ple")]
 position = Vector2(163, -82)

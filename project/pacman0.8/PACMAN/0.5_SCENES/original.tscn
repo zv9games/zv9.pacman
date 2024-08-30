@@ -1,0 +1,50 @@
+[gd_scene load_steps=12 format=3 uid="uid://ld3vxp6k0iyv"]
+
+[ext_resource type="PackedScene" uid="uid://c7occx34vmua0" path="res://PACMAN/0.5_SCENES/levelend2.tscn" id="1_j3lwj"]
+[ext_resource type="PackedScene" uid="uid://icn7hwscdgdv" path="res://PACMAN/0.5_SCENES/gameboard2.tscn" id="3_bfo1f"]
+[ext_resource type="PackedScene" uid="uid://vjakbalgdgn1" path="res://PACMAN/0.5_SCENES/navigation_region_2d.tscn" id="3_ybf02"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/GAMEBOARD5.gd" id="4_c0u3p"]
+[ext_resource type="Script" path="res://PACMAN/0.6_SCRIPTS/swipe_detector.gd" id="5_2px15"]
+[ext_resource type="PackedScene" uid="uid://c4aixj8uopcyw" path="res://PACMAN/0.5_SCENES/pacman.tscn" id="5_wtl7d"]
+[ext_resource type="PackedScene" uid="uid://df61lxlv43p5b" path="res://PACMAN/0.5_SCENES/blinky.tscn" id="6_uyt83"]
+[ext_resource type="PackedScene" uid="uid://bptbiuhyynb8v" path="res://PACMAN/0.5_SCENES/pinky.tscn" id="7_eed8c"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/BLINKY5.gd" id="8_dkx64"]
+[ext_resource type="PackedScene" uid="uid://cybrpb3audgps" path="res://PACMAN/0.5_SCENES/inky.tscn" id="8_qdab0"]
+[ext_resource type="PackedScene" uid="uid://daond4rstthck" path="res://PACMAN/0.5_SCENES/clyde.tscn" id="9_ndhqq"]
+
+[node name="ORIGINAL" type="Node2D"]
+
+[node name="MAP" type="Node2D" parent="."]
+
+[node name="LEVELEND" parent="MAP" instance=ExtResource("1_j3lwj")]
+
+[node name="NAV_REG" parent="MAP" instance=ExtResource("3_ybf02")]
+
+[node name="GAMEBOARD" parent="MAP" instance=ExtResource("3_bfo1f")]
+script = ExtResource("4_c0u3p")
+
+[node name="Camera2D" type="Camera2D" parent="MAP/GAMEBOARD"]
+anchor_mode = 0
+zoom = Vector2(1.043, 1.17)
+script = ExtResource("5_2px15")
+
+[node name="CHARACTERS" type="Node2D" parent="."]
+
+[node name="PINKY" parent="CHARACTERS" instance=ExtResource("7_eed8c")]
+position = Vector2(280, 272)
+collision_mask = 6
+
+[node name="INKY" parent="CHARACTERS" instance=ExtResource("8_qdab0")]
+position = Vector2(248, 272)
+collision_mask = 6
+
+[node name="CLYDE" parent="CHARACTERS" instance=ExtResource("9_ndhqq")]
+position = Vector2(224, 272)
+collision_mask = 6
+
+[node name="PACMAN" parent="CHARACTERS" instance=ExtResource("5_wtl7d")]
+position = Vector2(264, 328)
+
+[node name="BLINKY" parent="CHARACTERS" instance=ExtResource("6_uyt83")]
+position = Vector2(304, 272)
+script = ExtResource("8_dkx64")
