@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://barwj8ee87sjm"]
+[gd_scene load_steps=25 format=3 uid="uid://barwj8ee87sjm"]
 
 [ext_resource type="Texture2D" uid="uid://t0ly7cdhjtht" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_down1.png" id="1_jsjj2"]
 [ext_resource type="Texture2D" uid="uid://cck4fk27qvuel" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_down2.png" id="2_k2ugg"]
@@ -145,10 +145,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_uo1ce"]
 radius = 7.8
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_hi7cm"]
-radius = 8.0
-
-[node name="INKY" type="CharacterBody2D"]
+[node name="LOADING_INKY" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
 motion_mode = 1
@@ -161,9 +158,3 @@ animation = &"move_up"
 shape = SubResource("CircleShape2D_uo1ce")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_hi7cm")

@@ -1,6 +1,5 @@
-[gd_scene load_steps=27 format=3 uid="uid://b0jhssew6p4d1"]
+[gd_scene load_steps=26 format=3 uid="uid://b0jhssew6p4d1"]
 
-[ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/blinky.gd" id="1_4ddy3"]
 [ext_resource type="Texture2D" uid="uid://t0ly7cdhjtht" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_down1.png" id="1_hd805"]
 [ext_resource type="Texture2D" uid="uid://cck4fk27qvuel" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_down2.png" id="2_xcpku"]
 [ext_resource type="Texture2D" uid="uid://cuflmn4av14ch" path="res://PACMAN/ASSETS/EATEN_ANI/eaten_left1.png" id="3_hh2pn"]
@@ -153,7 +152,6 @@ collision_layer = 2
 collision_mask = 8
 motion_mode = 1
 wall_min_slide_angle = 0.0
-script = ExtResource("1_4ddy3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3nq5y")

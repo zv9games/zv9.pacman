@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://c576kyxpixkxw"]
 
-[ext_resource type="Script" path="res://PACMAN/0.7_SCRIPTS/soundbank.gd" id="1_8av5m"]
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/soundbank.gd" id="1_8jfob"]
 [ext_resource type="AudioStream" uid="uid://30umx3aa63xx" path="res://PACMAN/ASSETS/SOUNDS/siren0.wav" id="1_rwb51"]
 [ext_resource type="AudioStream" uid="uid://6346s3e0k4qr" path="res://PACMAN/ASSETS/SOUNDS/siren1.wav" id="2_3njuk"]
 [ext_resource type="AudioStream" uid="uid://bo5eb7j5h1sh1" path="res://PACMAN/ASSETS/SOUNDS/siren3.wav" id="3_pe6k1"]
@@ -19,7 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://mm33ep6xbwlm" path="res://PACMAN/ASSETS/SOUNDS/eyes.wav" id="16_nhv41"]
 
 [node name="SOUNDBANK" type="Node"]
-script = ExtResource("1_8av5m")
+script = ExtResource("1_8jfob")
 
 [node name="SIRENTIMER" type="Timer" parent="."]
 wait_time = 0.35
