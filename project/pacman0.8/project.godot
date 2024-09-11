@@ -19,7 +19,9 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=550
 window/size/viewport_height=550
+window/size/mode=3
 window/stretch/mode="viewport"
+window/handheld/orientation=1
 
 [rendering]
 
