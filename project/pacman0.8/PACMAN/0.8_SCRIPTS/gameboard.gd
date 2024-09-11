@@ -16,7 +16,6 @@ signal last_dot_eaten
 @onready var pacman = $/root/BINARY/LEVELS/ORIGINAL/CHARACTERS/PACMAN
 
 
-
 var blocked_positions = [Vector2i(1, 16), Vector2i(31, 16)]
 var tile_replace = {Vector2i(7, 8): true, Vector2i(8, 8): true}
 var tile_toolbox = {Vector2i(7, 8): Vector2i(8, 10), Vector2i(8, 8): Vector2i(8, 10)}
@@ -29,6 +28,8 @@ var current_state
 var original_tiles = {}
 var eat_sound_toggle = true
 
+var walkable_tiles = { Vector2i(8, 10): true }
+
 func _ready():
 	self.visible = false
 	var timer = Timer.new()
@@ -40,7 +41,7 @@ func _ready():
 	
 	connect("big_dot_eaten", Callable(self, "_on_big_dot_eaten"))
 	connect("dot_eaten", Callable(self, "_on_dot_eaten"))
-
+	
 func _emit_online_signal():
 	emit_signal("online", self.name)
 	
@@ -86,7 +87,6 @@ func check_tile():
 	var tile_pos = local_to_map(local_pos)
 	var tile_pos_i = Vector2i(floor(tile_pos.x), floor(tile_pos.y))
 	var atlas_coords = get_atlas_coordinates(tile_pos_i)
-	
 	
 	# Check if the position is blocked
 	if blocked_positions.has(tile_pos_i):
@@ -155,14 +155,11 @@ func play_siren():
 	elif dots_left <= 255:
 		soundbank.play("SIREN1")
 
-
-
 func _on_big_dot_eaten():
 	gamestate.set_state(States.FRIGHTENED)
 	gamestate.restart_frightened_timer()
 	frighttimer.start()
 	
-
 func _on_dot_eaten():
 	if eat_sound_toggle:
 		soundbank.play("EAT1")

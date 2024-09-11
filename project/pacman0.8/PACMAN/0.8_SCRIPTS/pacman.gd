@@ -23,24 +23,20 @@ enum FrightStates { NORMAL, CAUGHT }
 
 var start_pos = Vector2(16, 20)
 var speed = 130
-var desired_direction = Vector2.ZERO
-var current_direction = Vector2.ZERO
 var is_frozen = false
-var last_input_vector = Vector2.ZERO  # Track the last input vector
-var last_swipe_direction = Vector2.ZERO  # Track the last swipe direction
-var last_click_time = 0.0  # Track the last click time
-var debounce_time = 0.2  # Time in seconds to debounce clicks
+var input_direction = Vector2.ZERO
+var input_history = []
+
 
 func _ready():
 	pac_start_pos()
 	var timer = Timer.new()
-	timer.wait_time = 0.2
+	timer.wait_time = 0.5
 	timer.one_shot = true
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
 	death1.connect("finished", Callable(self, "_on_death1_finished"))
-	camera.connect("swipe_detected", Callable(self, "handle_swipe_input"))  # Connect to swipe detector
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -48,74 +44,24 @@ func _emit_online_signal():
 func pac_start_pos():
 	position = tile_position_to_global_position(start_pos)
 
-func _physics_process(delta):
-	if is_frozen:
-		return
-	handle_input()
-	velocity = current_direction * speed
-	move_and_slide()
-	update_animation()
-	gameboard.check_tile()
+func get_input():
+	input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	velocity = input_direction * speed
+	store_input(input_direction)
 
-func handle_input():
-	var input_vector = Vector2.ZERO
-
-	if Input.is_action_just_pressed("ui_up"):
-		input_vector.y -= 1
-	if Input.is_action_just_pressed("ui_down"):
-		input_vector.y += 1
-	if Input.is_action_just_pressed("ui_left"):
-		input_vector.x -= 1
-	if Input.is_action_just_pressed("ui_right"):
-		input_vector.x += 1
-
-	if input_vector != Vector2.ZERO:
-		desired_direction = input_vector.normalized()
-		if can_move_in_direction(desired_direction, 5):  # Search 5 tiles ahead
-			current_direction = desired_direction
-		else:
-			# Keep moving in the current direction if the desired direction is blocked
-			if can_move_in_direction(current_direction, 5):  # Search 5 tiles ahead
-				current_direction = current_direction
-			else:
-				current_direction = Vector2.ZERO
-
-	if input_vector != last_input_vector:
-		print("Input vector: ", input_vector, " Desired direction: ", desired_direction, " Current direction: ", current_direction)
-		last_input_vector = input_vector
-
-func handle_swipe_input(direction: Vector2):
-	var current_time = Time.get_ticks_msec() / 1000.0
-	if current_time - last_click_time < debounce_time:
-		return
-
-	last_click_time = current_time
-	desired_direction = direction.normalized()
-	if can_move_in_direction(desired_direction, 5):  # Search 5 tiles ahead
-		current_direction = desired_direction
-	else:
-		current_direction = Vector2.ZERO
-
-	if direction != last_swipe_direction:
-		print("Swipe detected, direction: ", direction, " Desired direction: ", desired_direction, " Current direction: ", current_direction)
-		last_swipe_direction = direction
-
-func can_move_in_direction(direction: Vector2, look_ahead: int = 5) -> bool:
-	for i in range(1, look_ahead + 1):
-		var future_position = position + direction * speed * get_physics_process_delta_time() * i
-		var future_tile_pos = global_position_to_tile_position(future_position)
-		if gameboard.is_tile_blocked(future_tile_pos):
-			return false
-	return true
+func store_input(direction: Vector2):
+	input_history.append(direction)
+	if input_history.size() > 5000:  # Limit to the last 100 inputs
+		input_history.pop_front()
 
 func update_animation():
-	if current_direction.x > 0:
+	if input_direction.x > 0:
 		animated_sprite.play("move_right")
-	elif current_direction.x < 0:
+	elif input_direction.x < 0:
 		animated_sprite.play("move_left")
-	elif current_direction.y > 0:
+	elif input_direction.y > 0:
 		animated_sprite.play("move_down")
-	elif current_direction.y < 0:
+	elif input_direction.y < 0:
 		animated_sprite.play("move_up")
 	else:
 		animated_sprite.stop()
@@ -133,6 +79,10 @@ func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
 	var local_pos = gameboard.map_to_local(tile_pos)
 	var global_pos = gameboard.to_global(local_pos)
 	return global_pos
+
+
+
+
 
 func _on_area_2d_body_entered(body):
 	print("Body entered: ", body.name)
@@ -154,3 +104,14 @@ func _on_death1_finished():
 		gamestate.set_state(States.INITIAL)
 	else:
 		zpu.handle_game_over()
+
+func _physics_process(delta):
+	if is_frozen:
+		return
+	
+	get_input()
+	
+	move_and_slide()
+	
+	update_animation()
+	gameboard.check_tile()
