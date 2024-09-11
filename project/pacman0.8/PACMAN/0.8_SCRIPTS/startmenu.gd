@@ -56,12 +56,9 @@ func _on_all_nodes_initialized():
 	
 	# Connect the input event
 	set_process_input(true)
-	
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
-	
-	
 
 func clear_tiles():
 	if loading:
@@ -104,6 +101,7 @@ func _input(event):
 		var mouse_pos = event.position
 		if loading:
 			var tile_pos = loading.local_to_map(mouse_pos)
+			print("Mouse clicked at: ", tile_pos)  # Debugging print
 			handle_menu_option(tile_pos)
 	elif event is InputEventKey:
 		if event.pressed:
@@ -139,10 +137,14 @@ func select_option():
 		"EXPANSIVE":
 			print("Expansive selected")
 			hide_start_menu()
+			loading.stop_game_loop()
+			zpu.start_game()
 			# Add code to start the expansive game mode
 		"INFINITY":
 			print("Infinity selected")
 			hide_start_menu()
+			loading.stop_game_loop()
+			zpu.start_game()
 			# Add code to start the infinity game mode
 
 func handle_menu_option(tile_pos):
@@ -151,6 +153,7 @@ func handle_menu_option(tile_pos):
 		var text = text_info["text"]
 		for i in range(text.length()):
 			if tile_pos == start_pos + Vector2i(i, 0):
+				print("Option selected: ", text)  # Debugging print
 				match text:
 					"ORIGINAL":
 						hide_start_menu()
@@ -159,10 +162,14 @@ func handle_menu_option(tile_pos):
 					"EXPANSIVE":
 						print("Expansive selected")
 						hide_start_menu()
+						loading.stop_game_loop()
+						zpu.start_game()
 						# Add code to start the expansive game mode
 					"INFINITY":
 						print("Infinity selected")
 						hide_start_menu()
+						loading.stop_game_loop()
+						zpu.start_game()
 						# Add code to start the infinity game mode
 
 func hide_start_menu():
@@ -186,5 +193,3 @@ func restart():
 	
 	# Enable input processing
 	set_process_input(true)
-	
-	

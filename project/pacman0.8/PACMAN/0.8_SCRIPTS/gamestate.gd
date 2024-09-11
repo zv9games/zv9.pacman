@@ -108,6 +108,7 @@ func _handle_state_change(new_state):
 			stop_all_timers()
 			soundbank.stop_sound_timers()
 			soundbank.stop_all_sounds()
+			gameboard.reset_dots()
 
 func stop_all_timers():
 	for timer in state_timers.values():

@@ -6,3 +6,6 @@
 
 [node name="LevelEndTimer" type="Timer" parent="."]
 wait_time = 0.3
+
+[node name="ResetDotsTimer" type="Timer" parent="."]
+wait_time = 0.5

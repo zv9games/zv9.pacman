@@ -50,7 +50,7 @@ var is_initialized = false
 @onready var gameboard = $"/root/BINARY/LEVELS/ORIGINAL/MAP/GAMEBOARD"
 @onready var scoremachine = $/root/BINARY/GAME/SCOREMACHINE
 @onready var collision_area = $/root/BINARY/LEVELS/ORIGINAL/CHARACTERS/CLYDE  
-@onready var animatedsprite = $"/root/BINARY/LEVELS/ORIGINAL/CHARACTERS/BLINKY/AnimatedSprite2D"
+@onready var animatedsprite = $"/root/BINARY/LEVELS/ORIGINAL/CHARACTERS/CLYDE/AnimatedSprite2D"
 @onready var soundbank = $/root/BINARY/GAME/SOUNDBANK
 
 func connect_signals():
@@ -113,7 +113,7 @@ func _start_initial_behavior():
 	self.visible = true
 	self.position = clyde_position
 	clyde_initial_target = tile_position_to_global_position(clyde_initial_positions[clyde_initial_index])
-	move_blinky_initial()
+	move_clyde_initial()
 
 func _start_loading_behavior():
 	pass
@@ -132,12 +132,12 @@ func _update_caught_frightened_behavior(delta):
 	move_to_shed()
 	
 func _update_initial_behavior(delta):
-		move_blinky_initial()
+		move_clyde_initial()
 
 func _update_loading_behavior(delta):
 	pass
 	
-func move_blinky_initial() -> void:
+func move_clyde_initial() -> void:
 	var dir = (clyde_initial_target - global_position).normalized()
 	velocity = dir * speed
 	move_and_slide()

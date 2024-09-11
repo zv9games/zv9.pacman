@@ -3,7 +3,7 @@ extends CharacterBody2D
 signal online
 signal pacman_ghost_collision
 
-enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING }
+enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 enum FrightStates { NORMAL, CAUGHT }
 
 @onready var gamestate = $/root/BINARY/GAME/GAMESTATE
@@ -25,8 +25,8 @@ var start_pos = Vector2(16, 20)
 var speed = 130
 var is_frozen = false
 var input_direction = Vector2.ZERO
+var new_direction = Vector2.ZERO
 var input_history = []
-
 
 func _ready():
 	pac_start_pos()
@@ -37,6 +37,7 @@ func _ready():
 	add_child(timer)
 	timer.start()
 	death1.connect("finished", Callable(self, "_on_death1_finished"))
+	camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -46,22 +47,23 @@ func pac_start_pos():
 
 func get_input():
 	input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	velocity = input_direction * speed
-	store_input(input_direction)
+	if input_direction != Vector2.ZERO:
+		new_direction = input_direction
+	store_input(new_direction)
 
 func store_input(direction: Vector2):
 	input_history.append(direction)
-	if input_history.size() > 5000:  # Limit to the last 100 inputs
+	if input_history.size() > 5000:  # Limit to the last 5000 inputs
 		input_history.pop_front()
 
 func update_animation():
-	if input_direction.x > 0:
+	if new_direction.x > 0:
 		animated_sprite.play("move_right")
-	elif input_direction.x < 0:
+	elif new_direction.x < 0:
 		animated_sprite.play("move_left")
-	elif input_direction.y > 0:
+	elif new_direction.y > 0:
 		animated_sprite.play("move_down")
-	elif input_direction.y < 0:
+	elif new_direction.y < 0:
 		animated_sprite.play("move_up")
 	else:
 		animated_sprite.stop()
@@ -80,10 +82,6 @@ func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
 	var global_pos = gameboard.to_global(local_pos)
 	return global_pos
 
-
-
-
-
 func _on_area_2d_body_entered(body):
 	print("Body entered: ", body.name)
 	if body.name in ["BLINKY", "PINKY", "INKY", "CLYDE"]:
@@ -93,6 +91,8 @@ func _on_area_2d_body_entered(body):
 			set_freeze(true)
 			blinky.set_freeze(true)
 			pinky.set_freeze(true)
+			inky.set_freeze(true)
+			clyde.set_freeze(true)
 			scoremachine.lose_life()
 			soundbank.play("DEATH1")
 			animated_sprite.play("gameover")
@@ -101,9 +101,11 @@ func _on_death1_finished():
 	if scoremachine.get_lives() > 0:
 		pac_start_pos()
 		zpu.start_game()
-		gamestate.set_state(States.INITIAL)
 	else:
 		zpu.handle_game_over()
+
+func _on_swipe_detected(direction: Vector2):
+	new_direction = direction
 
 func _physics_process(delta):
 	if is_frozen:
@@ -111,6 +113,7 @@ func _physics_process(delta):
 	
 	get_input()
 	
+	velocity = new_direction * speed
 	move_and_slide()
 	
 	update_animation()

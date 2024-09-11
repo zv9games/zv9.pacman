@@ -16,9 +16,11 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 @onready var inky = $/root/BINARY/LEVELS/ORIGINAL/CHARACTERS/INKY
 @onready var clyde = $/root/BINARY/LEVELS/ORIGINAL/CHARACTERS/CLYDE
 @onready var levelend = $/root/BINARY/LEVELS/ORIGINAL/MAP/LEVELEND
-@onready var levelendtimer = $/root/BINARY/GAME/ZPU/LevelEndTimer 
+@onready var levelendtimer = $/root/BINARY/GAME/ZPU/LevelEndTimer
+@onready var resetdotstimer = $/root/BINARY/GAME/ZPU/ResetDotsTimer 
 
 var timeout_count = 0
+var dots_counted = false
 
 func _ready():
 	var timer = Timer.new()
@@ -30,12 +32,12 @@ func _ready():
 	gameboard.connect("last_dot_eaten", Callable(self, "_on_last_dot_eaten"))
 	soundbank.connect("start_sound_finished", Callable(self, "_on_start_sound_finished"))
 	levelendtimer.connect("timeout", Callable(self, "_on_levelend_timer_timeout"))
+	resetdotstimer.connect("timeout", Callable(self, "_on_resetdots_timer_timeout"))
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
 
 func start_game():
-	
 	pacman.pac_start_pos()
 	pacman.set_freeze(true)
 	blinky.set_freeze(true)
@@ -48,9 +50,13 @@ func start_game():
 	pinky.visible = true
 	inky.visible = true
 	clyde.visible = true
+	if not dots_counted:
+		gameboard.count_dots()
+		dots_counted = true  # Set the flag to true after counting dots
 	soundbank.play("START")
 	gamestate.set_state(States.INITIAL)
-	gameboard.count_dots()
+	
+	
 	
 func _on_start_sound_finished():
 	print("play siren")
@@ -67,8 +73,16 @@ func _on_last_dot_eaten():
 	levelend.visible = true
 	levelendtimer.start()
 	scoremachine.add_level()
+	
+	
+	
+func _on_resetdots_timer_timeout():
+	
+	start_game()
+	resetdotstimer.stop()
 
 func _on_levelend_timer_timeout():
+	
 	if timeout_count < 6:
 		levelend.visible = not levelend.visible  # Toggle visibility
 		timeout_count += 1
@@ -77,13 +91,17 @@ func _on_levelend_timer_timeout():
 		levelendtimer.stop()
 		levelend.visible = false
 		timeout_count = 0
+		gameboard.reset_dots()
+		resetdotstimer.start()
 		
-		start_game()
+		
+		
 		
 func handle_game_over():
 	gameboard.reset_dots()
 	scoremachine.reset_lives()
 	scoremachine.reset_score()
+	scoremachine.reset_level_display()
 	loading.restart_game_loop()
 	startmenu.restart()
 	
