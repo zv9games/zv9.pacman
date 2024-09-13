@@ -1,0 +1,110 @@
+[gd_resource type="SpriteFrames" load_steps=21 format=3 uid="uid://begxly3kmytbi"]
+
+[ext_resource type="Texture2D" uid="uid://cg2x07kybav4i" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman0.png" id="1_7grd1"]
+[ext_resource type="Texture2D" uid="uid://ckaugtmtryyob" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman3.png" id="2_cp67l"]
+[ext_resource type="Texture2D" uid="uid://dl3h8xbygrf6n" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman4.png" id="3_y5pj0"]
+[ext_resource type="Texture2D" uid="uid://c6ykpmd0og43h" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman5.png" id="4_m4lq2"]
+[ext_resource type="Texture2D" uid="uid://dostqyfgispdt" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman6.png" id="5_fxpgy"]
+[ext_resource type="Texture2D" uid="uid://cbspr0asgnoki" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman7.png" id="6_akbdk"]
+[ext_resource type="Texture2D" uid="uid://b5bbxmy45xa4g" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman8.png" id="7_3u6af"]
+[ext_resource type="Texture2D" uid="uid://bjwcody48kgue" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman9.png" id="8_3e2ah"]
+[ext_resource type="Texture2D" uid="uid://dlvap64d6rggi" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman10.png" id="9_xov1f"]
+[ext_resource type="Texture2D" uid="uid://b5jcf47wxykg7" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman11.png" id="10_d0v3g"]
+[ext_resource type="Texture2D" uid="uid://cbghfl1twk4av" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman12.png" id="11_sfoav"]
+[ext_resource type="Texture2D" uid="uid://y4nq125il8ku" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/Pacman13.png" id="12_t850n"]
+[ext_resource type="Texture2D" uid="uid://6jkgo3ry8vir" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_down1.png" id="13_5044i"]
+[ext_resource type="Texture2D" uid="uid://jho7dde4s2wu" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_down2.png" id="14_fjxb7"]
+[ext_resource type="Texture2D" uid="uid://c8cj1rgxau2na" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_left1.png" id="15_t1a11"]
+[ext_resource type="Texture2D" uid="uid://b2t646lbxhnyd" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_left2.png" id="16_4ag4t"]
+[ext_resource type="Texture2D" uid="uid://c5y0fg064ekcv" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_right1.png" id="17_7t5yb"]
+[ext_resource type="Texture2D" uid="uid://m1mpvmtitf42" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_right2.png" id="18_d6u51"]
+[ext_resource type="Texture2D" uid="uid://bfu6el7lxgaoo" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_up1.png" id="19_dkmf1"]
+[ext_resource type="Texture2D" uid="uid://s1lpjhie1m1a" path="res://PACMAN/ASSETS/CHARACTERS/Pacman/pac_up2.png" id="20_48xka"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7grd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cp67l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_y5pj0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m4lq2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_fxpgy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_akbdk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_3u6af")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3e2ah")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_xov1f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_d0v3g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_sfoav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_t850n")
+}],
+"loop": false,
+"name": &"gameover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_5044i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_fjxb7")
+}],
+"loop": true,
+"name": &"move_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_t1a11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_4ag4t")
+}],
+"loop": true,
+"name": &"move_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_7t5yb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_d6u51")
+}],
+"loop": true,
+"name": &"move_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_dkmf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_48xka")
+}],
+"loop": true,
+"name": &"move_up",
+"speed": 5.0
+}]

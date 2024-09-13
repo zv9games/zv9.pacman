@@ -1,0 +1,4 @@
+[gd_resource type="NavigationPolygon" format=3 uid="uid://d054cttkrlies"]
+
+[resource]
+outlines = Array[PackedVector2Array]([PackedVector2Array(64, 192, 64, 208, 464, 208, 464, 192)])

@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4i832tjkp4fl"]
+
+[ext_resource type="Script" path="res://PACMAN/0.8_SCRIPTS/startmenu.gd" id="1_lf71s"]
+
+[node name="STARTMENU" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 528.0
+offset_bottom = 520.0
+script = ExtResource("1_lf71s")
+
+[node name="MENUTIMER" type="Timer" parent="."]

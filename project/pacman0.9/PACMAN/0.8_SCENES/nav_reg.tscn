@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccro0stcb1wfq"]
+
+[ext_resource type="NavigationPolygon" uid="uid://cfcpo45rlwwxq" path="res://PACMAN/ASSETS/binary_base_polygon.tres" id="1_cd562"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D"]
+navigation_polygon = ExtResource("1_cd562")

@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://bsbh34wdjsmtt"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D"]

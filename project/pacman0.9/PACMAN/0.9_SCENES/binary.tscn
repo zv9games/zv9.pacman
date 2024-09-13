@@ -1,0 +1,48 @@
+[gd_scene load_steps=15 format=3 uid="uid://cvrgjyssegw4b"]
+
+[ext_resource type="Script" path="res://PACMAN/0.9_SCRIPTS/binary.gd" id="1_4w6ol"]
+[ext_resource type="PackedScene" uid="uid://cfxhhx1gdjl4b" path="res://PACMAN/0.9_SCENES/original.tscn" id="1_nn3cn"]
+[ext_resource type="PackedScene" uid="uid://ceh14yglkkdjr" path="res://PACMAN/0.9_SCENES/zpu.tscn" id="1_uo4tt"]
+[ext_resource type="PackedScene" uid="uid://dul7i6v7f0eyq" path="res://PACMAN/0.9_SCENES/startmenu.tscn" id="2_ur0qt"]
+[ext_resource type="PackedScene" uid="uid://bmuyei4qphtll" path="res://PACMAN/0.9_SCENES/expansive.tscn" id="2_vlpy0"]
+[ext_resource type="PackedScene" uid="uid://bjekq73x3tpne" path="res://PACMAN/0.9_SCENES/soundbank.tscn" id="3_3q30l"]
+[ext_resource type="PackedScene" uid="uid://bvqh6k27cse6d" path="res://PACMAN/0.9_SCENES/infinity.tscn" id="3_ftn2u"]
+[ext_resource type="Script" path="res://PACMAN/0.9_SCRIPTS/zpu.gd" id="4_kc6v2"]
+[ext_resource type="PackedScene" uid="uid://cp5rnx7wob7ch" path="res://PACMAN/0.9_SCENES/scoremachine.tscn" id="4_sagbu"]
+[ext_resource type="PackedScene" uid="uid://3jcisr8noqtx" path="res://PACMAN/0.9_SCENES/gamestate.tscn" id="5_ehy6o"]
+[ext_resource type="Script" path="res://PACMAN/0.9_SCRIPTS/gamestate.gd" id="6_dxqo8"]
+[ext_resource type="Script" path="res://PACMAN/0.9_SCRIPTS/scoremachine.gd" id="8_45mkg"]
+[ext_resource type="Script" path="res://PACMAN/0.9_SCRIPTS/soundbank.gd" id="10_mr1vb"]
+[ext_resource type="Script" path="res://PACMAN/0.9_SCRIPTS/camera_2d.gd" id="14_jwfpo"]
+
+[node name="BINARY" type="Node"]
+script = ExtResource("1_4w6ol")
+
+[node name="STARTMENU" parent="." instance=ExtResource("2_ur0qt")]
+
+[node name="ZPU" parent="." instance=ExtResource("1_uo4tt")]
+script = ExtResource("4_kc6v2")
+
+[node name="GAMESTATE" parent="." instance=ExtResource("5_ehy6o")]
+script = ExtResource("6_dxqo8")
+
+[node name="SCOREMACHINE" parent="." instance=ExtResource("4_sagbu")]
+script = ExtResource("8_45mkg")
+
+[node name="SOUNDBANK" parent="." instance=ExtResource("3_3q30l")]
+script = ExtResource("10_mr1vb")
+
+[node name="MODES" type="Node" parent="."]
+
+[node name="ORIGINAL" parent="MODES" instance=ExtResource("1_nn3cn")]
+
+[node name="EXPANSIVE" parent="MODES" instance=ExtResource("2_vlpy0")]
+visible = false
+
+[node name="INFINITY" parent="MODES" instance=ExtResource("3_ftn2u")]
+visible = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(1.05, 1.08)
+script = ExtResource("14_jwfpo")

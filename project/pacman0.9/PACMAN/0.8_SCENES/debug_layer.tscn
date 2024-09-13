@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dyeoeq20oe3q5"]
+
+[node name="DEBUG_LAYER" type="CanvasLayer"]
+layer = 9

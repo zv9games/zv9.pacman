@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cub03nr1auirf"]
+
+[ext_resource type="Script" path="res://PACMAN/0.5_SCRIPTS/ENDGAME.gd" id="1_kxpb5"]
+
+[node name="END_GAME" type="Node"]
+script = ExtResource("1_kxpb5")
+
+[node name="ToggleTimer" type="Timer" parent="."]
+
+[node name="GameOverTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
