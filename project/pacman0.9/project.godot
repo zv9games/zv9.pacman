@@ -22,6 +22,7 @@ window/size/viewport_height=553
 window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/scale=2.03
+window/handheld/orientation=1
 
 [rendering]
 
