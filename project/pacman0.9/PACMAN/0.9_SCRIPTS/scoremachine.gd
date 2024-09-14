@@ -5,6 +5,8 @@ signal score_changed(new_score)
 signal lives_changed(new_lives)
 signal level_changed(new_level)
 
+var elapsed_time = 0
+var time_display_positions = [Vector2i(3, 0), Vector2i(4, 0), Vector2i(6, 0), Vector2i(7, 0), Vector2i(9, 0), Vector2i(10, 0)]
 var level_display_positions = [Vector2i(23, 1), Vector2i(24, 1), Vector2i(25, 1)]
 var life_display_positions = [Vector2i(27, 31), Vector2i(28, 31), Vector2i(29, 31)]
 var life_tile_coords = Vector2i(1, 3)
@@ -32,7 +34,7 @@ var tile_digits = {
 	8: Vector2i(1, 11), 9: Vector2i(2, 11)
 }
 
-@onready var gameboard = $"/root/BINARY/MODES/ORIGINAL/ORIGINALBOARD"
+@onready var originalboard = $"/root/BINARY/MODES/ORIGINAL/ORIGINALBOARD"
 @onready var pacman = $/root/BINARY/MODES/ORIGINAL/PACMAN
 @onready var blinky = $/root/BINARY/MODES/ORIGINAL/BLINKY
 @onready var pinky = $/root/BINARY/MODES/ORIGINAL/PINKY
@@ -40,9 +42,13 @@ var tile_digits = {
 @onready var clyde = $/root/BINARY/MODES/ORIGINAL/CLYDE
 @onready var loading = $/root/BINARY/STARTMENU/LOADING
 @onready var zpu = $/root/BINARY/ZPU
+@onready var gametimer = $/root/BINARY/ZPU/GameTimer
+@onready var startmenu = $/root/BINARY/STARTMENU
 
 func _ready():
 	load_high_score()
+	gametimer.connect("timeout", Callable(self, "_on_game_timer_timeout"))
+	startmenu.connect("start_game", Callable(self, "_on_start_game"))
 	# Create a timer with a 0.5-second delay
 	var startup_timer = Timer.new()
 	startup_timer.wait_time = 0.5
@@ -57,6 +63,31 @@ func _ready():
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
+	
+func _on_start_game():
+	elapsed_time = 0.0
+	gametimer.start()
+
+func _on_game_timer_timeout():
+	elapsed_time += 0.1
+	update_time_display()
+
+func update_time_display():
+	var minutes = int(elapsed_time) / 60
+	var seconds = int(elapsed_time) % 60
+	var milliseconds = int((elapsed_time - int(elapsed_time)) * 100)
+	var time_str = str(minutes).pad_zeros(2) + str(seconds).pad_zeros(2) + str(milliseconds).pad_zeros(2)
+	for i in range(time_display_positions.size()):
+		var digit_value = int(time_str[i])
+		var position_display = time_display_positions[i]
+		display_time_update(digit_value, position_display)
+	originalboard.update_internals()
+
+func display_time_update(digit, position):
+	var atlas_coords = tile_digits[digit]
+	var position_i = Vector2i(round(position.x), round(position.y))
+	originalboard.set_cell(position_i, 0, atlas_coords, 0)
+	originalboard.update_internals()
 
 func add_points(points):
 	score += points
@@ -84,8 +115,8 @@ func reset_lives():
 func display_score_update(digit, position_score):
 	var atlas_coords = tile_digits[digit]
 	var position_score_i = Vector2i(round(position_score.x), round(position_score.y))
-	gameboard.set_cell(position_score_i, 0, atlas_coords, 0)
-	gameboard.update_internals()
+	originalboard.set_cell(position_score_i, 0, atlas_coords, 0)
+	originalboard.update_internals()
 
 func update_score_display():
 	var score_str = str(score).pad_zeros(7)
@@ -93,7 +124,7 @@ func update_score_display():
 		var digit_value = int(score_str[i])
 		var position_display = score_display_positions[i]
 		display_score_update(digit_value, position_display)
-	gameboard.update_internals()
+	originalboard.update_internals()
 
 func pad_left(value: String, length: int, pad_char: String) -> String:
 	while value.length() < length:
@@ -106,18 +137,18 @@ func display_level_number(level: int):
 		var digit = int(digits[i])
 		var atlas_coords = tile_digits[digit]
 		var tile_pos = level_display_positions[i]
-		gameboard.set_cell(tile_pos, 0, atlas_coords, 0)
+		originalboard.set_cell(tile_pos, 0, atlas_coords, 0)
 
 func display_lives():
 	for i in range(3):
 		var tile_pos = life_display_positions[i]
-		gameboard.set_cell(tile_pos, 0, Vector2i(0, 0), -1)
+		originalboard.set_cell(tile_pos, 0, Vector2i(0, 0), -1)
 	for i in range(lives):
 		var tile_pos = life_display_positions[i]
-		gameboard.set_cell(tile_pos, 0, life_tile_coords, 0)
+		originalboard.set_cell(tile_pos, 0, life_tile_coords, 0)
 	for i in range(lives, 3):
 		var tile_pos = life_display_positions[i]
-		gameboard.set_cell(tile_pos, 0, empty_life_tile_coords, 0)
+		originalboard.set_cell(tile_pos, 0, empty_life_tile_coords, 0)
 
 func update_lives_display():
 	display_lives()
@@ -129,7 +160,7 @@ func lose_life():
 		update_lives_display()
 		print("Life lost! Remaining lives: ", lives)
 	else:
-		gameboard.visible = false
+		originalboard.visible = false
 		pacman.visible = false
 		blinky.visible = false
 		pinky.visible = false

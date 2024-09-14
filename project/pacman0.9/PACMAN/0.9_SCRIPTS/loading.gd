@@ -18,6 +18,14 @@ var end_position
 @onready var inky2 = $"/root/BINARY/STARTMENU/LOADING/LO_INKY"
 @onready var clyde2 = $"/root/BINARY/STARTMENU/LOADING/LO_CLYDE"
 
+
+@onready var pacman = $/root/BINARY/MODES/ORIGINAL/PACMAN
+@onready var blinky = $/root/BINARY/MODES/ORIGINAL/BLINKY
+@onready var pinky = $/root/BINARY/MODES/ORIGINAL/PINKY
+@onready var inky = $/root/BINARY/MODES/ORIGINAL/INKY
+@onready var clyde = $/root/BINARY/MODES/ORIGINAL/CLYDE
+@onready var powerups = $/root/BINARY/MODES/ORIGINAL/POWERUPS/AnimatedSprite2D
+
 @onready var loading : TileMapLayer = $"/root/BINARY/STARTMENU/LOADING"
 @onready var originalboard = $"/root/BINARY/MODES/ORIGINAL/ORIGINALBOARD"
 @onready var binary = $"/root/BINARY"
@@ -33,6 +41,16 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	hide_characters()
+
+func hide_characters():
+	
+	powerups.hide()
+	pacman.hide()
+	blinky.hide()
+	pinky.hide()
+	inky.hide()
+	clyde.hide()
 	
 func _emit_online_signal():
 	emit_signal("online", self.name)

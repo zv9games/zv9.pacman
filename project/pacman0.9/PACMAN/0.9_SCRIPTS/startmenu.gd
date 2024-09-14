@@ -9,6 +9,7 @@ signal start_game
 @onready var zpu = $"/root/BINARY/ZPU"
 @onready var binary = $"/root/BINARY"
 @onready var levelend = $/root/BINARY/MODES/ORIGINAL/LEVELEND
+@onready var camera = $/root/BINARY/Camera2D
 
 var tile_letters = {
 	'A': Vector2i(3, 12), 'B': Vector2i(4, 12), 'C': Vector2i(5, 12), 'D': Vector2i(6, 12),
@@ -48,6 +49,7 @@ func _ready():
 	add_child(timer)
 	timer.start()
 	levelend.visible = false
+	camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 
 func _on_all_nodes_initialized():
 	# Start the typing effect
@@ -135,21 +137,21 @@ func select_option():
 			hide_start_menu()
 			loading.stop_game_loop()
 			zpu.start_game()
-			# Add code to start the original game mode
+			disable_swipes_and_taps()  # Disable swipes and taps
 		"EXPANSIVE":
 			print("Expansive selected")
 			emit_signal("start_game")
 			hide_start_menu()
 			loading.stop_game_loop()
 			zpu.start_game()
-			# Add code to start the expansive game mode
+			disable_swipes_and_taps()  # Disable swipes and taps
 		"INFINITY":
 			print("Infinity selected")
 			emit_signal("start_game")
 			hide_start_menu()
 			loading.stop_game_loop()
 			zpu.start_game()
-			# Add code to start the infinity game mode
+			disable_swipes_and_taps()  # Disable swipes and taps
 
 func handle_menu_option(tile_pos):
 	for text_info in menu_texts:
@@ -165,20 +167,21 @@ func handle_menu_option(tile_pos):
 						hide_start_menu()
 						loading.stop_game_loop()
 						zpu.start_game()
+						disable_swipes_and_taps()  # Disable swipes and taps
 					"EXPANSIVE":
 						print("Expansive selected")
 						emit_signal("start_game")
 						hide_start_menu()
 						loading.stop_game_loop()
 						zpu.start_game()
-						# Add code to start the expansive game mode
+						disable_swipes_and_taps()  # Disable swipes and taps
 					"INFINITY":
 						print("Infinity selected")
 						emit_signal("start_game")
 						hide_start_menu()
 						loading.stop_game_loop()
 						zpu.start_game()
-						# Add code to start the infinity game mode
+						disable_swipes_and_taps()  # Disable swipes and taps
 
 func hide_start_menu():
 	if loading:
@@ -201,3 +204,15 @@ func restart():
 	
 	# Enable input processing
 	set_process_input(true)
+
+func _on_swipe_detected(direction: Vector2):
+	if direction == Vector2.UP:
+		move_selector(-1)
+	elif direction == Vector2.DOWN:
+		move_selector(1)
+	elif direction == Vector2.RIGHT or direction == Vector2.LEFT:
+		select_option()
+
+func disable_swipes_and_taps():
+	camera.disconnect("swipe_detected", Callable(self, "_on_swipe_detected"))
+	set_process_input(false)

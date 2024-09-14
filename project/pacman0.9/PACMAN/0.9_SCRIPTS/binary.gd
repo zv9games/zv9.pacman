@@ -17,7 +17,8 @@ signal all_nodes_initialized
 	"/root/BINARY/MODES/ORIGINAL/PACMAN",
 	"/root/BINARY/ZPU", 
 	"/root/BINARY/STARTMENU/LOADING",
-	"/root/BINARY"
+	"/root/BINARY",
+	"/root/BINARY/MODES/ORIGINAL/POWERUPS"
 ]
 
 var initialized_nodes = {}

@@ -17,7 +17,9 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 @onready var clyde = $/root/BINARY/MODES/ORIGINAL/CLYDE
 @onready var levelend = $/root/BINARY/MODES/ORIGINAL/LEVELEND
 @onready var levelendtimer = $/root/BINARY/ZPU/LevelEndTimer
-@onready var resetdotstimer = $/root/BINARY/ZPU/ResetDotsTimer 
+@onready var resetdotstimer = $/root/BINARY/ZPU/ResetDotsTimer
+@onready var powerups = $/root/BINARY/MODES/ORIGINAL/POWERUPS
+@onready var powerupstimer = $/root/BINARY/ZPU/PowerUpsTimer 
 
 var timeout_count = 0
 var dots_counted = false
@@ -33,11 +35,15 @@ func _ready():
 	soundbank.connect("start_sound_finished", Callable(self, "_on_start_sound_finished"))
 	levelendtimer.connect("timeout", Callable(self, "_on_levelend_timer_timeout"))
 	resetdotstimer.connect("timeout", Callable(self, "_on_resetdots_timer_timeout"))
+	powerupstimer.connect("timeout", Callable(self, "_on_powerups_timer_timeout"))
+	
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
+	
 
 func start_game():
+	
 	pacman.pac_start_pos()
 	pacman.set_freeze(true)
 	blinky.set_freeze(true)
@@ -55,6 +61,7 @@ func start_game():
 		dots_counted = true  # Set the flag to true after counting dots
 	soundbank.play("START")
 	gamestate.set_state(States.INITIAL)
+	start_powerups()
 	
 	
 	
@@ -77,6 +84,8 @@ func _on_last_dot_eaten():
 	levelend.visible = true
 	levelendtimer.start()
 	scoremachine.add_level()
+	powerups.visible = false
+	powerups._disable_collision_shape()
 	
 	
 	
@@ -102,6 +111,8 @@ func _on_levelend_timer_timeout():
 		
 		
 func handle_game_over():
+	powerupstimer.stop()
+	loading.hide_characters()
 	gameboard.reset_dots()
 	scoremachine.reset_lives()
 	scoremachine.reset_score()
@@ -109,3 +120,12 @@ func handle_game_over():
 	loading.restart_game_loop()
 	startmenu.restart()
 	
+func start_powerups():
+	powerupstimer.start()
+	
+	
+func _on_powerups_timer_timeout():
+	powerupstimer.stop()
+	start_powerups()
+	powerups.trigger_powerup()
+	powerups.visible = true

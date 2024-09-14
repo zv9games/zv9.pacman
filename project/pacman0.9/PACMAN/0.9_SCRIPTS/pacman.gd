@@ -20,6 +20,7 @@ enum FrightStates { NORMAL, CAUGHT }
 @onready var loading = $/root/BINARY/STARTMENU/LOADING
 @onready var death1 = $/root/BINARY/SOUNDBANK/DEATH1
 @onready var camera = $/root/BINARY/Camera2D
+@onready var powerups = $/root/BINARY/MODES/ORIGINAL/POWERUPS
 
 var start_pos = Vector2(16, 20)
 var speed = 130
@@ -39,11 +40,10 @@ func _ready():
 	timer.start()
 	death1.connect("finished", Callable(self, "_on_death1_finished"))
 	camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
-	
+
 func _on_start_game_signal():
 	pac_start_pos()
 	self.visible = true
-
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -52,7 +52,9 @@ func pac_start_pos():
 	position = tile_position_to_global_position(start_pos)
 
 func get_input():
-	input_direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var key_input = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	if key_input != Vector2.ZERO:
+		input_direction = key_input
 	if input_direction != Vector2.ZERO:
 		new_direction = input_direction
 	store_input(new_direction)
@@ -102,6 +104,8 @@ func _on_area_2d_body_entered(body):
 			scoremachine.lose_life()
 			soundbank.play("DEATH1")
 			animated_sprite.play("gameover")
+			powerups.visible = false
+			powerups.call_deferred("_disable_collision_shape")
 
 func _on_death1_finished():
 	if scoremachine.get_lives() > 0:
@@ -111,7 +115,7 @@ func _on_death1_finished():
 		zpu.handle_game_over()
 
 func _on_swipe_detected(direction: Vector2):
-	new_direction = direction
+	input_direction = direction
 
 func _physics_process(delta):
 	if is_frozen:

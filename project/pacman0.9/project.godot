@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 window/size/viewport_width=554
 window/size/viewport_height=553
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [rendering]
 
 renderer/rendering_method="mobile"
