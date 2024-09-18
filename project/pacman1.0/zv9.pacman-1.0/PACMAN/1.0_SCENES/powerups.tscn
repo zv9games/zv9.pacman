@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpuygc26et8y0"]
+
+[ext_resource type="SpriteFrames" uid="uid://by7yfwn3pj3gf" path="res://PACMAN/ASSETS/powerups_sprite.tres" id="1_rxdx6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xngj4"]
+radius = 6.0
+
+[node name="POWERUPS" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(247, -43)
+sprite_frames = ExtResource("1_rxdx6")
+animation = &"strawberry"
+
+[node name="Area2D" type="Area2D" parent="AnimatedSprite2D"]
+position = Vector2(-266, -328)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Area2D"]
+position = Vector2(266, 328)
+shape = SubResource("CircleShape2D_xngj4")
+
+[connection signal="area_entered" from="AnimatedSprite2D/Area2D" to="." method="_on_area_2d_area_entered"]

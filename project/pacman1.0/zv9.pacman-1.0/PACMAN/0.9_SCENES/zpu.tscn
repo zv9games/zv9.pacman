@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://ceh14yglkkdjr"]
+
+[node name="ZPU" type="Node"]
+
+[node name="LevelEndTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="ResetDotsTimer" type="Timer" parent="."]
+wait_time = 1.4
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="PowerUpsTimer" type="Timer" parent="."]
+wait_time = 10.0

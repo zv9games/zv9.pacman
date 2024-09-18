@@ -1,0 +1,41 @@
+[gd_scene load_steps=13 format=3 uid="uid://k4omdcwbv54r"]
+
+[ext_resource type="PackedScene" uid="uid://cak8uwfd3kqca" path="res://PACMAN/OLD/0.7_SCENES/gameboard.tscn" id="1_ylwc0"]
+[ext_resource type="PackedScene" uid="uid://ls2hpv3evtou" path="res://PACMAN/OLD/0.7_SCENES/levelend.tscn" id="2_335am"]
+[ext_resource type="Script" path="res://PACMAN/OLD/0.6_SCRIPTS/gameboard.gd" id="3_0oawh"]
+[ext_resource type="PackedScene" uid="uid://bmdp0p70mt86d" path="res://PACMAN/OLD/0.7_SCENES/pacman.tscn" id="3_05fgb"]
+[ext_resource type="PackedScene" uid="uid://b0jhssew6p4d1" path="res://PACMAN/OLD/0.7_SCENES/blinky.tscn" id="4_a4ple"]
+[ext_resource type="PackedScene" uid="uid://bsbh34wdjsmtt" path="res://PACMAN/OLD/0.7_SCENES/nav_reg.tscn" id="4_p2gba"]
+[ext_resource type="NavigationPolygon" uid="uid://cfcpo45rlwwxq" path="res://PACMAN/ASSETS/binary_base_polygon.tres" id="5_ebr2n"]
+[ext_resource type="PackedScene" uid="uid://beqpkprpe4klm" path="res://PACMAN/OLD/0.7_SCENES/pinky.tscn" id="5_goxl4"]
+[ext_resource type="PackedScene" uid="uid://bxujocw5gepjx" path="res://PACMAN/OLD/0.7_SCENES/inky.tscn" id="6_kcrqr"]
+[ext_resource type="Script" path="res://PACMAN/OLD/0.6_SCRIPTS/nav_reg.gd" id="6_yyx3f"]
+[ext_resource type="PackedScene" uid="uid://cxfyl5j00wlf1" path="res://PACMAN/OLD/0.7_SCENES/camera_2d.tscn" id="7_ngor6"]
+[ext_resource type="PackedScene" uid="uid://b8a4p78mbo3fg" path="res://PACMAN/OLD/0.7_SCENES/clyde.tscn" id="7_qhupx"]
+
+[node name="ORIGINAL" type="Node2D"]
+
+[node name="MAP" type="Node2D" parent="."]
+
+[node name="LEVELEND" parent="MAP" instance=ExtResource("2_335am")]
+
+[node name="NAV_REG" parent="MAP" instance=ExtResource("4_p2gba")]
+navigation_polygon = ExtResource("5_ebr2n")
+script = ExtResource("6_yyx3f")
+
+[node name="GAMEBOARD" parent="MAP" instance=ExtResource("1_ylwc0")]
+script = ExtResource("3_0oawh")
+
+[node name="Camera2D" parent="MAP/GAMEBOARD" instance=ExtResource("7_ngor6")]
+
+[node name="CHARACTERS" type="Node2D" parent="."]
+
+[node name="PACMAN" parent="CHARACTERS" instance=ExtResource("3_05fgb")]
+
+[node name="BLINKY" parent="CHARACTERS" instance=ExtResource("4_a4ple")]
+
+[node name="PINKY" parent="CHARACTERS" instance=ExtResource("5_goxl4")]
+
+[node name="INKY" parent="CHARACTERS" instance=ExtResource("6_kcrqr")]
+
+[node name="CLYDE" parent="CHARACTERS" instance=ExtResource("7_qhupx")]

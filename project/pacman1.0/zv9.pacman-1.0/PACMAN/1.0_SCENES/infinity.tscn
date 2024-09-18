@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ini7iu1eb4v6"]
+
+[ext_resource type="Script" path="res://PACMAN/1.0_SCRIPTS/infinity.gd" id="1_h7ywh"]
+[ext_resource type="TileSet" uid="uid://e8iuwtofdm83" path="res://PACMAN/ASSETS/pacman_tilemap.tres" id="1_kmdyj"]
+
+[node name="INFINITY" type="Node2D"]
+script = ExtResource("1_h7ywh")
+
+[node name="INFINITYBOARD" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_kmdyj")

@@ -1,0 +1,76 @@
+[gd_scene load_steps=17 format=3 uid="uid://dg2mwsr2tcpdn"]
+
+[ext_resource type="AudioStream" uid="uid://30umx3aa63xx" path="res://PACMAN/ASSETS/SOUNDS/siren0.wav" id="1_7xphj"]
+[ext_resource type="AudioStream" uid="uid://6346s3e0k4qr" path="res://PACMAN/ASSETS/SOUNDS/siren1.wav" id="2_jolmu"]
+[ext_resource type="AudioStream" uid="uid://bo5eb7j5h1sh1" path="res://PACMAN/ASSETS/SOUNDS/siren3.wav" id="3_pbjw8"]
+[ext_resource type="AudioStream" uid="uid://pgmtnptsfgde" path="res://PACMAN/ASSETS/SOUNDS/siren4.wav" id="4_lwjr4"]
+[ext_resource type="AudioStream" uid="uid://bww8xrui3g84c" path="res://PACMAN/ASSETS/SOUNDS/credit.wav" id="5_qftcj"]
+[ext_resource type="AudioStream" uid="uid://buro5h6ssjqgr" path="res://PACMAN/ASSETS/SOUNDS/intermission.wav" id="6_c44ga"]
+[ext_resource type="AudioStream" uid="uid://ny0jpcm8bdvn" path="res://PACMAN/ASSETS/SOUNDS/extend.wav" id="7_uapvf"]
+[ext_resource type="AudioStream" uid="uid://crxew0tijvdo2" path="res://PACMAN/ASSETS/SOUNDS/start.wav" id="8_do4g6"]
+[ext_resource type="AudioStream" uid="uid://eto5qkiibpqm" path="res://PACMAN/ASSETS/SOUNDS/fright.wav" id="9_tnkk4"]
+[ext_resource type="AudioStream" uid="uid://8bbk18vcrtvj" path="res://PACMAN/ASSETS/SOUNDS/eat_dot_0.wav" id="10_h3fkf"]
+[ext_resource type="AudioStream" uid="uid://dk3nqu6afpvcy" path="res://PACMAN/ASSETS/SOUNDS/eat_dot_1.wav" id="11_1oea6"]
+[ext_resource type="AudioStream" uid="uid://davd626b5o61n" path="res://PACMAN/ASSETS/SOUNDS/death_0.wav" id="12_f7jvt"]
+[ext_resource type="AudioStream" uid="uid://b0gniqqi0xhgr" path="res://PACMAN/ASSETS/SOUNDS/death_1.wav" id="13_vpadf"]
+[ext_resource type="AudioStream" uid="uid://csiap0bgmoaoo" path="res://PACMAN/ASSETS/SOUNDS/eat_fruit.wav" id="14_8sf8v"]
+[ext_resource type="AudioStream" uid="uid://dsksc4yysy4o4" path="res://PACMAN/ASSETS/SOUNDS/eat_ghost.wav" id="15_25ums"]
+[ext_resource type="AudioStream" uid="uid://mm33ep6xbwlm" path="res://PACMAN/ASSETS/SOUNDS/eyes.wav" id="16_j4rob"]
+
+[node name="SOUNDBANK" type="Node"]
+
+[node name="SIRENTIMER" type="Timer" parent="."]
+wait_time = 0.35
+
+[node name="FRIGHTTIMER" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="SIREN1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_7xphj")
+
+[node name="SIREN2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_jolmu")
+
+[node name="SIREN3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_pbjw8")
+
+[node name="SIREN4" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_lwjr4")
+
+[node name="CREDIT" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_qftcj")
+
+[node name="INTERMISSION" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_c44ga")
+
+[node name="EXTEND" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_uapvf")
+
+[node name="START" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_do4g6")
+
+[node name="FRIGHT" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_tnkk4")
+
+[node name="EAT1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_h3fkf")
+
+[node name="EAT2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_1oea6")
+
+[node name="DEATH1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_f7jvt")
+
+[node name="DEATH2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("13_vpadf")
+
+[node name="EAT_FRUIT" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("14_8sf8v")
+
+[node name="EAT_GHOST" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_25ums")
+
+[node name="EYES" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("16_j4rob")
+
+[connection signal="timeout" from="FRIGHTTIMER" to="." method="_on_frighttimer_timeout"]

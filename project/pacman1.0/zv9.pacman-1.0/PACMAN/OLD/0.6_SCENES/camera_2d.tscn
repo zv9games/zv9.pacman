@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxfyl5j00wlf1"]
+
+[ext_resource type="Script" path="res://PACMAN/OLD/0.6_SCRIPTS/swipe_detector.gd" id="1_nb2qj"]
+
+[node name="Camera2D" type="Camera2D"]
+position = Vector2(264, 256)
+zoom = Vector2(1.02, 1.01)
+script = ExtResource("1_nb2qj")

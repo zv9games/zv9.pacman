@@ -1,0 +1,42 @@
+[gd_scene load_steps=13 format=3 uid="uid://bpy32t10335oa"]
+
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/BINARY5.gd" id="1_jt8cl"]
+[ext_resource type="PackedScene" uid="uid://ld3vxp6k0iyv" path="res://PACMAN/OLD/0.5_SCENES/original.tscn" id="2_jp8fy"]
+[ext_resource type="PackedScene" uid="uid://ds1rsufyrmyg8" path="res://PACMAN/OLD/0.5_SCENES/expansive.tscn" id="3_ddd32"]
+[ext_resource type="PackedScene" uid="uid://d2w8flbkr1fx0" path="res://PACMAN/OLD/0.5_SCENES/infinity.tscn" id="4_64r58"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/SOUNDBANK5.gd" id="7_v4sej"]
+[ext_resource type="PackedScene" uid="uid://bhuqk5lm5ac3a" path="res://PACMAN/OLD/0.5_SCENES/soundbank2.tscn" id="9_6ph2q"]
+[ext_resource type="PackedScene" uid="uid://bc5yag8vfdon6" path="res://PACMAN/OLD/0.5_SCENES/zpu.tscn" id="10_uxqxp"]
+[ext_resource type="PackedScene" uid="uid://clonjugconxnc" path="res://PACMAN/OLD/0.5_SCENES/scoremachine.tscn" id="11_jhhok"]
+[ext_resource type="PackedScene" uid="uid://k4gtpouhhdbt" path="res://PACMAN/OLD/0.5_SCENES/gamestate.tscn" id="12_ablb0"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/SCOREMACHINE5.gd" id="12_fhkkw"]
+[ext_resource type="PackedScene" uid="uid://leqtr7bthh1l" path="res://PACMAN/OLD/0.5_SCENES/startmenu.tscn" id="12_old06"]
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/ZPU5.gd" id="14_q0yxj"]
+
+[node name="BINARY" type="Node2D"]
+script = ExtResource("1_jt8cl")
+
+[node name="TIMER" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="ORIGINAL" parent="." instance=ExtResource("2_jp8fy")]
+
+[node name="EXPANSIVE" parent="." instance=ExtResource("3_ddd32")]
+
+[node name="INFINITY" parent="." instance=ExtResource("4_64r58")]
+
+[node name="ZPU" parent="." instance=ExtResource("10_uxqxp")]
+script = ExtResource("14_q0yxj")
+
+[node name="GAMESTATE" parent="." instance=ExtResource("12_ablb0")]
+
+[node name="SCOREMACHINE" parent="." instance=ExtResource("11_jhhok")]
+script = ExtResource("12_fhkkw")
+
+[node name="STARTMENU" parent="." instance=ExtResource("12_old06")]
+offset_top = 0.0
+offset_bottom = 163.0
+
+[node name="SOUNDBANK" parent="." instance=ExtResource("9_6ph2q")]
+script = ExtResource("7_v4sej")

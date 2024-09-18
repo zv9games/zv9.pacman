@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpy32t10335oa"]
+
+[ext_resource type="Script" path="res://PACMAN/SCRIPTS/Almighty.gd" id="1_gyytf"]
+[ext_resource type="PackedScene" uid="uid://ld3vxp6k0iyv" path="res://PACMAN/SCENES/original.tscn" id="2_jp8fy"]
+[ext_resource type="PackedScene" uid="uid://ds1rsufyrmyg8" path="res://PACMAN/SCENES/expansive.tscn" id="3_ddd32"]
+[ext_resource type="PackedScene" uid="uid://d2w8flbkr1fx0" path="res://PACMAN/SCENES/infinity.tscn" id="4_64r58"]
+
+[node name="ALMIGHTY" type="Node2D"]
+script = ExtResource("1_gyytf")
+
+[node name="START_MENU" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ORIGINAL" parent="." instance=ExtResource("2_jp8fy")]
+
+[node name="EXPANSIVE" parent="." instance=ExtResource("3_ddd32")]
+
+[node name="INFINITY" parent="." instance=ExtResource("4_64r58")]
