@@ -27,6 +27,7 @@ var end_position
 @onready var loading : TileMapLayer = $"/root/BINARY/GAME/LOADING"
 @onready var gameboard = $"/root/BINARY/GAME/ORIGINAL/TILEMAPLAYER"
 @onready var binary = $"/root/BINARY"
+@onready var intro = $/root/BINARY/ZPU/INTRO
 
 var characters = []
 var game_loop_active = true
@@ -38,6 +39,10 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	intro.connect("intro_over", Callable(self, "intro_over"))
+	
+	
+func intro_over():
 	start_loading()
 
 func _emit_online_signal():
@@ -45,7 +50,7 @@ func _emit_online_signal():
 
 func start_loading():
 	hide_characters()
-	binary.connect("all_nodes_initialized", Callable(self, "_on_all_nodes_initialized"))
+	_on_all_nodes_initialized()
 
 func hide_characters():
 	pacman.hide()

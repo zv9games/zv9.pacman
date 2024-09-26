@@ -9,7 +9,9 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
-	startmenu_start()
+	intro.connect("intro_over", Callable(self, "intro_over"))
+	
+	
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -24,6 +26,12 @@ signal start_game
 @onready var menutimer = $/root/BINARY/ZPU/TIMERS/MENUTIMER
 @onready var loading = $/root/BINARY/GAME/LOADING
 @onready var zpu = $/root/BINARY/ZPU
+@onready var intro = $/root/BINARY/ZPU/INTRO
+@onready var introtimer = $/root/BINARY/ZPU/TIMERS/INTROTIMER
+@onready var zv9 = $/root/BINARY/ZPU/INTRO/ZV9
+@onready var splittwo = $/root/BINARY/ZPU/INTRO/SPLITTWO
+@onready var namco = $/root/BINARY/ZPU/INTRO/NAMCO
+
 
 var tile_letters = {
 	'A': Vector2i(3, 12), 'B': Vector2i(4, 12), 'C': Vector2i(5, 12), 'D': Vector2i(6, 12),
@@ -50,11 +58,15 @@ var current_char_index = 0
 var selector_index = 0
 var selector_tile_atlas = Vector2i(8, 14)
 
+func intro_over():
+	startmenu_start()
+
 func startmenu_start():
-	binary.connect("all_nodes_initialized", Callable(self, "_on_all_nodes_initialized"))
+	
 	#camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 	levelend.visible = false
 	clear_tiles()
+	_on_all_nodes_initialized()
 	
 func _on_all_nodes_initialized():
 	# Start the typing effect

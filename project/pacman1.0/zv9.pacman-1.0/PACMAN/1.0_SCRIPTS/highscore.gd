@@ -8,7 +8,7 @@ signal new_high_score
 var high_scores = []
 
 @onready var input_box = $InputBox  # Assuming you have an InputBox node for initials input
-@onready var display_board = $DisplayBoard  # Assuming you have a DisplayBoard node for displaying high scores
+@onready var display_board = $/root/BINARY/ZPU/HIGHSCORE # Assuming you have a DisplayBoard node for displaying high scores
 
 func _ready():
 	load_high_scores()
@@ -18,7 +18,7 @@ func _ready():
 func load_high_scores():
 	var file = FileAccess.open(high_score_file_path, FileAccess.READ)
 	if file:
-		high_scores = file.get_var([])  # Load high scores or initialize with an empty array
+		high_scores = file.get_var(true)  # Allow objects to be retrieved
 		file.close()
 	else:
 		print("Failed to open high score file for reading.")
@@ -54,7 +54,7 @@ func check_new_high_score(score):
 
 func _on_new_high_score(score):
 	input_box.show()
-	input_box.connect("text_entered", self, "_on_initials_entered", [score])
+	input_box.connect("text_entered", Callable(self, "_on_initials_entered").bind(score))
 
 func _on_initials_entered(initials, score):
 	input_box.hide()
