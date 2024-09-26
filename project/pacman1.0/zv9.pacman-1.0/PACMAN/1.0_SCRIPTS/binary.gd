@@ -22,6 +22,7 @@ signal all_nodes_initialized
 	"/root/BINARY/GAME/LOADING/LO_PINKY",
 	"/root/BINARY/GAME/LOADING/LO_INKY",
 	"/root/BINARY/GAME/LOADING/LO_CLYDE",
+	"/root/BINARY/ZPU/INTRO"
 ]
 
 var initialized_nodes = {}
