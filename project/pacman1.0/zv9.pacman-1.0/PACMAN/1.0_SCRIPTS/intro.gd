@@ -20,9 +20,9 @@ func _emit_online_signal():
 signal intro_over
 
 @onready var introtimer = $/root/BINARY/ZPU/TIMERS/INTROTIMER
-@onready var zv9: Sprite2D = $/root/BINARY/ZPU/INTRO/ZV9
-@onready var splittwo: Sprite2D = $/root/BINARY/ZPU/INTRO/SPLITTWO
-@onready var namco: Sprite2D = $/root/BINARY/ZPU/INTRO/NAMCO
+@onready var zv9: Sprite2D = $/root/BINARY/GAME/INTRO/ZV9
+@onready var splittwo: Sprite2D = $/root/BINARY/GAME/INTRO/SPLITTWO
+@onready var namco: Sprite2D = $/root/BINARY/GAME/INTRO/NAMCO
 @onready var loading = $/root/BINARY/GAME/LOADING
 @onready var levelend = $/root/BINARY/GAME/ORIGINAL/LEVELEND
 @onready var startmenu = $/root/BINARY/GAME/STARTMENU

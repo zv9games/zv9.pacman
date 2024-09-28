@@ -26,11 +26,11 @@ signal start_game
 @onready var menutimer = $/root/BINARY/ZPU/TIMERS/MENUTIMER
 @onready var loading = $/root/BINARY/GAME/LOADING
 @onready var zpu = $/root/BINARY/ZPU
-@onready var intro = $/root/BINARY/ZPU/INTRO
+@onready var intro = $/root/BINARY/GAME/INTRO
 @onready var introtimer = $/root/BINARY/ZPU/TIMERS/INTROTIMER
-@onready var zv9 = $/root/BINARY/ZPU/INTRO/ZV9
-@onready var splittwo = $/root/BINARY/ZPU/INTRO/SPLITTWO
-@onready var namco = $/root/BINARY/ZPU/INTRO/NAMCO
+@onready var zv9 = $/root/BINARY/GAME/INTRO/ZV9
+@onready var splittwo = $/root/BINARY/GAME/INTRO/SPLITTWO
+@onready var namco = $/root/BINARY/GAME/INTRO/NAMCO
 
 
 var tile_letters = {

@@ -1,6 +1,7 @@
 extends Node
 
 signal online
+signal game_over(final_score)
 
 func _ready():
 	var timer = Timer.new()
@@ -29,18 +30,11 @@ var empty_life_tile_coords = Vector2i(8, 10)
 var score = 0
 var lives = 3
 var level = 1
-var high_score = 0
-var high_score_file_path = "user://high_score.save"
 
 var score_display_positions = [
 	Vector2i(23, 0), Vector2i(24, 0), Vector2i(25, 0),
 	Vector2i(26, 0), Vector2i(27, 0), Vector2i(28, 0),
 	Vector2i(29, 0)
-]
-
-var high_score_display_positions = [
-	Vector2i(25, 2), Vector2i(26, 2), Vector2i(27, 2), Vector2i(28, 2),
-	Vector2i(29, 2), Vector2i(30, 2), Vector2i(31, 2)
 ]
 
 var tile_digits = {
@@ -61,7 +55,7 @@ var tile_digits = {
 @onready var startmenu = $/root/BINARY/GAME/STARTMENU
 
 func start_scoremachine():
-	load_high_score()
+	#clear_high_score_file()
 	gametimer.connect("timeout", Callable(self, "_on_game_timer_timeout"))
 	startmenu.connect("start_game", Callable(self, "_on_start_game"))
 	# Create a timer with a 0.5-second delay
@@ -74,8 +68,7 @@ func start_scoremachine():
 	update_score_display()
 	update_lives_display()
 	display_level_number(level)
-	display_high_score()
-
+	
 func _on_start_game():
 	elapsed_time = 0.0
 	gametimer.start()
@@ -103,9 +96,6 @@ func display_time_update(digit, position):
 
 func add_points(points):
 	score += points
-	if score > high_score:
-		high_score = score
-		save_high_score()
 	emit_signal("score_changed", score)
 	update_score_display()
 
@@ -179,14 +169,12 @@ func lose_life():
 		inky.visible = false
 		clyde.visible = false
 		zpu.handle_game_over()  # Call handle_game_over when all lives are lost
-
+		
 func add_level():
 	level += 1
 	emit_signal("level_changed", level)
 	display_level_number(level)
 	
-
-
 func reset_level_display():
 	level = 1
 	emit_signal("level_changed", level)
@@ -194,29 +182,20 @@ func reset_level_display():
 	
 func get_lives() -> int:
 	return lives
+	
+func transfer_score():
+	emit_signal("game_over", score)
+	print("gameover signal", score)
 
-func save_high_score():
-	var file = FileAccess.open(high_score_file_path, FileAccess.WRITE)
-	if file:
-		file.store_var(high_score)
-		file.close()
-
-func load_high_score():
-	var file = FileAccess.open(high_score_file_path, FileAccess.READ)
-	if file:
-		high_score = file.get_var()
-		file.close()
-
-func display_high_score():
-	var high_score_str = str(high_score).pad_zeros(7)
-	for i in range(high_score_display_positions.size()):
-		var digit_value = int(high_score_str[i])
-		var position_display = high_score_display_positions[i]
-		display_high_score_update(digit_value, position_display)
-	loading.update_internals()
-
-func display_high_score_update(digit, position_score):
-	var atlas_coords = tile_digits[digit]
-	var position_score_i = Vector2i(round(position_score.x), round(position_score.y))
-	loading.set_cell(position_score_i, 0, atlas_coords, 0)
-	loading.update_internals()
+func clear_high_score_file():
+	var file_path = "user://high_scores.save"
+	if FileAccess.file_exists(file_path):
+		var dir = DirAccess.open("user://")
+		if dir:
+			var err = dir.remove_absolute(file_path)
+			if err == OK:
+				print("High score save file cleared.")
+			else:
+				print("Failed to clear high score save file. Error code: ", err)
+	else:
+		print("High score save file does not exist.")

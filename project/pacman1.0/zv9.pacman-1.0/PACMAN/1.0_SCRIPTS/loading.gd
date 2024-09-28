@@ -27,7 +27,7 @@ var end_position
 @onready var loading : TileMapLayer = $"/root/BINARY/GAME/LOADING"
 @onready var gameboard = $"/root/BINARY/GAME/ORIGINAL/TILEMAPLAYER"
 @onready var binary = $"/root/BINARY"
-@onready var intro = $/root/BINARY/ZPU/INTRO
+@onready var intro = $/root/BINARY/GAME/INTRO
 
 var characters = []
 var game_loop_active = true
