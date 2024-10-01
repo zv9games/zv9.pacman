@@ -20,30 +20,36 @@ func _emit_online_signal():
 signal intro_over
 
 @onready var introtimer = $/root/BINARY/ZPU/TIMERS/INTROTIMER
-@onready var zv9: Sprite2D = $/root/BINARY/GAME/INTRO/ZV9
-@onready var splittwo: Sprite2D = $/root/BINARY/GAME/INTRO/SPLITTWO
-@onready var namco: Sprite2D = $/root/BINARY/GAME/INTRO/NAMCO
-@onready var loading = $/root/BINARY/GAME/LOADING
+@onready var zv9: Sprite2D = $/root/BINARY/MENUS/INTRO/ZV9
+@onready var splittwo: Sprite2D = $/root/BINARY/MENUS/INTRO/SPLITTWO
+@onready var namco: Sprite2D = $/root/BINARY/MENUS/INTRO/NAMCO
+@onready var loading = $/root/BINARY/MENUS/LOADING
 @onready var levelend = $/root/BINARY/GAME/ORIGINAL/LEVELEND
-@onready var startmenu = $/root/BINARY/GAME/STARTMENU
+@onready var startmenu = $/root/BINARY/MENUS/STARTMENU
+@onready var microsoft = $/root/BINARY/MENUS/INTRO/MICROSOFT
+@onready var tux = $/root/BINARY/MENUS/INTRO/TUX
 
 func launch_intro():
 	# Ensure all sprites are initially invisible
 	zv9.visible = false
 	splittwo.visible = false
 	namco.visible = false
+	microsoft.visible = false
+	tux.visible = false
 	
 	# Set initial alpha to 0
 	zv9.modulate.a = 0.0
 	splittwo.modulate.a = 0.0
 	namco.modulate.a = 0.0
+	tux.modulate.a = 0.0
+	microsoft.modulate.a = 0.0
 	start_intro()
 
 func start_intro():
 	loading.visible = false
 	levelend.visible = false
 	# Start the fade-in and fade-out sequence
-	fade_in_out(namco, 0.0, 0.5)
+	fade_in_out(tux, 0.0, 0.5)
 
 func fade_in_out(sprite: Sprite2D, delay: float, duration: float):
 	sprite.visible = true
@@ -56,9 +62,13 @@ func fade_in_out(sprite: Sprite2D, delay: float, duration: float):
 
 func _on_fade_out_complete(sprite: Sprite2D):
 	sprite.visible = false
-	if sprite == namco:
+	if sprite == tux:
+		fade_in_out(namco, 0.0, 0.5)
+	elif sprite == namco:
 		fade_in_out(zv9, 0.0, 0.5)
 	elif sprite == zv9:
+		fade_in_out(microsoft, 0.0, 0.5)
+	elif sprite == microsoft:
 		fade_in_out(splittwo, 0.0, 0.5)
 	elif sprite == splittwo:
 		_on_intro_complete()

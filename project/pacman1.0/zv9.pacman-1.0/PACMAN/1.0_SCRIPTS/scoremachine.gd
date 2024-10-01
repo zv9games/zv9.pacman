@@ -24,7 +24,7 @@ signal level_changed(new_level)
 var elapsed_time = 0
 var time_display_positions = [Vector2i(3, 0), Vector2i(4, 0), Vector2i(6, 0), Vector2i(7, 0), Vector2i(9, 0), Vector2i(10, 0)]
 var level_display_positions = [Vector2i(23, 1), Vector2i(24, 1), Vector2i(25, 1)]
-var life_display_positions = [Vector2i(27, 31), Vector2i(28, 31), Vector2i(29, 31)]
+var life_display_positions = [Vector2i(27, 30), Vector2i(28, 30), Vector2i(29, 30)]
 var life_tile_coords = Vector2i(1, 3)
 var empty_life_tile_coords = Vector2i(8, 10)
 var score = 0
@@ -49,10 +49,10 @@ var tile_digits = {
 @onready var pinky = $/root/BINARY/GAME/CHARACTERS/PINKY
 @onready var inky = $/root/BINARY/GAME/CHARACTERS/INKY
 @onready var clyde = $/root/BINARY/GAME/CHARACTERS/CLYDE
-@onready var loading = $/root/BINARY/GAME/LOADING
+@onready var loading = $/root/BINARY/MENUS/LOADING
 @onready var zpu = $/root/BINARY/ZPU
 @onready var gametimer = $/root/BINARY/ZPU/TIMERS/GAMETIMER
-@onready var startmenu = $/root/BINARY/GAME/STARTMENU
+@onready var startmenu = $/root/BINARY/MENUS/STARTMENU
 
 func start_scoremachine():
 	#clear_high_score_file()

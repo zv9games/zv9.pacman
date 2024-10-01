@@ -11,8 +11,6 @@ func _ready():
 	timer.start()
 	intro.connect("intro_over", Callable(self, "intro_over"))
 	
-	
-
 func _emit_online_signal():
 	emit_signal("online", self.name)
 	
@@ -24,14 +22,13 @@ signal start_game
 @onready var camera = $/root/BINARY/Camera2D
 @onready var levelend = $/root/BINARY/GAME/ORIGINAL/LEVELEND
 @onready var menutimer = $/root/BINARY/ZPU/TIMERS/MENUTIMER
-@onready var loading = $/root/BINARY/GAME/LOADING
+@onready var loading = $/root/BINARY/MENUS/LOADING
 @onready var zpu = $/root/BINARY/ZPU
-@onready var intro = $/root/BINARY/GAME/INTRO
+@onready var intro = $/root/BINARY/MENUS/INTRO
 @onready var introtimer = $/root/BINARY/ZPU/TIMERS/INTROTIMER
-@onready var zv9 = $/root/BINARY/GAME/INTRO/ZV9
-@onready var splittwo = $/root/BINARY/GAME/INTRO/SPLITTWO
-@onready var namco = $/root/BINARY/GAME/INTRO/NAMCO
-
+@onready var zv9 = $/root/BINARY/MENUS/INTRO/ZV9
+@onready var splittwo = $/root/BINARY/MENUS/INTRO/SPLITTWO
+@onready var namco = $/root/BINARY/MENUS/INTRO/NAMCO
 
 var tile_letters = {
 	'A': Vector2i(3, 12), 'B': Vector2i(4, 12), 'C': Vector2i(5, 12), 'D': Vector2i(6, 12),
@@ -62,8 +59,6 @@ func intro_over():
 	startmenu_start()
 
 func startmenu_start():
-	
-	#camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 	levelend.visible = false
 	clear_tiles()
 	_on_all_nodes_initialized()

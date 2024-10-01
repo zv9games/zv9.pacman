@@ -31,8 +31,8 @@ enum FrightStates { NORMAL, CAUGHT }
 @onready var scoremachine = $/root/BINARY/ZPU/SCOREMACHINE
 @onready var soundbank = $/root/BINARY/ZPU/SOUNDBANK
 @onready var zpu = $/root/BINARY/ZPU
-@onready var startmenu = $/root/BINARY/GAME/STARTMENU
-@onready var loading = $/root/BINARY/GAME/LOADING
+@onready var startmenu = $/root/BINARY/MENUS/STARTMENU
+@onready var loading = $/root/BINARY/MENUS/LOADING
 @onready var death1 = $/root/BINARY/ZPU/SOUNDBANK/DEATH1
 @onready var camera = $/root/BINARY/Camera2D
 @onready var powerups = $/root/BINARY/GAME/POWERUPS

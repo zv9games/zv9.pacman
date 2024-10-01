@@ -18,13 +18,14 @@ func _emit_online_signal():
 
 @export var max_high_scores = 9
 @export var high_score_file_path = "user://high_scores.save"
-@onready var display_board = $/root/BINARY/GAME/HIGHSCORE # Assuming you have a DisplayBoard node for displaying high scores
-@onready var hover_block = $/root/BINARY/GAME/HIGHSCORE/HOVERBLOCK  # Assuming you have a Node2D or similar for the hover effect
-@onready var popup = $/root/BINARY/GAME/HIGHSCORE/POPUP  # Assuming you have a Popup node for replay options
+@onready var display_board = $/root/BINARY/MISC/HIGHSCORE # Assuming you have a DisplayBoard node for displaying high scores
+@onready var hover_block = $/root/BINARY/MISC/HIGHSCORE/HOVERBLOCK  # Assuming you have a Node2D or similar for the hover effect
 @onready var scoremachine = $/root/BINARY/ZPU/SCOREMACHINE
 @onready var zpu = $/root/BINARY/ZPU
-@onready var startmenu = $/root/BINARY/GAME/STARTMENU
-signal text_entered
+@onready var startmenu = $/root/BINARY/MENUS/STARTMENU
+@onready var popup = $/root/BINARY/MISC/POPUP
+
+#signal text_entered
 
 
 var skip_cell_positions = [
@@ -83,8 +84,10 @@ var current_initial_position = 1
 var input_enabled = false
 
 func start_highscore():
+	
 	scoremachine.connect("game_over", Callable(self, "_on_game_over"))
 	#clear_high_score_file()
+	
 	self.hide()
 	set_physics_process(false)
 	set_process(false)
@@ -95,6 +98,7 @@ func show_self():
 	self.show()
 	set_physics_process(true)
 	set_process(true)
+	
 	tile_positions.append_array(skip_cell_positions)
 	load_high_scores()
 	display_high_scores()
@@ -103,6 +107,7 @@ func show_self():
 	current_initial_position = 1
 	hover_block.position = tile_position_to_global_position(tile_positions[current_letter_index])
 	update_hover_block()
+	handle_backspace()
 
 func _on_game_over(final_score):
 	current_score = final_score
@@ -116,6 +121,7 @@ func _input(event):
 	if input_enabled:
 		if event is InputEventKey:
 			if event.pressed:
+				#print("Key pressed: ", event.keycode)
 				if event.keycode == KEY_LEFT:
 					current_letter_index = max(0, current_letter_index - 1)
 				elif event.keycode == KEY_RIGHT:
@@ -125,68 +131,69 @@ func _input(event):
 				elif event.keycode == KEY_DOWN:
 					current_letter_index = min(tile_positions.size() - 1, current_letter_index + 10)
 				elif event.keycode == KEY_ENTER:
-					if current_letter_index == tile_positions.size() - 1:
-						emit_signal("text_entered", "Backspace")
+					#print("Enter key pressed. Current letter index: ", current_letter_index)
+					if tile_positions[current_letter_index] == Vector2(20, 25):  # Backspace tile position
+						#print("Enter pressed on backspace tile.")
 						handle_backspace()
 					elif tile_positions[current_letter_index] in skip_cell_positions:
 						skip_game_over()
 					else:
 						var selected_letter = get_letter_from_index(current_letter_index)
-						emit_signal("text_entered", selected_letter)
-						update_initial_position(selected_letter)
+						if selected_letter != "":
+							#print("Selected letter: ", selected_letter)
+							emit_signal("text_entered", selected_letter)
+							update_initial_position(selected_letter)
 				update_hover_block()
 		elif event is InputEventScreenTouch:
 			var touch_pos = event.position
 			current_letter_index = get_tile_index_from_position(touch_pos)
+			#print("Touch event. Current letter index: ", current_letter_index)
 			if event.is_pressed():
-				if current_letter_index == tile_positions.size() - 1:
-					emit_signal("text_entered", "Backspace")
+				if tile_positions[current_letter_index] == Vector2(20, 25):  # Backspace tile position
+					#print("Touch pressed on backspace tile.")
 					handle_backspace()
 				elif tile_positions[current_letter_index] in skip_cell_positions:
 					skip_game_over()
 				else:
 					var selected_letter = get_letter_from_index(current_letter_index)
-					emit_signal("text_entered", selected_letter)
-					update_initial_position(selected_letter)
+					if selected_letter != "":
+						#print("Selected letter: ", selected_letter)
+						emit_signal("text_entered", selected_letter)
+						update_initial_position(selected_letter)
 				update_hover_block()
-
 
 
 func update_hover_block():
 	hover_block.position = tile_position_to_global_position(tile_positions[current_letter_index])
 
 func handle_backspace():
-	if current_initial_position > 1:
-		current_initial_position -= 1
-		var reset_position = Vector2(1, 12)
-		print("Backspace pressed. Current initial position: ", current_initial_position)
-		if current_initial_position == 1:
-			print("Resetting initial position 1: ", initial_position1)
-			display_board.set_cell(Vector2i(initial_position1.x, initial_position1.y), 0, reset_position)
-		elif current_initial_position == 2:
-			print("Resetting initial position 2: ", initial_position2)
-			display_board.set_cell(Vector2i(initial_position2.x, initial_position2.y), 0, reset_position)
-		elif current_initial_position == 3:
-			print("Resetting initial position 3: ", initial_position3)
-			display_board.set_cell(Vector2i(initial_position3.x, initial_position3.y), 0, reset_position)
+	#print("Backspace pressed. Resetting initial positions.")
+	current_initial_position = 1
+	initials = ["", "", ""]
+	display_board.set_cell(Vector2i(initial_position1.x, initial_position1.y), 0, Vector2i(1, 12))  # Clear the cell
+	display_board.set_cell(Vector2i(initial_position2.x, initial_position2.y), 0, Vector2i(1, 12))  # Clear the cell
+	display_board.set_cell(Vector2i(initial_position3.x, initial_position3.y), 0, Vector2i(1, 12))  # Clear the cell
+	#print("Initial positions reset.")
+
+
 
 func lock_in_letter(selected_letter):
 	var atlas_position = letter_atlas_positions[selected_letter]
-	print("Locking in letter: ", selected_letter, " at position: ", current_initial_position)
+	#print("Locking in letter: ", selected_letter, " at position: ", current_initial_position)
 	if current_initial_position == 1:
 		display_board.set_cell(Vector2i(initial_position1.x, initial_position1.y), 0, Vector2i(atlas_position.x, atlas_position.y))
 		initial_position1 = tile_positions[current_letter_index]
-		print("Updated initial_position1 to: ", initial_position1)
+		#print("Updated initial_position1 to: ", initial_position1)
 		current_initial_position = 2
 	elif current_initial_position == 2:
 		display_board.set_cell(Vector2i(initial_position2.x, initial_position2.y), 0, Vector2i(atlas_position.x, atlas_position.y))
 		initial_position2 = tile_positions[current_letter_index]
-		print("Updated initial_position2 to: ", initial_position2)
+		#print("Updated initial_position2 to: ", initial_position2)
 		current_initial_position = 3
 	elif current_initial_position == 3:
 		display_board.set_cell(Vector2i(initial_position3.x, initial_position3.y), 0, Vector2i(atlas_position.x, atlas_position.y))
 		initial_position3 = tile_positions[current_letter_index]
-		print("Updated initial_position3 to: ", initial_position3)
+		#print("Updated initial_position3 to: ", initial_position3)
 		# Save initials and high score
 		var initials = get_initials()
 		var score = get_current_score()
@@ -200,14 +207,6 @@ func lock_in_letter(selected_letter):
 		# Save high scores to file
 		save_high_scores()
 
-func global_position_to_tile_position(global_pos: Vector2) -> Vector2:
-	var tilemap_pos = self.local_to_map(global_pos)
-	return tilemap_pos
-
-func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
-	var local_pos = self.map_to_local(tile_pos)
-	var global_pos = self.to_global(local_pos)
-	return global_pos
 
 func get_letter_from_index(index):
 	var letters = "QWERTYUIOPASDFGHJKLZXCVBNM "
@@ -227,9 +226,6 @@ func get_initials():
 		get_letter_from_index(find_tile_index(initial_position2)),
 		get_letter_from_index(find_tile_index(initial_position3))
 	]
-
-func get_current_score():
-	return current_score
 
 func display_high_scores():
 	for i in range(min(high_scores.size(), highscore_positions.size())):
@@ -266,8 +262,63 @@ func save_high_scores():
 	var file = FileAccess.open("user://high_scores.save", FileAccess.WRITE)
 	file.store_var(high_scores)
 	file.close()
+		
+func update_initial_position(selected_letter):
+	#print("Selected letter: ", selected_letter)
+	if selected_letter in letter_atlas_positions:
+		var atlas_position = letter_atlas_positions[selected_letter]
+		#print("Updating initial position: ", current_initial_position, " with letter: ", selected_letter)
+		if current_initial_position == 1:
+			display_board.set_cell(Vector2i(initial_position1.x, initial_position1.y), 0, Vector2i(atlas_position.x, atlas_position.y))
+			initials[0] = selected_letter  # Store the letter in the initials array
+			current_initial_position = 2
+		elif current_initial_position == 2:
+			display_board.set_cell(Vector2i(initial_position2.x, initial_position2.y), 0, Vector2i(atlas_position.x, atlas_position.y))
+			initials[1] = selected_letter  # Store the letter in the initials array
+			current_initial_position = 3
+		elif current_initial_position == 3:
+			display_board.set_cell(Vector2i(initial_position3.x, initial_position3.y), 0, Vector2i(atlas_position.x, atlas_position.y))
+			initials[2] = selected_letter  # Store the letter in the initials array
+			# Save initials and high score
+			var score = get_current_score()
+			high_scores.append({'initials': initials, 'score': score})
+			# Sort high scores in descending order
+			high_scores.sort_custom(func(a, b):
+				return b['score'] - a['score']
+			)
+			display_high_scores()
+			save_high_scores()
+			current_initial_position = 1  # Reset for next entry
+			exit_highscore()
+	else:
+		print("Error: Selected letter not found in letter_atlas_positions")
+
+
+func skip_game_over():
+	#print("Skipping game over screen.")
+	save_high_scores()
+	self.hide()
+	zpu.loading.restart_game_loop()
+	startmenu.restart()
+
+func clear_high_score_file():
+	var file_path = "user://high_scores.save"
+	if FileAccess.file_exists(file_path):
+		var dir = DirAccess.open("user://")
+		if dir:
+			var err = dir.remove(file_path)
+			if err == OK:
+				print("High score save file cleared.")
+			else:
+				print("Failed to clear high score save file. Error code: ", err)
+		else:
+			print("Failed to open user directory.")
+	else:
+		print("High score save file does not exist.")
+
 
 func load_high_scores():
+	var high_score_file_path = "user://high_scores.save"
 	if FileAccess.file_exists(high_score_file_path):
 		var file = FileAccess.open(high_score_file_path, FileAccess.READ)
 		if file:
@@ -282,49 +333,29 @@ func load_high_scores():
 			print("Failed to open high score file.")
 	else:
 		print("High score file does not exist.")
+		save_default_high_scores(high_score_file_path)
 
-		
-func update_initial_position(selected_letter):
-	var atlas_position = letter_atlas_positions[selected_letter]
-	print("Updating initial position: ", current_initial_position, " with letter: ", selected_letter)
-	if current_initial_position == 1:
-		display_board.set_cell(Vector2i(initial_position1.x, initial_position1.y), 0, Vector2i(atlas_position.x, atlas_position.y))
-		initials[0] = selected_letter  # Store the letter in the initials array
-		current_initial_position = 2
-	elif current_initial_position == 2:
-		display_board.set_cell(Vector2i(initial_position2.x, initial_position2.y), 0, Vector2i(atlas_position.x, atlas_position.y))
-		initials[1] = selected_letter  # Store the letter in the initials array
-		current_initial_position = 3
-	elif current_initial_position == 3:
-		display_board.set_cell(Vector2i(initial_position3.x, initial_position3.y), 0, Vector2i(atlas_position.x, atlas_position.y))
-		initials[2] = selected_letter  # Store the letter in the initials array
-		# Save initials and high score
-		var score = get_current_score()
-		high_scores.append({'initials': initials, 'score': score})
-		# Sort high scores in descending order
-		high_scores.sort_custom(func(a, b):
-			return b['score'] - a['score']
-		)
-		display_high_scores()
-		save_high_scores()
-		current_initial_position = 1  # Reset for next entry
+func global_position_to_tile_position(global_pos: Vector2) -> Vector2:
+	var tilemap_pos = self.local_to_map(global_pos)
+	return tilemap_pos
 
-func clear_high_score_file():
-	var file_path = "user://high_scores.save"
-	if FileAccess.file_exists(file_path):
-		var dir = DirAccess.open("user://")
-		if dir:
-			var err = dir.remove_absolute(file_path)
-			if err == OK:
-				print("High score save file cleared.")
-			else:
-				print("Failed to clear high score save file. Error code: ", err)
-	else:
-		print("High score save file does not exist.")
+func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
+	var local_pos = self.map_to_local(tile_pos)
+	var global_pos = self.to_global(local_pos)
+	return global_pos
 
-func skip_game_over():
-	print("Skipping game over screen.")
-	save_high_scores()
+func get_current_score():
+	return current_score
+	
+func save_default_high_scores(save_path):
+	var default_high_scores = {
+		'highscore_positions': highscore_positions
+	}
+	var file = FileAccess.open(save_path, FileAccess.WRITE)
+	file.store_var(default_high_scores)
+	file.close()
+
+func exit_highscore():
 	self.hide()
-	zpu.loading.restart_game_loop()
-	startmenu.restart()
+	self.set_physics_process(false)
+	popup.show()

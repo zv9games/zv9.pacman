@@ -5,7 +5,7 @@ signal all_nodes_initialized
 
 @onready var nodes_to_initialize = [
 	"/root/BINARY",
-	"/root/BINARY/GAME/STARTMENU",
+	"/root/BINARY/MENUS/STARTMENU",
 	"/root/BINARY/ZPU", 
 	"/root/BINARY/ZPU/GAMESTATE",
 	"/root/BINARY/ZPU/SCOREMACHINE",
@@ -17,13 +17,13 @@ signal all_nodes_initialized
 	"/root/BINARY/GAME/INFINITY",
 	"/root/BINARY/Camera2D",
 	"/root/BINARY/GAME/ORIGINAL/TILEMAPLAYER",
-	"/root/BINARY/GAME/LOADING/LO_PACMAN",
-	"/root/BINARY/GAME/LOADING/LO_BLINKY",
-	"/root/BINARY/GAME/LOADING/LO_PINKY",
-	"/root/BINARY/GAME/LOADING/LO_INKY",
-	"/root/BINARY/GAME/LOADING/LO_CLYDE",
-	"/root/BINARY/GAME/INTRO",
-	"/root/BINARY/GAME/HIGHSCORE"
+	"/root/BINARY/MENUS/LOADING/LO_PACMAN",
+	"/root/BINARY/MENUS/LOADING/LO_BLINKY",
+	"/root/BINARY/MENUS/LOADING/LO_PINKY",
+	"/root/BINARY/MENUS/LOADING/LO_INKY",
+	"/root/BINARY/MENUS/LOADING/LO_CLYDE",
+	"/root/BINARY/MENUS/INTRO",
+	"/root/BINARY/MISC/HIGHSCORE"
 ]
 
 var initialized_nodes = {}
@@ -50,8 +50,6 @@ func _initialize_nodes():
 			node.connect("online", Callable(self, "_on_node_online"))
 		else:
 			print("Node not found: " + path)
-
-
 
 func _on_node_online(node_name):
 	print("Node online: " + node_name)

@@ -13,7 +13,7 @@ config_version=5
 config/name="ZV9.PACMAN-1.0"
 run/main_scene="res://PACMAN/1.0_SCENES/binary.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
-boot_splash/image="res://PACMAN/ASSETS/intro/godots.png"
+boot_splash/image="res://PACMAN/ASSETS/intro/black.png"
 config/icon="res://icon.svg"
 
 [display]

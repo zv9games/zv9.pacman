@@ -12,11 +12,11 @@ var start : Vector2 = Vector2(5, 12)
 var start_position
 var end_position
 
-@onready var pacman2 = $"/root/BINARY/GAME/LOADING/LO_PACMAN"
-@onready var blinky2 = $"/root/BINARY/GAME/LOADING/LO_BLINKY"
-@onready var pinky2 = $"/root/BINARY/GAME/LOADING/LO_PINKY"
-@onready var inky2 = $"/root/BINARY/GAME/LOADING/LO_INKY"
-@onready var clyde2 = $"/root/BINARY/GAME/LOADING/LO_CLYDE"
+@onready var pacman2 = $"/root/BINARY/MENUS/LOADING/LO_PACMAN"
+@onready var blinky2 = $"/root/BINARY/MENUS/LOADING/LO_BLINKY"
+@onready var pinky2 = $"/root/BINARY/MENUS/LOADING/LO_PINKY"
+@onready var inky2 = $"/root/BINARY/MENUS/LOADING/LO_INKY"
+@onready var clyde2 = $"/root/BINARY/MENUS/LOADING/LO_CLYDE"
 
 @onready var pacman = $/root/BINARY/GAME/CHARACTERS/PACMAN
 @onready var blinky = $/root/BINARY/GAME/CHARACTERS/BLINKY
@@ -24,10 +24,10 @@ var end_position
 @onready var inky = $/root/BINARY/GAME/CHARACTERS/INKY
 @onready var clyde = $/root/BINARY/GAME/CHARACTERS/CLYDE
 
-@onready var loading : TileMapLayer = $"/root/BINARY/GAME/LOADING"
+@onready var loading : TileMapLayer = $"/root/BINARY/MENUS/LOADING"
 @onready var gameboard = $"/root/BINARY/GAME/ORIGINAL/TILEMAPLAYER"
 @onready var binary = $"/root/BINARY"
-@onready var intro = $/root/BINARY/GAME/INTRO
+@onready var intro = $/root/BINARY/MENUS/INTRO
 
 var characters = []
 var game_loop_active = true

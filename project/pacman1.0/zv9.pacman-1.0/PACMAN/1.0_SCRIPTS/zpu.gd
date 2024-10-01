@@ -10,7 +10,7 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
-	start_zpu()
+	binary.connect("all_nodes_initialized", Callable(self, "start_zpu"))
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -20,8 +20,9 @@ func _emit_online_signal():
 
 enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 
-@onready var startmenu = $/root/BINARY/GAME/STARTMENU
-@onready var loading = $/root/BINARY/GAME/LOADING
+@onready var binary = $/root/BINARY
+@onready var startmenu = $/root/BINARY/MENUS/STARTMENU
+@onready var loading = $/root/BINARY/MENUS/LOADING
 @onready var scoremachine = $/root/BINARY/ZPU/SCOREMACHINE
 @onready var soundbank = $/root/BINARY/ZPU/SOUNDBANK
 @onready var gamestate = $/root/BINARY/ZPU/GAMESTATE
@@ -36,8 +37,8 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 @onready var resetdotstimer = $/root/BINARY/ZPU/TIMERS/RESETDOTSTIMER
 @onready var powerups = $/root/BINARY/GAME/POWERUPS
 @onready var powerupsstart = $/root/BINARY/ZPU/TIMERS/POWERUPSSTART
-@onready var highscore = $/root/BINARY/GAME/HIGHSCORE  
-@onready var intro = $/root/BINARY/GAME/INTRO
+@onready var highscore = $/root/BINARY/MISC/HIGHSCORE  
+@onready var intro = $/root/BINARY/MENUS/INTRO
 @onready var game = $/root/BINARY/GAME
 @onready var original = $/root/BINARY/GAME/ORIGINAL
 @onready var expansive = $/root/BINARY/GAME/EXPANSIVE
