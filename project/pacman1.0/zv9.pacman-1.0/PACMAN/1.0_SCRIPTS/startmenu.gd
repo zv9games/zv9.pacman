@@ -49,8 +49,8 @@ var menu_texts = [
 	{"text": "ORIGINAL", "start_pos": Vector2i(13, 16)},
 	{"text": "EXPANSIVE", "start_pos": Vector2i(13, 18)},
 	{"text": "INFINITY", "start_pos": Vector2i(13, 20)},
-	{"text": "RACING", "start_pos": Vector2i(13, 22)},
-	{"text": "EDIT SCORE TABLET", "start_pos": Vector2i(13, 24)} ]
+	{"text": "RACING", "start_pos": Vector2i(13, 22)}]
+	#{"text": "EDIT SCORE TABLET", "start_pos": Vector2i(13, 24)} ]
 	
 var black_tile_atlas = Vector2i(8, 10)
 var current_text_index = 0
@@ -170,13 +170,13 @@ func select_option():
 			loading.stop_game_loop()
 			zpu.start_game()
 			disable_swipes_and_taps()  # Disable swipes and taps
-		"EDIT SCORE TABLET":
-			print("Edit Score Tablet selected")
-			hide_start_menu()
-			loading.stop_game_loop()
-			disable_swipes_and_taps()
-			hsboss.show()
-			hsboss.active_menu()
+		#"EDIT SCORE TABLET":
+			#print("Edit Score Tablet selected")
+			#hide_start_menu()
+			#loading.stop_game_loop()
+			#disable_swipes_and_taps()
+			#hsboss.show()
+			#hsboss.active_menu()
 			
 		
 			disable_swipes_and_taps()  # Disable swipes and taps
