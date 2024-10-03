@@ -10,6 +10,7 @@ var exit_positions = [Vector2(16, 11), Vector2(17, 11), Vector2(18, 11), Vector2
 var current_selection = 0  # 0 for play, 1 for exit
 
 func _ready():
+	self.hide()
 	# Connect signals if needed
 	# Initialize hoverblock2 position
 	update_hoverblock2_position()
