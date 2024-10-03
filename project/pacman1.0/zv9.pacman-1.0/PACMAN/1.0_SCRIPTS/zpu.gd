@@ -37,13 +37,13 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 @onready var resetdotstimer = $/root/BINARY/ZPU/TIMERS/RESETDOTSTIMER
 @onready var powerups = $/root/BINARY/GAME/POWERUPS
 @onready var powerupsstart = $/root/BINARY/ZPU/TIMERS/POWERUPSSTART
-@onready var highscore = $/root/BINARY/MISC/HIGHSCORE  
 @onready var intro = $/root/BINARY/MENUS/INTRO
 @onready var game = $/root/BINARY/GAME
 @onready var original = $/root/BINARY/GAME/ORIGINAL
 @onready var expansive = $/root/BINARY/GAME/EXPANSIVE
 @onready var infinity = $/root/BINARY/GAME/INFINITY
 @onready var characters = $/root/BINARY/GAME/CHARACTERS
+@onready var hsboss = $/root/BINARY/MISC/HSBOSS
 
 
 var timeout_count = 0
@@ -63,7 +63,7 @@ func start_game():
 	pinky.set_freeze(true)
 	inky.set_freeze(true)
 	clyde.set_freeze(true)
-	highscore.visible = false
+	hsboss.visible = false
 	
 	gameboard.visible = true
 	pacman.visible = true
@@ -132,8 +132,8 @@ func handle_game_over():
 	#startmenu.restart()
 	
 func end_screen():
-	highscore.show_self() 
-	
+	hsboss.show() 
+	hsboss.active_menu()
 	levelendtimer.stop()
 	resetdotstimer.stop()
 	powerupsstart.stop()

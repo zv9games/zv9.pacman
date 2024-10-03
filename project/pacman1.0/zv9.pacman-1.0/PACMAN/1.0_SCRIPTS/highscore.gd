@@ -100,7 +100,7 @@ func show_self():
 	set_process(true)
 	
 	tile_positions.append_array(skip_cell_positions)
-	load_high_scores()
+	#load_high_scores()
 	display_high_scores()
 	input_enabled = true
 	current_letter_index = 0
@@ -141,7 +141,7 @@ func _input(event):
 						var selected_letter = get_letter_from_index(current_letter_index)
 						if selected_letter != "":
 							#print("Selected letter: ", selected_letter)
-							emit_signal("text_entered", selected_letter)
+							#emit_signal("text_entered", selected_letter)
 							update_initial_position(selected_letter)
 				update_hover_block()
 		elif event is InputEventScreenTouch:
@@ -317,23 +317,7 @@ func clear_high_score_file():
 		print("High score save file does not exist.")
 
 
-func load_high_scores():
-	var high_score_file_path = "user://high_scores.save"
-	if FileAccess.file_exists(high_score_file_path):
-		var file = FileAccess.open(high_score_file_path, FileAccess.READ)
-		if file:
-			high_scores = file.get_var()
-			file.close()
-			print("High scores loaded: ", high_scores)
-			# Sort high scores in descending order
-			high_scores.sort_custom(func(a, b):
-				return b['score'] - a['score']
-			)
-		else:
-			print("Failed to open high score file.")
-	else:
-		print("High score file does not exist.")
-		save_default_high_scores(high_score_file_path)
+
 
 func global_position_to_tile_position(global_pos: Vector2) -> Vector2:
 	var tilemap_pos = self.local_to_map(global_pos)
@@ -344,7 +328,7 @@ func tile_position_to_global_position(tile_pos: Vector2) -> Vector2:
 	var global_pos = self.to_global(local_pos)
 	return global_pos
 
-func get_current_score():
+#func get_current_score():
 	return current_score
 	
 func save_default_high_scores(save_path):

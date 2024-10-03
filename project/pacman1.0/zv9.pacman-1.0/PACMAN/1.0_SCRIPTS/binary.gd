@@ -23,7 +23,7 @@ signal all_nodes_initialized
 	"/root/BINARY/MENUS/LOADING/LO_INKY",
 	"/root/BINARY/MENUS/LOADING/LO_CLYDE",
 	"/root/BINARY/MENUS/INTRO",
-	"/root/BINARY/MISC/HIGHSCORE"
+	"/root/BINARY/MISC/HSBOSS"
 ]
 
 var initialized_nodes = {}

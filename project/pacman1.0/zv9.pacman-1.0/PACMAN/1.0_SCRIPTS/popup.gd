@@ -13,6 +13,9 @@ func _ready():
 	# Connect signals if needed
 	# Initialize hoverblock2 position
 	update_hoverblock2_position()
+	
+func start_popup():
+	self.set_physics_process(true)
 
 func _input(event):
 	if event is InputEventKey:
@@ -52,10 +55,12 @@ func exit_game():
 	get_tree().quit()
 
 func restart_game():
+	self.hide()
 	print("Restarting game.")
 	# Add your game restart logic here
 	zpu.loading.restart_game_loop()
 	startmenu.restart()
+	self.set_physics_process(false)
 
 func is_touch_on_play(touch_pos):
 	var global_play_pos = tile_position_to_global_position(play_positions[0])
