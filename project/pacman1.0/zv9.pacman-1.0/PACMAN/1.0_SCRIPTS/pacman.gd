@@ -3,13 +3,16 @@ extends CharacterBody2D
 signal online
 
 func _ready():
+	self.hide()
 	var timer = Timer.new()
 	timer.wait_time = 0.5  # Adjust the delay as needed
 	timer.one_shot = true
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
-	start_pacman()
+	startmenu.connect("start_original", Callable(self, "_on_start_game_signal"))
+	death1.connect("finished", Callable(self, "_on_death1_finished"))
+	camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 	
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -43,12 +46,6 @@ var is_frozen = false
 var input_direction = Vector2.ZERO
 var new_direction = Vector2.ZERO
 var input_history = []
-
-func start_pacman():
-	startmenu.connect("start_game", Callable(self, "_on_start_game_signal"))
-	self.visible = false
-	death1.connect("finished", Callable(self, "_on_death1_finished"))
-	camera.connect("swipe_detected", Callable(self, "_on_swipe_detected"))
 
 func _on_start_game_signal():
 	pac_start_pos()

@@ -9,6 +9,7 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	start_gamestate()
 	binary.connect("all_nodes_initialized", Callable(self, "_on_all_nodes_initialized"))
 
 
@@ -43,6 +44,8 @@ var current_state
 @onready var inky = $/root/BINARY/GAME/CHARACTERS/INKY
 @onready var clyde = $/root/BINARY/GAME/CHARACTERS/CLYDE
 
+func start_gamestate():
+	pass
 
 func _on_all_nodes_initialized():
 	initialize_timers()

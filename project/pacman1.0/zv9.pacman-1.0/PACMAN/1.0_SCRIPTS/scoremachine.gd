@@ -5,11 +5,13 @@ signal game_over(final_score)
 
 func _ready():
 	var timer = Timer.new()
-	timer.wait_time = 0.5  # Adjust the delay as needed
+	timer.wait_time = 0.5  
 	timer.one_shot = true
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	gametimer.connect("timeout", Callable(self, "_on_game_timer_timeout"))
+	startmenu.connect("start_original", Callable(self, "_on_start_game"))
 	start_scoremachine()
 
 func _emit_online_signal():
@@ -55,16 +57,6 @@ var tile_digits = {
 @onready var startmenu = $/root/BINARY/MENUS/STARTMENU
 
 func start_scoremachine():
-	#clear_high_score_file()
-	gametimer.connect("timeout", Callable(self, "_on_game_timer_timeout"))
-	startmenu.connect("start_game", Callable(self, "_on_start_game"))
-	# Create a timer with a 0.5-second delay
-	var startup_timer = Timer.new()
-	startup_timer.wait_time = 0.5
-	startup_timer.one_shot = true
-	startup_timer.connect("timeout", Callable(self, "_emit_online_signal"))
-	add_child(startup_timer)
-	startup_timer.start()
 	update_score_display()
 	update_lives_display()
 	display_level_number(level)
@@ -76,6 +68,7 @@ func _on_start_game():
 func _on_game_timer_timeout():
 	elapsed_time += 0.1
 	update_time_display()
+	gametimer.start()
 
 func update_time_display():
 	var minutes = int(elapsed_time) / 60

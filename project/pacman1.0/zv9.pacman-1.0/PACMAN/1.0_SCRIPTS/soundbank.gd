@@ -4,7 +4,7 @@ signal online
 
 func _ready():
 	var timer = Timer.new()
-	timer.wait_time = 0.5  # Adjust the delay as needed
+	timer.wait_time = 0.5  
 	timer.one_shot = true
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
@@ -47,7 +47,6 @@ enum States { CHASE, SCATTER, FRIGHTENED, INITIAL, LOADING, PAUSE }
 
 @onready var zpu5 = get_node("/root/BINARY/ZPU")
 @onready var gamestate = $"/root/BINARY/ZPU/GAMESTATE"
-
 	
 func start_soundbank():
 	connect_sounds()

@@ -2,6 +2,20 @@ extends Node2D
 
 signal online
 
+func _ready():
+	var timer = Timer.new()
+	timer.wait_time = 0.5  # Adjust the delay as needed
+	timer.one_shot = true
+	timer.connect("timeout", Callable(self, "_emit_online_signal"))
+	add_child(timer)
+	timer.start()
+	binary.connect("all_nodes_initialized", Callable(self, "_on_all_nodes_initialized"))
+
+func _emit_online_signal():
+	emit_signal("online", self.name)
+	
+########################################################################
+
 @export var powerup_duration: float = 10.0  
 @export var powerup_types: Array = ["apple", "bell", "cherry", "grenade", "key", "pear", "spaceship", "strawberry"]
 
@@ -15,18 +29,6 @@ signal online
 @onready var powerupsstart = $/root/BINARY/ZPU/TIMERS/POWERUPSSTART
 
 var powerup_timer: Timer
-
-func _ready():
-	var timer = Timer.new()
-	timer.wait_time = 0.5  # Adjust the delay as needed
-	timer.one_shot = true
-	timer.connect("timeout", Callable(self, "_emit_online_signal"))
-	add_child(timer)
-	timer.start()
-	binary.connect("all_nodes_initialized", Callable(self, "_on_all_nodes_initialized"))
-
-func _emit_online_signal():
-	emit_signal("online", self.name)
 
 func _on_all_nodes_initialized():
 	start_powerups()

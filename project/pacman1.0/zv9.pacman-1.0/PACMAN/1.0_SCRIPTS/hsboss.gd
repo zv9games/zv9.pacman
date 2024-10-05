@@ -10,8 +10,9 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	
 	binary.connect("all_nodes_initialized", Callable(self, "start_hsboss"))
-	#clear_high_score_file()
+	clear_high_score_file()
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -122,6 +123,7 @@ var double_tap_max_time = 0.3  # Adjust as necessary
 var last_swipe_time = 0.0  # Debounce mechanism for swipes
 var swipe_debounce_time = 0.2  # Increase debounce time
 var last_tap_pos = Vector2()  # Store the position of the last tap
+var swipe_threshold = 50  # Minimum swipe distance to count as a swipe
 
 func _input(event):
 	if input_enabled:
@@ -158,9 +160,27 @@ func handle_screen_touch(event):
 			print("Single tap registered. Time:", current_time)
 			last_tap_time = current_time
 			last_tap_pos = touch_pos
-			#current_letter_index = get_tile_index_from_position(touch_pos)
 
 	update_hover_block()
+
+func handle_screen_drag(event):
+	var current_time = Time.get_ticks_msec() / 1000.0
+	if current_time - last_swipe_time > swipe_debounce_time:
+		var drag_vector = event.relative
+		if drag_vector.length() > swipe_threshold:  # Only count significant swipes
+			if abs(drag_vector.x) > abs(drag_vector.y):  # Horizontal drag
+				if drag_vector.x > 0:
+					current_letter_index = min(hoverblock_tile_positions.size() - 1, current_letter_index + 1)
+				else:
+					current_letter_index = max(0, current_letter_index - 1)
+			else:  # Vertical drag
+				if drag_vector.y > 0:
+					current_letter_index = min(hoverblock_tile_positions.size() - 1, current_letter_index + 10)
+				else:
+					current_letter_index = max(0, current_letter_index - 10)
+			last_swipe_time = current_time
+			print("Swipe registered. Time:", last_swipe_time)
+		update_hover_block()
 
 func handle_enter():
 	if hoverblock_tile_positions[current_letter_index] == Vector2(20, 25):  # Backspace tile position
@@ -169,24 +189,6 @@ func handle_enter():
 		var selected_letter = get_letter_from_index(current_letter_index)
 		if selected_letter != "":
 			update_initial_position(selected_letter)
-
-func handle_screen_drag(event):
-	var current_time = Time.get_ticks_msec() / 1000.0
-	if current_time - last_swipe_time > swipe_debounce_time:
-		var drag_vector = event.relative
-		if abs(drag_vector.x) > abs(drag_vector.y):  # Horizontal drag
-			if drag_vector.x > 0:
-				current_letter_index = min(hoverblock_tile_positions.size() - 1, current_letter_index + 1)
-			else:
-				current_letter_index = max(0, current_letter_index - 1)
-		else:  # Vertical drag
-			if drag_vector.y > 0:
-				current_letter_index = min(hoverblock_tile_positions.size() - 1, current_letter_index + 10)
-			else:
-				current_letter_index = max(0, current_letter_index - 10)
-		last_swipe_time = current_time
-		print("Swipe registered. Time:", last_swipe_time)
-		update_hover_block()
 
 
 

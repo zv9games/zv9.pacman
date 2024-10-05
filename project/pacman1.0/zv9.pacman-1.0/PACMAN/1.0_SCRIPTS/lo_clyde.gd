@@ -1,7 +1,9 @@
 extends CharacterBody2D
+
 signal online
 
 func _ready():
+	self.hide()
 	var timer = Timer.new()
 	timer.wait_time = 0.5  # Adjust the delay as needed
 	timer.one_shot = true

@@ -19,4 +19,4 @@ func _emit_online_signal():
 @onready var pacman = $/root/BINARY/GAME/CHARACTERS/PACMAN
 
 func start_infinity():
-	pacman.visible = false
+	pass

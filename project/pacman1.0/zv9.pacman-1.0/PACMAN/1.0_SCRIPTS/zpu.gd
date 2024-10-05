@@ -4,6 +4,7 @@ signal online
 signal start_powerups
 
 func _ready():
+	
 	var timer = Timer.new()
 	timer.wait_time = 0.5  # Adjust the delay as needed
 	timer.one_shot = true
@@ -122,7 +123,6 @@ func _on_levelend_timer_timeout():
 func handle_game_over():
 	scoremachine.transfer_score()
 	powerups.remove_powerups()
-	loading.hide_characters()
 	gameboard.reset_dots()
 	scoremachine.reset_lives()
 	scoremachine.reset_score()

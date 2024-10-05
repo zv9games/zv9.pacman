@@ -3,6 +3,7 @@ extends Control
 signal online
 
 func _ready():
+	self.hide()
 	var timer = Timer.new()
 	timer.wait_time = 0.5  # Adjust the delay as needed
 	timer.one_shot = true
@@ -16,7 +17,7 @@ func _emit_online_signal():
 	
 ###########################################################################
 
-signal start_game
+signal start_original
 
 @onready var binary = $/root/BINARY
 @onready var camera = $/root/BINARY/Camera2D
@@ -59,6 +60,7 @@ var selector_index = 0
 var selector_tile_atlas = Vector2i(8, 14)
 
 func intro_over():
+	self.show()
 	startmenu_start()
 
 func startmenu_start():
@@ -67,20 +69,17 @@ func startmenu_start():
 	_on_all_nodes_initialized()
 	
 func _on_all_nodes_initialized():
-	# Start the typing effect
-	menutimer.wait_time = 0.01  # Adjust the typing speed as needed
+	menutimer.wait_time = 0.01 
 	menutimer.connect("timeout", Callable(self, "_type_next_letter"))
 	menutimer.start()
 	set_process_input(true)
-	
-	
+		
 func clear_tiles():
 	if loading:
 		for text_info in menu_texts:
 			var start_pos = text_info["start_pos"]
 			for i in range(text_info["text"].length()):
 				loading.set_cell(Vector2i(start_pos + Vector2i(i, 0)), 0, black_tile_atlas) 
-		# Set the initial selector position
 		update_selector_position()
 	else:
 		print("Loading node is null")
@@ -90,7 +89,6 @@ func _type_next_letter():
 		var text_info = menu_texts[current_text_index]
 		var text = text_info["text"]
 		var start_pos = text_info["start_pos"]
-		
 		if current_char_index < text.length():
 			var char = text[current_char_index]
 			var tile_pos = null
@@ -98,14 +96,12 @@ func _type_next_letter():
 				tile_pos = tile_letters[char]
 			elif tile_digits.has(char):
 				tile_pos = tile_digits[char]
-			
 			if tile_pos and loading:
 				loading.set_cell(Vector2i(start_pos + Vector2i(current_char_index, 0)), 0, tile_pos)
 			current_char_index += 1
 		else:
 			current_text_index += 1
 			current_char_index = 0
-		
 		menutimer.start()
 	else:
 		menutimer.stop()
@@ -128,11 +124,8 @@ func _input(event):
 
 func move_selector(direction: int):
 	if loading:
-		# Clear the current selector position
 		loading.set_cell(menu_texts[selector_index]["start_pos"] - Vector2i(1, 0), 0, black_tile_atlas)
-		# Update the selector index
 		selector_index = clamp(selector_index + direction, 0, menu_texts.size() - 1)
-		# Set the new selector position
 		update_selector_position()
 
 func update_selector_position():
@@ -144,42 +137,23 @@ func select_option():
 	match selected_text:
 		"ORIGINAL":
 			print("Original selected")
-			emit_signal("start_game")
+			emit_signal("start_original")
 			hide_start_menu()
 			loading.stop_game_loop()
 			zpu.start_game()
-			disable_swipes_and_taps()  # Disable swipes and taps
+			disable_swipes_and_taps()  
 		"EXPANSIVE":
 			print("Expansive selected")
-			emit_signal("start_game")
-			hide_start_menu()
-			loading.stop_game_loop()
-			zpu.start_game()
-			disable_swipes_and_taps()  # Disable swipes and taps
+						
 		"INFINITY":
 			print("Infinity selected")
-			emit_signal("start_game")
-			hide_start_menu()
-			loading.stop_game_loop()
-			zpu.start_game()
-			disable_swipes_and_taps()  # Disable swipes and taps
+			  
 		"RACING":
 			print("Original selected")
-			emit_signal("start_game")
-			hide_start_menu()
-			loading.stop_game_loop()
-			zpu.start_game()
-			disable_swipes_and_taps()  # Disable swipes and taps
+			  
 		#"EDIT SCORE TABLET":
 			#print("Edit Score Tablet selected")
-			#hide_start_menu()
-			#loading.stop_game_loop()
-			#disable_swipes_and_taps()
-			#hsboss.show()
-			#hsboss.active_menu()
-			
-		
-			disable_swipes_and_taps()  # Disable swipes and taps
+			  
 
 func handle_menu_option(tile_pos):
 	for text_info in menu_texts:
@@ -187,7 +161,7 @@ func handle_menu_option(tile_pos):
 		var text = text_info["text"]
 		for i in range(text.length()):
 			if tile_pos == start_pos + Vector2i(i, 0):
-				print("Option selected: ", text)  # Debugging print
+				print("Option selected: ", text)  
 				match text:
 					"ORIGINAL":
 						print("Original selected")
@@ -195,21 +169,21 @@ func handle_menu_option(tile_pos):
 						hide_start_menu()
 						loading.stop_game_loop()
 						zpu.start_game()
-						disable_swipes_and_taps()  # Disable swipes and taps
+						disable_swipes_and_taps()  
 					"EXPANSIVE":
 						print("Expansive selected")
 						emit_signal("start_game")
 						hide_start_menu()
 						loading.stop_game_loop()
 						zpu.start_game()
-						disable_swipes_and_taps()  # Disable swipes and taps
+						disable_swipes_and_taps()  
 					"INFINITY":
 						print("Infinity selected")
 						emit_signal("start_game")
 						hide_start_menu()
 						loading.stop_game_loop()
 						zpu.start_game()
-						disable_swipes_and_taps()  # Disable swipes and taps
+						disable_swipes_and_taps()  
 
 func hide_start_menu():
 	if loading:
@@ -217,20 +191,13 @@ func hide_start_menu():
 	set_process_input(false)
 
 func restart():
-	# Hide game elements
 	levelend.visible = false
 	loading.visible = true
-	
-	# Clear tiles and reset menu
 	clear_tiles()
 	current_text_index = 0
 	current_char_index = 0
 	selector_index = 0
-	
-	# Restart the typing effect
 	menutimer.start()
-	
-	# Enable input processing
 	set_process_input(true)
 
 func _on_swipe_detected(direction: Vector2):

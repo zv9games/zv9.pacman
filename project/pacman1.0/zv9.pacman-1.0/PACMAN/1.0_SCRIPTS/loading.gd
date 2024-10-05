@@ -2,6 +2,21 @@ extends TileMapLayer
 
 signal online
 
+func _ready():
+	self.hide()
+	var timer = Timer.new()
+	timer.wait_time = 0.5  # Adjust the delay as needed
+	timer.one_shot = true
+	timer.connect("timeout", Callable(self, "_emit_online_signal"))
+	intro.connect("intro_over", Callable(self, "intro_over"))
+	add_child(timer)
+	timer.start()
+
+func _emit_online_signal():
+	emit_signal("online", self.name)
+	
+#########################################################################
+
 const speed = 170
 const stagger_delay = 0.3
 const base_delay = 0.1
@@ -31,45 +46,18 @@ var end_position
 
 var characters = []
 var game_loop_active = true
-
-func _ready():
-	var timer = Timer.new()
-	timer.wait_time = 0.5  # Adjust the delay as needed
-	timer.one_shot = true
-	timer.connect("timeout", Callable(self, "_emit_online_signal"))
-	add_child(timer)
-	timer.start()
-	intro.connect("intro_over", Callable(self, "intro_over"))
-	
 	
 func intro_over():
 	start_loading()
 
-func _emit_online_signal():
-	emit_signal("online", self.name)
-
 func start_loading():
-	hide_characters()
-	_on_all_nodes_initialized()
-
-func hide_characters():
-	pacman.hide()
-	blinky.hide()
-	pinky.hide()
-	inky.hide()
-	clyde.hide()
-
-func _on_all_nodes_initialized():
 	start_position = tile_position_to_global_position(start)
 	end_position = tile_position_to_global_position(end)
-	
-	# Initialize characters
 	characters = [pacman2, blinky2, pinky2, inky2, clyde2]
 	for character in characters:
 		character.visible = false
 		character.position = start_position
 		character.set_meta("current_animation", "")
-	
 	_move_characters_staggered()
 
 func _move_characters_staggered():
@@ -132,10 +120,8 @@ func stop_game_loop():
 		character.visible = false
 		character.get_node("AnimatedSprite2D").stop()
 		character.set_meta("to_end", true)
-
 	for timer in get_tree().get_nodes_in_group("timers"):
 		timer.queue_free()
-
 	for character in characters:
 		character.position = start_position
 		character.set_meta("to_end", true)
@@ -144,7 +130,6 @@ func stop_game_loop():
 
 func restart_game_loop():
 	stop_game_loop()
-	
 	gameboard.visible = false
 	pacman2.visible = false
 	blinky2.visible = false
@@ -152,16 +137,14 @@ func restart_game_loop():
 	inky2.visible = false
 	clyde2.visible = false
 	loading.visible = true
-	
 	for character in characters:
 		character.position = start_position
 		character.visible = false
 		character.set_meta("to_end", true)
-		character.get_node("AnimatedSprite2D").stop()  # Ensure animations are stopped
-		character.set_meta("current_animation", "")  # Reset animation state
-	
+		character.get_node("AnimatedSprite2D").stop()  
+		character.set_meta("current_animation", "")  
 	var delay_timer = Timer.new()
-	delay_timer.wait_time = 0.2  # 0.2 second delay
+	delay_timer.wait_time = 0.2  
 	delay_timer.one_shot = true
 	delay_timer.connect("timeout", Callable(self, "_restart_after_delay"))
 	add_child(delay_timer)

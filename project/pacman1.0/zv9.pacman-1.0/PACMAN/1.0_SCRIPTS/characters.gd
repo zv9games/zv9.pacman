@@ -9,8 +9,12 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	start_characters()
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
 	
 ############################################################################
+
+func start_characters():
+	pass

@@ -3,20 +3,20 @@ extends CharacterBody2D
 signal online
 
 func _ready():
-	
-	self.visible = false
+	self.hide()
 	var startup_timer = Timer.new()
 	startup_timer.wait_time = 0.5
 	startup_timer.one_shot = true
 	startup_timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(startup_timer)
 	startup_timer.start()
-	connect_signals()
+	startmenu.connect("start_original", Callable(self, "start_clyde"))
+	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
 	
-#BREAK
+###############################################################################
 
 const speed = 40 # Normal speed
 const frightened_speed = 30
@@ -54,11 +54,11 @@ var is_initialized = false
 @onready var anisprite = $"/root/BINARY/GAME/CHARACTERS/BLINKY/AnimatedSprite2D"
 @onready var soundbank = $/root/BINARY/ZPU/SOUNDBANK
 @onready var area2d_collision = $/root/BINARY/GAME/CHARACTERS/CLYDE/Area2D/CollisionShape2D
+@onready var startmenu = $/root/BINARY/MENUS/STARTMENU
 
+func start_clyde():
+	pass
 
-func connect_signals():
-	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
-	
 func _on_state_changed(new_state):
 	current_state = new_state
 	_handle_state_change(new_state)
@@ -69,6 +69,7 @@ func _handle_state_change(new_state):
 			reset_ghost_state()
 			_start_chase_behavior()
 		States.SCATTER:
+			
 			_start_scatter_behavior()
 		States.FRIGHTENED:
 			if ghost_state == FrightStates.NORMAL:
@@ -85,6 +86,7 @@ func _physics_process(delta):
 		States.CHASE:
 			_update_chase_behavior(delta)
 		States.SCATTER:
+			
 			_update_scatter_behavior(delta)
 		States.FRIGHTENED:
 			if ghost_state == FrightStates.NORMAL:
@@ -113,7 +115,7 @@ func _start_initial_behavior():
 	self.visible = true
 	self.position = clyde_position
 	clyde_initial_target = tile_position_to_global_position(clyde_initial_positions[clyde_initial_index])
-	move_blinky_initial()
+	move_clyde_initial()
 
 func _start_loading_behavior():
 	pass
@@ -132,12 +134,12 @@ func _update_caught_frightened_behavior(delta):
 	move_to_shed()
 	
 func _update_initial_behavior(delta):
-		move_blinky_initial()
+		move_clyde_initial()
 
 func _update_loading_behavior(delta):
 	pass
 	
-func move_blinky_initial() -> void:
+func move_clyde_initial() -> void:
 	var dir = (clyde_initial_target - global_position).normalized()
 	velocity = dir * speed
 	move_and_slide()
@@ -172,21 +174,36 @@ func move_towards_target() -> void:
 	else:
 		velocity = Vector2.ZERO
 		move_and_slide()
+	next_position = nav_agent.get_next_path_position()
+	if next_position == Vector2.ZERO:
+		print("Path empty, recalculating...")
+		update_target_position()
 
 func update_target_position():
 	if current_state == States.SCATTER:
 		scatter_index = (scatter_index + 1) % clyde_data["home_corner_loop"].size()
 		var target_pos = clyde_data["home_corner_loop"][scatter_index]
 		var global_target_pos = tile_position_to_global_position(target_pos)
+		
 		nav_agent.target_position = global_target_pos
 	elif current_state == States.CHASE:
 		make_chase_path()
 
 func move_away_from_pacman() -> void:
 	var dir = (global_position - pacman.global_position).normalized()
-	velocity = dir * frightened_speed
+	var new_position = global_position + dir * frightened_speed
+	if is_position_within_bounds(new_position):
+		velocity = dir * frightened_speed
+	else:
+		print("Path blocked, trying alternate directions")
+		var directions = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+		for alt_dir in directions:
+			var alt_new_position = global_position + alt_dir * frightened_speed
+			if is_position_within_bounds(alt_new_position):
+				velocity = alt_dir * frightened_speed
+				break
 	move_and_slide()
-	animated_sprite.play("frightened")  # Ensure frightened animation is playing
+	animated_sprite.play("frightened")
 
 func move_to_shed() -> void:
 	call_deferred("set_collision_disabled", true)

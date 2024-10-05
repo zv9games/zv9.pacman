@@ -3,19 +3,20 @@ extends CharacterBody2D
 signal online
 
 func _ready():
-	self.visible = false
+	self.hide()
 	var startup_timer = Timer.new()
 	startup_timer.wait_time = 0.5
 	startup_timer.one_shot = true
 	startup_timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(startup_timer)
 	startup_timer.start()
-	connect_signals()
+	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
+	
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
 	
-#BREAK
+###############################################################################
 
 const speed = 60 # Normal speed
 const frightened_speed = 30
@@ -54,9 +55,9 @@ var is_initialized = false
 @onready var soundbank = $/root/BINARY/ZPU/SOUNDBANK
 @onready var area2d_collision = $/root/BINARY/GAME/CHARACTERS/PINKY/Area2D/CollisionShape2D
 
-
-func connect_signals():
-	gamestate.connect("state_changed", Callable(self, "_on_state_changed"))
+func start_pinky():
+	pass
+	
 	
 func _on_state_changed(new_state):
 	current_state = new_state
@@ -112,7 +113,7 @@ func _start_initial_behavior():
 	self.visible = true
 	self.position = pinky_position
 	pinky_initial_target = tile_position_to_global_position(pinky_initial_positions[pinky_initial_index])
-	move_blinky_initial()
+	move_pinky_initial()
 
 func _start_loading_behavior():
 	pass
@@ -131,12 +132,12 @@ func _update_caught_frightened_behavior(delta):
 	move_to_shed()
 	
 func _update_initial_behavior(delta):
-		move_blinky_initial()
+		move_pinky_initial()
 
 func _update_loading_behavior(delta):
 	pass
 	
-func move_blinky_initial() -> void:
+func move_pinky_initial() -> void:
 	var dir = (pinky_initial_target - global_position).normalized()
 	velocity = dir * speed
 	move_and_slide()
@@ -171,21 +172,36 @@ func move_towards_target() -> void:
 	else:
 		velocity = Vector2.ZERO
 		move_and_slide()
+	next_position = nav_agent.get_next_path_position()
+	if next_position == Vector2.ZERO:
+		print("Path empty, recalculating...")
+		update_target_position()
 
 func update_target_position():
 	if current_state == States.SCATTER:
 		scatter_index = (scatter_index + 1) % pinky_data["home_corner_loop"].size()
 		var target_pos = pinky_data["home_corner_loop"][scatter_index]
 		var global_target_pos = tile_position_to_global_position(target_pos)
+		
 		nav_agent.target_position = global_target_pos
 	elif current_state == States.CHASE:
 		make_chase_path()
 
 func move_away_from_pacman() -> void:
 	var dir = (global_position - pacman.global_position).normalized()
-	velocity = dir * frightened_speed
+	var new_position = global_position + dir * frightened_speed
+	if is_position_within_bounds(new_position):
+		velocity = dir * frightened_speed
+	else:
+		print("Path blocked, trying alternate directions")
+		var directions = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN]
+		for alt_dir in directions:
+			var alt_new_position = global_position + alt_dir * frightened_speed
+			if is_position_within_bounds(alt_new_position):
+				velocity = alt_dir * frightened_speed
+				break
 	move_and_slide()
-	animated_sprite.play("frightened")  # Ensure frightened animation is playing
+	animated_sprite.play("frightened")
 
 func move_to_shed() -> void:
 	call_deferred("set_collision_disabled", true)

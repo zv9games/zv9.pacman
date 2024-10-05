@@ -9,6 +9,7 @@ func _ready():
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
 	add_child(timer)
 	timer.start()
+	start_camera()
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -21,6 +22,9 @@ var swipe_start_position = Vector2.ZERO
 var swipe_end_position = Vector2.ZERO
 var swiping = false
 var swipe_threshold = 20  # Minimum distance for a swipe to be recognized
+
+func start_camera():
+	pass
 
 func _input(event):
 	if event is InputEventScreenTouch:

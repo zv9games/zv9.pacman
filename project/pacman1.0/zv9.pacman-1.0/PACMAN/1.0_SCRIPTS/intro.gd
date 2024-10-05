@@ -3,13 +3,19 @@ extends TileMapLayer
 signal online
 
 func _ready():
+	zv9.visible = false
+	splittwo.visible = false
+	namco.visible = false
+	microsoft.visible = false
+	tux.visible = false
 	var timer = Timer.new()
 	timer.wait_time = 0.5  # Adjust the delay as needed
 	timer.one_shot = true
 	timer.connect("timeout", Callable(self, "_emit_online_signal"))
+	binary.connect("all_nodes_initialized", Callable(self, "launch_intro"))
 	add_child(timer)
 	timer.start()
-	launch_intro()
+	
 
 func _emit_online_signal():
 	emit_signal("online", self.name)
@@ -28,15 +34,9 @@ signal intro_over
 @onready var startmenu = $/root/BINARY/MENUS/STARTMENU
 @onready var microsoft = $/root/BINARY/MENUS/INTRO/MICROSOFT
 @onready var tux = $/root/BINARY/MENUS/INTRO/TUX
+@onready var binary = $/root/BINARY
 
 func launch_intro():
-	# Ensure all sprites are initially invisible
-	zv9.visible = false
-	splittwo.visible = false
-	namco.visible = false
-	microsoft.visible = false
-	tux.visible = false
-	
 	# Set initial alpha to 0
 	zv9.modulate.a = 0.0
 	splittwo.modulate.a = 0.0

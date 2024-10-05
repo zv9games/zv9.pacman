@@ -1,5 +1,22 @@
 extends PopupPanel
 
+signal online
+
+func _ready():
+	self.hide()
+	var timer = Timer.new()
+	timer.wait_time = 0.5  # Adjust the delay as needed
+	timer.one_shot = true
+	timer.connect("timeout", Callable(self, "_emit_online_signal"))
+	add_child(timer)
+	timer.start()
+	ready2()
+
+func _emit_online_signal():
+	emit_signal("online", self.name)
+	
+########################################################################
+
 @onready var hoverblock2 = $HOVERBLOCK2
 @onready var tilemap_layer = $TileMapLayer  
 @onready var zpu = $/root/BINARY/ZPU
@@ -9,7 +26,7 @@ var play_positions = [Vector2(15, 9), Vector2(16, 9), Vector2(17, 9), Vector2(18
 var exit_positions = [Vector2(16, 11), Vector2(17, 11), Vector2(18, 11), Vector2(19, 11)]
 var current_selection = 0  # 0 for play, 1 for exit
 
-func _ready():
+func ready2():
 	self.hide()
 	# Connect signals if needed
 	# Initialize hoverblock2 position

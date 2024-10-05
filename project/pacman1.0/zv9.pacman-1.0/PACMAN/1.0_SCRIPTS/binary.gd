@@ -23,14 +23,15 @@ signal all_nodes_initialized
 	"/root/BINARY/MENUS/LOADING/LO_INKY",
 	"/root/BINARY/MENUS/LOADING/LO_CLYDE",
 	"/root/BINARY/MENUS/INTRO",
-	"/root/BINARY/MISC/HSBOSS"
+	"/root/BINARY/MISC/HSBOSS",
+	"/root/BINARY/MISC/POPUP",
+	"/root/BINARY/GAME/ORIGINAL/LEVELEND"
 ]
 
 var initialized_nodes = {}
 var nodes_connected = false
 
 func _ready():
-	
 	var timer = Timer.new()
 	timer.wait_time = 0.5  # Adjust the delay as needed
 	timer.one_shot = true
